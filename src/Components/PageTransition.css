@@ -1,0 +1,22 @@
+/* src/styles/transitions.css */
+.page-transition-enter {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 500ms ease-out;
+  }
+  
+  .page-transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 500ms ease-in;
+  }

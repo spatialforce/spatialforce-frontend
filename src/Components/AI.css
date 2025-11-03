@@ -1,0 +1,1263 @@
+/* Base Styles */
+.ai-gis-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #f9f9f9;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  color: #2a4365;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+}
+
+/* Section Styles */
+section {
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.section-header p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Hero Section */
+.ai-hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #2c3e50 0%, #4a9c91 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 2rem;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 2;
+}
+
+.hero-text {
+  flex: 1 1 60%;
+  min-width: 300px;
+  padding-right: 2rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  color: white;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.hero-visual {
+  flex: 1 1 35%;
+  min-width: 300px;
+  position: relative;
+  height: 400px;
+}
+
+.globe-animation {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.globe {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: url('https://spatialforce.co.zw/globe.png') no-repeat center center;
+  background-size: contain;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 30s linear infinite;
+}
+
+.satellite {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: url('https://spatialforce.co.zw/satellite.png') no-repeat center center;
+  background-size: contain;
+  top: 20%;
+  right: 10%;
+  animation: orbit 15s linear infinite;
+}
+
+.data-points {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('https://spatialforce.co.zw/data-points.png') no-repeat center center;
+  background-size: contain;
+  animation: pulse 4s ease-in-out infinite alternate;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  opacity: 0.8;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.scroll-indicator span {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.arrow-down {
+  width: 20px;
+  height: 20px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg);
+  animation: bounce 2s infinite;
+}
+
+/* Intro Section */
+.intro-section {
+  background-color: white;
+}
+
+.ai-transformation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.transformation-card {
+  flex: 1 1 300px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transformation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container {
+  width: 60px;
+  height: 60px;
+  background-color: #e6f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: #4a9c91;
+  font-size: 1.5rem;
+}
+
+/* Applications Section */
+.applications-section {
+  background-color: #f0f7f6;
+}
+
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+}
+
+.app-header {
+  padding: 1.5rem;
+  background-color: #4a9c91;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-header h3 {
+  margin: 0;
+  color: white;
+}
+
+.app-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-card ul {
+  padding: 1.5rem;
+  margin: 0;
+}
+
+.app-card li {
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.app-card li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  background-color: #4a9c91;
+  border-radius: 50%;
+}
+
+/* Technical Section */
+.technical-section {
+  background-color: white;
+}
+
+.ai-workflow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.workflow-step {
+  flex: 1 1 180px;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  position: relative;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background-color: #4a9c91;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.ai-technologies {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.tech-item {
+  background-color: #f0f7f6;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #4a9c91;
+}
+
+.tech-item h4 {
+  color: #2a4365;
+  margin-bottom: 0.5rem;
+}
+
+/* Benefits Section */
+.benefits-section {
+  background-color: #f0f7f6;
+}
+
+.benefits-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 3rem;
+}
+
+.benefits-visual {
+  flex: 1 1 45%;
+  min-width: 300px;
+  height: 400px;
+  background: url('https://spatialforce.co.zw/benefits-visual.png') no-repeat center center;
+  background-size: contain;
+}
+
+.benefits-list {
+  flex: 1 1 45%;
+  min-width: 300px;
+}
+
+.benefit-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: flex-start;
+}
+
+.benefit-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #e6f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9c91;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* CTA Section */
+.ai-cta {
+  background-color: #2a4365;
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Case Studies Section */
+.case-studies {
+  background-color: white;
+}
+
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.case-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-5px);
+}
+
+.case-header {
+  padding: 1.5rem;
+  background-color: #4a9c91;
+  color: white;
+}
+.case-grid h3{
+  color: #fff;
+}
+
+.case-logo {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.case-stats {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2a4365;
+  display: block;
+}
+
+.stat p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.case-card p {
+  padding: 1.5rem;
+  margin: 0;
+}
+
+/* AI Evolution Section */
+.ai-evolution-section {
+  background-color: #f0f7f6;
+}
+
+.evolution-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.evolution-text {
+  flex: 1 1 60%;
+  min-width: 300px;
+}
+
+.evolution-visual {
+  flex: 1 1 35%;
+  min-width: 300px;
+}
+
+.text-block {
+  margin-bottom: 3rem;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  margin: 2rem 0;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #4a9c91;
+}
+
+.era {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+}
+
+.era:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.era-icon {
+  position: absolute;
+  left: -30px;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 3px solid #4a9c91;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9c91;
+  font-size: 0.7rem;
+}
+
+.era.current .era-icon {
+  background-color: #4a9c91;
+  color: white;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.impact-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.impact-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #e6f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9c91;
+  margin-bottom: 1rem;
+}
+
+.challenge-solutions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.challenge {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.challenge-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.challenge-icon {
+  color: #4a9c91;
+  font-size: 1.2rem;
+}
+
+.visual-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.adoption-chart {
+  display: flex;
+  height: 200px;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.chart-bar {
+  flex: 1;
+  position: relative;
+  border-radius: 5px 5px 0 0;
+  transition: height 1s ease;
+}
+
+.chart-bar span {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: #2a4365;
+}
+
+.benefit-list {
+  list-style: none;
+  padding: 0;
+}
+
+.benefit-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quote-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 3rem auto;
+  position: relative;
+}
+
+.quote-content {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.quote-icon {
+  position: absolute;
+  left: -20px;
+  top: -10px;
+  font-size: 3rem;
+  opacity: 0.1;
+  color: #4a9c91;
+}
+
+.quote-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.author-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e6f7f5;
+  background-image: url('https://spatialforce.co.zw/KudzanaiChakavarika.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Future and Challenges Section */
+.future-and-challenges-section {
+  background-color: white;
+  padding: 4rem 2rem;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.centered-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.future-card {
+  flex: 1 1 300px;
+  background: #f0f7f6;
+  padding: 2rem;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.phase-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #4a9c91;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0 10px;
+  font-weight: bold;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  color: #4a9c91;
+  font-weight: 500;
+}
+
+.challenge-card {
+  flex: 1 1 300px;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #4a9c91;
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #e6f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a9c91;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.solution-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e6f7f5;
+  color: #4a9c91;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* Closing Section */
+.ai-gis-closing {
+  background: linear-gradient(135deg, #2a4365 0%, #4a9c91 100%);
+  color: white;
+}
+
+.closing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.closing-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.closing-summary {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.summary-icon {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 2rem;
+}
+
+.brain-icon {
+  font-size: 3rem;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.icon-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: pulse-ring 3s ease infinite;
+}
+
+.transformation-path {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.path-step {
+  flex: 1 1 300px;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: #2a4365;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+#AI-header-h2{
+  color: #363636 !important;
+}
+.commitment-statement {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background-color: rgba(250, 248, 248, 0.945);
+  padding: 2rem;
+  border-radius: 10px;
+  align-items: center;
+}
+.commitment-text p {
+  color: #333 !important;
+}
+.commitment-text ul {
+  color: #333 !important;
+}
+.commitment-icon {
+  font-size: 2rem;
+  color: rgb(23, 128, 110) !important;
+  flex-shrink: 0;
+}
+
+.commitment-text ul {
+  list-style: none;
+  padding: 0;
+}
+
+.commitment-text li {
+  margin-bottom: 0.8rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.commitment-text li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  background-color: rgb(65, 61, 61) !important;
+  border-radius: 50%;
+}
+
+.closing-cta {
+  background-color: rgb(29, 28, 28);
+  border-radius: 10px;
+  padding: 2rem;
+  color: #292a2b;
+  text-align: center;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.primary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #4a9c91;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.primary-cta:hover {
+  background-color: #3d8278;
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-item a {
+  color: #2a4365;
+  text-decoration: none;
+}
+
+.closing-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.step-content h3{
+  color: #fff;
+}
+
+.closing-summary h2{
+  color: #fff !important;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  color: #2a4365;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.social-links a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animations */
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbit {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(50px, -30px); }
+  50% { transform: translate(100px, 0); }
+  75% { transform: translate(50px, 30px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: rotate(-45deg) translate(0, 0); }
+  50% { transform: rotate(-45deg) translate(0, 5px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  70%, 100% { transform: scale(1.3); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  section {
+    padding: 3rem 1.5rem;
+  }
+  
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero-text {
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+  
+  .benefits-container {
+    flex-direction: column;
+  }
+  
+  .benefits-visual {
+    order: -1;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .transformation-card {
+    flex: 1 1 100%;
+  }
+  
+  .workflow-step {
+    flex: 1 1 150px;
+  }
+  
+  .evolution-content {
+    flex-direction: column;
+  }
+  
+  .evolution-visual {
+    order: -1;
+  }
+}
+
+@media (max-width: 767px) {
+  #AI-header-h2{
+    color: #363636 !important;
+  }
+  
+  section {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-visual {
+    height: 300px;
+  }
+  
+  .globe {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .satellite {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.6rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+  
+  .applications-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .case-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ai-workflow {
+    flex-direction: column;
+  }
+  
+  .workflow-step {
+    flex: 1 1 auto;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .step-number {
+    margin: 0;
+    flex-shrink: 0;
+  }
+  
+  .cta-content {
+    flex-direction: column;
+    font-size: 1.2rem;
+  }
+  
+  .impact-grid, .challenge-solutions {
+    grid-template-columns: 1fr;
+  }
+  
+  .centered-cards {
+    flex-direction: column;
+  }
+  
+  .future-card, .challenge-card {
+    flex: 1 1 100%;
+  }
+  
+  .path-step {
+    flex: 1 1 100%;
+  }
+  
+  .commitment-statement {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .commitment-icon {
+    margin-bottom: 1rem;
+  }
+  
+  .commitment-text li {
+    text-align: left;
+  }
+  
+  .closing-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .footer-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle br {
+    display: none;
+  }
+  
+  .scroll-indicator {
+    display: none;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}

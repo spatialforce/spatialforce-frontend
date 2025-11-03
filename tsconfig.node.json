@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "composite": true,   // Must be set to true for project references
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "bookings-backend/server/server.js", "bookings-backend/server/generate-secret.cjs"]
+}

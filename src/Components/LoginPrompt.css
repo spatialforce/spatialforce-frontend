@@ -1,0 +1,134 @@
+/* LoginPrompt.css */
+:root {
+    --primary: #23574d;
+    --secondary: #4a9c91;
+    --accent: #4a9c91;
+    --dark: #1a2e2a;
+    --light: #f8fbfa;
+    --text: #405753;
+    --text-light: #6b8c86;
+    --radius: 12px;
+    --shadow: 0 8px 32px rgba(26, 46, 42, 0.1);
+  }
+  
+  .login-prompt-container {
+    margin-top: 6.5rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light);
+    padding: 2rem;
+  }
+  
+  .login-prompt-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 3rem;
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .prompt-header {
+    margin-bottom: 2rem;
+  }
+  
+  .warning-icon {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+  
+  .prompt-header h1 {
+    color: var(--dark);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .prompt-content p {
+    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .login-button {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .login-button:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(74, 156, 145, 0.3);
+  }
+  
+  .signup-text {
+    color: var(--text-light);
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .signup-link {
+    color: var(--secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .signup-link:hover {
+    color: var(--primary);
+  }
+  
+  .button-icon,
+  .link-icon {
+    font-size: 1.2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .login-prompt-card {
+      padding: 2rem;
+      margin: 1rem;
+    }
+  
+    .prompt-header h1 {
+      font-size: 1.8rem;
+    }
+  
+    .prompt-content p {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .login-prompt-container {
+      padding: 1rem;
+    }
+  
+    .login-button {
+      width: 100%;
+      justify-content: center;
+      padding: 1rem;
+    }
+  }

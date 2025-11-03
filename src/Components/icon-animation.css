@@ -1,0 +1,96 @@
+.icon-ticker-section {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+    text-align: center; 
+}
+
+.ticker-title {
+    font-size: 2.0em; 
+    margin-bottom: 20px;
+    color: #2c3e50; 
+}
+
+.ticker-description {
+    font-size: 1.2em; 
+    margin-bottom: 30px; 
+    color: #4c4c4c; 
+    max-width: 800px; 
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.icon-ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.icon-wrapper {
+    display: inline-block;
+    animation: move 1500s linear infinite; 
+}
+
+.icon {
+    margin: 0 20px; 
+    width: 60px; 
+    height: 60px; 
+}
+
+@keyframes move {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 1024px) {
+    .ticker-title {
+        font-size: 1.4em; 
+    }
+
+    .ticker-description {
+        font-size: 1.1em; 
+    }
+
+    .icon {
+        margin: 0 15px; 
+        width: 50px; 
+        height: 50px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .ticker-title {
+        font-size: 1.4em; 
+    }
+
+    .ticker-description {
+        font-size: 1em; 
+    }
+
+    .icon {
+        margin: 0 10px; 
+        width: 40px; 
+        height: 40px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .ticker-title {
+        font-size: 1.4rem; 
+        text-align: center;
+        align-items: center;
+    }
+
+    .ticker-description {
+        font-size: 0.9em; 
+    }
+
+    .icon {
+        margin: 0 5px; 
+        width: 30px; 
+        height: 30px; 
+    }
+}

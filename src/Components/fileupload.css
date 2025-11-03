@@ -1,0 +1,160 @@
+/* Base modal styles */
+.file-upload-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  
+  .file-upload-modal-container {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .file-upload-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1a202c;
+  }
+  
+  /* Form elements */
+  .file-upload-input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .file-upload-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  
+  .file-upload-input,
+  .file-upload-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    background-color: white;
+    transition: border-color 0.2s;
+  }
+  
+  .file-upload-input:focus,
+  .file-upload-select:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 1px #3182ce;
+  }
+  
+  .file-upload-file-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px dashed #cbd5e0;
+    border-radius: 0.25rem;
+    background-color: #f7fafc;
+  }
+  
+  .file-upload-file-input:hover {
+    border-color: #a0aec0;
+  }
+  
+  .file-upload-note {
+    font-size: 0.75rem;
+    color: #718096;
+    margin-top: 0.25rem;
+  }
+  
+  /* Message styles */
+  .file-upload-message {
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .file-upload-message-success {
+    background-color: #f0fff4;
+    color: #2f855a;
+    border: 1px solid #c6f6d5;
+  }
+  
+  .file-upload-message-error {
+    background-color: #fff5f5;
+    color: #c53030;
+    border: 1px solid #fed7d7;
+  }
+  
+  /* Button styles */
+  .file-upload-button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .file-upload-cancel-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    background-color: white;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .file-upload-cancel-button:hover {
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+  }
+  
+  .file-upload-cancel-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .file-upload-submit-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .file-upload-submit-button:hover {
+    background-color: #2c5282;
+  }
+  
+  .file-upload-submit-button:disabled {
+    background-color: #bee3f8;
+    cursor: not-allowed;
+  }
+  
+  /* Animation for loading */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }

@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for spatialforce-backend on 2025-11-01T11:41:16+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'spatialforce-backend'
+primary_region = 'ams'
+
+[build]
+  builtin = 'nodejs'
+
+[env]
+  PORT = '5001'
+
+[http_service]
+  internal_port = 5001
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = '30s'
+    timeout = '10s'
+    method = 'get'
+    path = '/api/health'
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

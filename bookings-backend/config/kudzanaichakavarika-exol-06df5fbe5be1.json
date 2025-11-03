@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "kudzanaichakavarika-exol",
+  "private_key_id": "06df5fbe5be16d51664c73b0af052e1259991eeb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC/KjkAtxf+c5IV\nWcLdzooJjmLa4hCy0q22CtGK7FpSsrtiaOsjLtkOy7Q2KArcBH/4J0EYJjYA4rQ+\nc4Dw1v5YwAw/lmF2HSx0mG+7x2lnNM6P+ETf2Nu4NFs11NR/V7MUyHS8EKvdoPLb\nGS7eU8jKEyjo7xSAUWg3akOFH/+O8pVmbaprGHnRDjGNbfs9Oba6PGsXrYZmLUk0\n9sUf/EiOgU3G4Ur6tmp/N325uQpAxP0kZ1X19r+GZRMTa/aBqV66QbWIMQnpDGP0\ne33lEiaSGtCwRqj10NUzlee0ohdgfQ9rHZYRyxV5ZRRmwrAbwTt/U9zUo09TEWX1\n3snGL1a1AgMBAAECggEAHaZ54u+DLDdWwDME84xWgrbwBE0uE95zjRnOeILCW7NX\nNyNY3UMl7ZKQ6Bl73bZg9ud3xDwhAjAnjswxgqmGF9Pp0m8LvNs3ivod0n1Sjux0\n4YW7gRDMu5x7TTUupHXA1Adne8gGMEEHig40480RBq7EGKUEhAacaIP15w8Yf15B\nk3g49N0BJetCX3JNnXxIplX+KOjDMaNR/gmcijsE7YEUeVMfz88lyb6/h7KcNRNj\n0+UXtVqqoUPNymhbcrMo8wc/N++uDG5ZB/Tp1Uhl7iHk59xDjWsarw00qal42kqz\nLV9DqiDrBDrD6vuSSNNXMvL3a4HDE/m4ZlbBjraRnQKBgQD/SjPwCNDcRHWSJ34V\nX3dXitV4Vb1jdr0fms7l79Tkeu1OaYbyeVjU9oLiQRW42TBYGeMmpx1KypBbNRLI\nLEvbMH2eJetqQqRfgjQUqjIbuIVM4lu5kHPl9xLAGe/nPYp36WiYxwJ96LWC00UF\npG68y+uq9/5CrANSipIj5dXCzwKBgQC/slrpEt/HlYBP8tov9th0hqZtAWEv2EfZ\n/C8CebqQnVY+64d/fhe1F8PP0YkadcUGxlgSVao8TA0nu4orG8DMvp+K4AuzI9cR\ntgBYhxpJ5gEgiI4yETSJPENlFTcMWvgYbJDsoqMwgbTg/TPxumXcdIrdTkW8mQhG\nI57aRf2/OwKBgQCx6JxZY0tqtarZt/v+GRGqSG6L9fSOJGmYZOJbC9BpieFnC9On\nlzl48HI2CvWAZJt0SlYq0btwK8p+RXZZWcVjc1+XnwV4gAjdJnf1Dsbs2qLK+dTC\ndRDP6md+yJSPqiuddWQXVFlANbSI/4LSc81YdSQ/eaQQAqAuHbPKoJlfsQKBgQCD\nlDDCeqoPnJaOSetpsM2ybhoeCCxlYtcu0OKTmGpuiRCB77j50dsD+mP1aaXp+5xZ\nohshups2+ByvgRK9tDcKUm3ALTjapWciSQLDwThSMQXlBtZTl2uwJyU7ZOx8FpTk\nbuCrDJdm3CEDrcjRy1fPkk8eyHMlmQUM37ZRrGkXsQKBgQC5Y/pvZn+8TT9MfoK4\npda+sDvukYbknLhCoYe/Di23ZnWM8HrGhQ0o6y3MH6BE+tTAiavYBXZZmVLlaUWc\ngJlvDOuo4azzfiyhf3CMPOlkKhFpg5O4D2gLllZDklvXIbK70vXVoVppd/M5dN9W\nGeTkAzo1/CC9OrYide0Bts2lMw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "spatialforce@kudzanaichakavarika-exol.iam.gserviceaccount.com",
+  "client_id": "113858999947528488818",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spatialforce%40kudzanaichakavarika-exol.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

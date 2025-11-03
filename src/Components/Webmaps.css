@@ -1,0 +1,565 @@
+/* Webmaps.css - Scoped Styles */
+
+/* Base Styles */
+.sf-webmaps-root {
+    --sf-webmaps-primary: #1e3a8a;
+    --sf-webmaps-primary-light: #3b82f6;
+    --sf-webmaps-secondary: #10b981;
+    --sf-webmaps-accent: #8b5cf6;
+    --sf-webmaps-dark: #111827;
+    --sf-webmaps-light: #f9fafb;
+    --sf-webmaps-gray: #6b7280;
+    --sf-webmaps-light-gray: #e5e7eb;
+    --sf-webmaps-white: #ffffff;
+    --sf-webmaps-black: #000000;
+  }
+  
+  .sf-webmaps-page {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--sf-webmaps-dark);
+    background-color: var(--sf-webmaps-light);
+    overflow-x: hidden;
+  }
+  
+  /* Typography */
+  .sf-webmaps-page h1,
+  .sf-webmaps-page h2,
+  .sf-webmaps-page h3,
+  .sf-webmaps-page h4,
+  .sf-webmaps-page h5,
+  .sf-webmaps-page h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .sf-webmaps-hero-title {
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+  }
+  
+  .sf-webmaps-section-title {
+    font-size: 1.5rem;
+    color: #282829 !important
+  }
+  
+  .sf-webmaps-card-title {
+    font-size: 1.5rem;
+  }
+  
+  .sf-webmaps-page p {
+    margin-bottom: 1rem;
+    color: var(--sf-webmaps-gray);
+  }
+  .sf-webmaps-card-body a{
+    text-decoration: none !important;
+  }
+  
+  /* Buttons */
+  .sf-webmaps-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .sf-webmaps-btn-primary {
+    background-color: var(--sf-webmaps-white);
+    color: var(--sf-webmaps-primary);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sf-webmaps-btn-primary:hover {
+    background-color: #f0f4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    text-decoration: none !important;
+  }
+  
+  .sf-webmaps-btn-outline {
+    border: 2px solid var(--sf-webmaps-white);
+    color: var(--sf-webmaps-white);
+  }
+  
+  .sf-webmaps-btn-outline:hover {
+    background-color: var(--sf-webmaps-white);
+    color: var(--sf-webmaps-primary);
+    transform: translateY(-2px);
+  }
+  
+
+  .sf-webmaps-hero {
+    background: linear-gradient(135deg, var(--sf-webmaps-primary) 0%, #1e40af 100%);
+    color: var(--sf-webmaps-white);
+    padding: 2rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sf-webmaps-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+    opacity: 0.4;
+  }
+  
+  .sf-webmaps-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .sf-webmaps-hero-title {
+    margin-top: 2.5rem;
+
+  }
+  
+  .sf-webmaps-hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    opacity: 0.9;
+  }
+  
+  .sf-webmaps-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #6b7280 !important;
+    height: 100%;
+    width: 200px;
+    align-items: center;
+    color: #fff !important;
+  }
+  
+  .sf-webmaps-hero-break {
+    display: none;
+  }
+  
+ 
+  .sf-webmaps-section-header {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  .sf-webmaps-section-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--sf-webmaps-primary-light);
+    margin: 0 auto 1.5rem;
+    border-radius: 2px;
+  }
+  
+  .sf-webmaps-section-description {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.125rem;
+  }
+  
+  /* Map Cards */
+  .sf-webmaps-maps-section {
+    padding: 5rem 1rem;
+  }
+  
+  .sf-webmaps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sf-webmaps-card {
+    background: var(--sf-webmaps-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .sf-webmaps-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .sf-webmaps-card-header {
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sf-webmaps-blue-gradient {
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+  }
+  
+  .sf-webmaps-green-gradient {
+    background: linear-gradient(to right, #10b981, #059669);
+  }
+  
+  .sf-webmaps-purple-gradient {
+    background: linear-gradient(to right, #8b5cf6, #7c3aed);
+  }
+  
+  .sf-webmaps-card-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .sf-webmaps-card-body {
+    padding: 1.5rem;
+  }
+  
+  .sf-webmaps-card-description {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .sf-webmaps-card-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sf-webmaps-primary-light);
+    font-weight: 500;
+  }
+  
+  .sf-webmaps-card-link:hover {
+    color: var(--sf-webmaps-primary);
+  }
+  
+  .sf-webmaps-link-arrow {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.5rem;
+  }
+  
+  .sf-webmaps-card-notify {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sf-webmaps-gray);
+    font-weight: 500;
+  }
+  
+  .sf-webmaps-notify-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.5rem;
+  }
+  
+ 
+  .sf-webmaps-value-section {
+    background: var(--sf-webmaps-white);
+    padding: 5rem 1rem;
+  }
+  
+  .sf-webmaps-value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200pxx;
+    margin: 0 auto;
+  }
+  
+  .sf-webmaps-value-item {
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .sf-webmaps-value-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .sf-webmaps-value-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  .sf-webmaps-blue-bg {
+    background-color: #dbeafe;
+  }
+  
+  .sf-webmaps-green-bg {
+    background-color: #d1fae5;
+  }
+  
+  .sf-webmaps-purple-bg {
+    background-color: #ede9fe;
+  }
+  
+  .sf-webmaps-value-svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--sf-webmaps-primary-light);
+  }
+  
+  .sf-webmaps-value-description {
+    font-size: 1rem;
+  }
+  
+  /* Technology Stack */
+  .sf-webmaps-tech-section {
+    background: var(--sf-webmaps-light-gray);
+    padding: 5rem 1rem;
+  }
+  
+  .sf-webmaps-tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sf-webmaps-tech-item {
+    background: var(--sf-webmaps-white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .sf-webmaps-tech-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sf-webmaps-tech-logo {
+    height: 3rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    filter: grayscale(30%);
+    opacity: 0.8;
+  }
+  
+  .sf-webmaps-tech-item:hover .sf-webmaps-tech-logo {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .sf-webmaps-tech-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .sf-webmaps-tech-logo {
+      height: 2.5rem;
+    }
+  }
+  
+  /* CTA Section */
+  .sf-webmaps-cta-section {
+    background: linear-gradient(to right, var(--sf-webmaps-primary), #1e40af);
+    color: var(--sf-webmaps-white);
+    padding: 5rem 1rem;
+    text-align: center;
+  }
+  
+  .sf-webmaps-cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .sf-webmaps-cta-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .sf-webmaps-cta-description {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  
+  .sf-webmaps-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Footer */
+  .sf-webmaps-footer {
+    background: var(--sf-webmaps-dark);
+    color: var(--sf-webmaps-white);
+    padding: 3rem 1rem 1.5rem;
+  }
+  
+  .sf-webmaps-footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sf-webmaps-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .sf-webmaps-footer-col {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sf-webmaps-footer-text {
+    color: #9ca3af;
+    margin-bottom: 1rem;
+  }
+  
+  .sf-webmaps-footer-links {
+    list-style: none;
+  }
+  
+  .sf-webmaps-footer-links li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .sf-webmaps-footer-links a {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+  }
+  
+  .sf-webmaps-footer-links a:hover {
+    color: var(--sf-webmaps-white);
+  }
+  
+  .sf-webmaps-social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .sf-webmaps-social-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+  }
+  
+  .sf-webmaps-social-icon:hover {
+    color: var(--sf-webmaps-white);
+  }
+  
+  .sf-webmaps-footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 1.5rem;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  .sf-webmaps-footer-col a{
+    text-decoration: none !important;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .sf-webmaps-footer-col a{
+      text-decoration: none !important;
+    }
+    .sf-webmaps-hero-title {
+      font-size: 3.5rem;
+      color: #1e1f20 !important
+    }
+    .sf-webmaps-card-body a{
+      text-decoration: none !important;
+       
+    }
+    .sf-webmaps-cta-buttons{
+      text-decoration: none !important;
+    }
+
+    .sf-webmaps-section-title {
+      color: #161718 !important
+    }
+    
+   
+  
+    .sf-webmaps-hero-subtitle {
+      font-size: 1.5rem;
+    }
+  
+    .sf-webmaps-hero-break {
+      display: block;
+    }
+  
+    .sf-webmaps-section-title {
+      font-size: 2.5rem;
+    }
+   
+  }
+  
+  @media (min-width: 1024px) {
+    .sf-webmaps-hero-title {
+      font-size: 4rem;
+    }
+  }
+  
+  /* Animations */
+  @keyframes sf-webmaps-fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .sf-webmaps-animate {
+    animation: sf-webmaps-fadeInUp 0.6s ease forwards;
+  }
+  
+  .sf-webmaps-delay-1 {
+    animation-delay: 0.2s;
+  }
+  
+  .sf-webmaps-delay-2 {
+    animation-delay: 0.4s;
+  }
+  
+  .sf-webmaps-delay-3 {
+    animation-delay: 0.6s;
+  }
+  
+  /* Custom Scrollbar (scoped to this component) */
+  .sf-webmaps-page::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .sf-webmaps-page::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .sf-webmaps-page::-webkit-scrollbar-thumb {
+    background: var(--sf-webmaps-primary-light);
+    border-radius: 10px;
+  }
+  
+  .sf-webmaps-page::-webkit-scrollbar-thumb:hover {
+    background: var(--sf-webmaps-primary);
+  }

@@ -1,0 +1,126 @@
+.login-welcome-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.welcome-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.success-icon {
+  color: #4BB543;
+  margin-bottom: 1.5rem;
+}
+
+.user-details {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.user-details p {
+  margin: 0.5rem 0;
+}
+
+.redirect-message {
+  color: #6c757d;
+  margin: 1.5rem 0;
+}
+
+.go-home-button {
+  background-color: #4BB543;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.go-home-button:hover {
+  background-color: #3a9c33;
+}
+
+/* Extra Small Devices (Phones, 480px and below) */
+@media (max-width: 480px) {
+  .login-welcome-page {
+    padding: 10px;
+    min-height: calc(100vh - 40px); /* More compact height */
+  }
+
+  .welcome-card {
+    padding: 1.2rem;
+    border-radius: 10px;
+    max-width: 100%; /* Full width on smallest screens */
+    margin: 10px 0;
+  }
+
+  .success-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .user-details {
+    padding: 0.6rem;
+    margin: 0.8rem 0;
+    border-radius: 6px;
+  }
+
+  .user-details p {
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+  }
+
+  .redirect-message {
+    font-size: 0.8rem;
+    margin: 0.8rem 0;
+    line-height: 1.3;
+  }
+
+  .go-home-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 18px;
+  }
+
+  /* Ultra-compact styles for very small screens */
+  @media (max-width: 360px) {
+    .welcome-card {
+      padding: 1rem;
+    }
+    
+    h2 {
+      font-size: 1.2rem;
+    }
+    
+    .user-details p {
+      font-size: 0.8rem;
+    }
+  }
+
+  /* Height optimization for tall skinny screens */
+  @media (max-height: 600px) {
+    .login-welcome-page {
+      min-height: auto;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.footer-note {
+    position: fixed; /* Fixed at the bottom of the page */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center; /* Center the text */
+    padding: 10px 0; /* Add some padding */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border-top: 1px solid #e0e0e0; /* Light border at the top */
+    font-size: 12px; /* Small font size */
+    color: #666; /* Faint gray color */
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  
+  .footer-note a {
+    color: #666; /* Faint gray color for links */
+    text-decoration: none; /* Remove underline */
+    margin: 0 5px; /* Add spacing between links */
+  }
+  
+  .footer-note a:hover {
+    color: #333; /* Darker color on hover */
+    text-decoration: underline; /* Underline on hover */
+  }

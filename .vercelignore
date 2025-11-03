@@ -1,0 +1,8 @@
+
+echo node_modules/ > .vercelignore
+echo .git/ >> .vercelignore
+echo .gitignore >> .vercelignore
+echo *.log >> .vercelignore
+echo .DS_Store >> .vercelignore
+echo .env >> .vercelignore
+echo .env.local >> .vercelignore

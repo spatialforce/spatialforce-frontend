@@ -1,0 +1,353 @@
+:root {
+  --dark: #1a2e2a;
+  --light: #f8fbfa;
+  --error: #dc2626;
+  --error-light: #fee2e2;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+.navbar-logo {
+  margin-top: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-decoration: none;
+  background: linear-gradient(to right, #213604, #3a5c08);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  align-items: center !important;
+  text-align: center !important;
+}
+.login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.login-content {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--dark);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-form h2 {
+  font-size: 1.25rem;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+  font-size: 0.875rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--dark);
+}
+
+input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.error-message {
+  font-size: 0.875rem;
+  color: var(--error);
+  background: var(--error-light);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.text-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0;
+}
+.text-link:hover{
+  text-decoration: none !important;
+}
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.oauth-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  gap: 0.5rem;
+}
+
+.oauth-button.google-button {
+  background: white;
+  border: 1px solid #ddd;
+}
+
+.oauth-button.github-button {
+  background: #24292e;
+  color: white;
+}
+
+.oauth-logo {
+  width: 16px;
+  height: 16px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  color: #666;
+  font-size: 0.75rem;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.separator span {
+  padding: 0 0.5rem;
+}
+/* Error message container */
+.auth-message.error {
+  background-color: #fee;
+  border: 2px solid #ff4444;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: #cc0000;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+/* Red exclamation icon */
+.auth-message.error::before {
+  content: "⚠️";
+  margin-right: 0.5rem;
+}
+
+/* Specific error type styling */
+.auth-message.error.AUTH_PROVIDER_MISMATCH {
+  border-left: 4px solid #ff6b6b;
+  background-color: #fff0f0;
+}
+
+.auth-message.error.GOOGLE_ACCOUNT_NOT_FOUND {
+  border-left: 4px solid #ff5252;
+  background-color: #ffebee;
+}
+
+/* Error text */
+.auth-message.error .error-message {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Action buttons */
+.auth-message.error .text-link,
+.auth-message.error .switch-method-btn {
+  color: #b71c1c !important;
+  text-decoration: underline;
+  font-weight: 600;
+  padding: 0.3rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.auth-message.error .text-link:hover,
+.auth-message.error .switch-method-btn:hover {
+  color: #ff1744 !important;
+}
+
+/* Resend activation button */
+.auth-message.error .text-link[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner icon */
+.auth-message.error .fa-spinner {
+  margin-right: 0.5rem;
+}
+
+/* Error message transitions */
+.auth-message {
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.login-button {
+  width: 100%;
+  height: 40px;
+  background: var(--secondary) !important;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.login-footer {
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+.login-footer p {
+  margin-top: 0.5rem;
+}
+
+.logged-in-status {
+  text-align: center;
+  padding: 2rem;
+}
+
+.user-info {
+  margin-bottom: 1.5rem;
+}
+
+.welcome-text {
+  font-size: 1.1rem;
+  color: #4a5568;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.user-email {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b6cb0;
+  word-break: break-all;
+}
+
+.logout-button {
+  background-color: #f56565;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #c53030;
+}
+
+@media (max-width: 480px) {
+  .login-modal {
+    padding: 0.5rem;
+    width: 100%;
+   
+    align-items: center;
+    display: flex; /* Ensure flexbox layout */
+    flex-direction: column; /* Stack items vertically */
+    margin: auto;
+  }
+  .login-content {
+    padding: 1rem;
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+  
+  .login-form h2 {
+    font-size: 1.1rem;
+  }
+  
+  input, .oauth-button, .login-button {
+    height: 38px;
+  }
+}

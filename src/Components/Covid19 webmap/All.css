@@ -1,0 +1,313 @@
+/* TimeSlider.css */
+.time-slider-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.slider-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.current-date {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.timeline-slider {
+  width: 100%;
+  margin: 10px 0;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3498db;
+  cursor: pointer;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+}
+
+  .floating-particle {
+    width: 8px;
+    height: 8px;
+    background: rgba(231, 76, 60, 0.7);
+    border-radius: 50%;
+    animation: floatParticle 15s infinite ease-in-out;
+  }
+  
+  @keyframes floatParticle {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) translateX(20px);
+      opacity: 0;
+    }
+  }
+  
+  .country-comparison-tool {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    width: 90%;
+    max-width: 1200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+  }
+  
+  .country-comparison-tool.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    position: relative; /* Add this */
+  }
+  
+ 
+  
+  .comparison-countries-container {
+    display: flex;
+    justify-content: center; 
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd #f5f5f5;
+    width: 100%;
+  }
+
+  .comparison-header h3 {
+    margin: 0;
+    position: absolute; /* Add this */
+    left: 50%; /* Add this */
+    transform: translateX(-50%); /* Add this */
+    font-size: 1.1rem;
+    color: #2c3e50;
+  }
+  
+  .comparison-countries-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .comparison-countries-container::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 3px;
+  }
+  
+  .comparison-countries-container::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 3px;
+  }
+  
+  .comparison-country {
+    min-width: 220px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 12px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .country-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .comparison-flag {
+    width: 40px;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid #eee;
+    object-fit: cover;
+  }
+  
+  .comparison-country h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .comparison-stats {
+    font-size: 0.85rem;
+  }
+  
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .stat-label {
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .stat-value {
+    font-weight: 600;
+    color: #222;
+  }
+  
+  .stat-value small {
+    color: #888;
+    font-size: 0.75em;
+  }
+  
+  .close-comparison {
+    background: #ff4757;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the '×' symbol */
+    transition: background 0.2s;
+    position: relative; /* Add this */
+    top: -1px; /* Fine-tune vertical alignment */
+  }
+
+  .close-comparison::before {
+    content: '×';
+    position: relative;
+    top: -1px; 
+  }
+  
+  .close-comparison:hover {
+    background: #e84141;
+  }
+
+  /* Country Comparison Tool Mobile Styles */
+@media (max-width: 767px) {
+  .country-comparison-tool {
+    width: 96%;
+    bottom: 10px;
+    padding: 10px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .comparison-header {
+    margin-bottom: 10px;
+    padding: 0 5px;
+  }
+
+  .comparison-header h3 {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .close-comparison {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+    position: absolute;
+    right: 5px;
+  }
+
+  .comparison-countries-container {
+    flex-direction: column;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(70vh - 60px);
+    padding: 5px;
+  }
+
+  .comparison-country {
+    min-width: 100%;
+    padding: 8px;
+    margin-right: 0;
+  }
+
+  .comparison-flag {
+    width: 30px;
+    height: 20px;
+  }
+
+  .comparison-country h4 {
+    font-size: 0.9rem;
+  }
+
+  .comparison-stats {
+    font-size: 0.8rem;
+  }
+
+  .stat-row {
+    margin-bottom: 6px;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 400px) {
+  .country-comparison-tool {
+    padding: 8px;
+  }
+
+  .comparison-header h3 {
+    font-size: 0.85rem;
+    max-width: 50%;
+  }
+
+  .comparison-country {
+    padding: 6px;
+  }
+
+  .stat-label,
+  .stat-value {
+    font-size: 0.75rem;
+  }
+}

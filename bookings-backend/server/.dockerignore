@@ -1,0 +1,10 @@
+.git
+.gitignore
+README.md
+.env
+fly.toml
+.cache
+dist
+.nyc_output
+coverage
+.DS_Store

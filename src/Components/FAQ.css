@@ -1,0 +1,126 @@
+/* FAQ.css */
+
+  .faq-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+  }
+  
+  .faq-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  
+  .faq-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .faq-card {
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .faq-card.active {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+  }
+  
+  .faq-question-container {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    cursor: pointer;
+    gap: 1rem;
+  }
+  
+  .faq-indicator {
+    position: relative;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background-color: #f3f4f6;
+    transition: background-color var(--transition-speed) ease;
+  }
+  
+  .faq-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-right: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .faq-card.active .faq-icon {
+    transform: translate(-50%, -30%) rotate(45deg);
+  }
+  
+  .faq-title {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-speed) ease, padding var(--transition-speed) ease;
+  }
+  
+  .faq-card.active .faq-answer {
+    max-height: 500px;
+    padding: 0 1.25rem 1.25rem;
+  }
+  
+  .faq-answer p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+    padding-left: 3rem;
+    padding-right: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .faq-heading {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .faq-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .faq-answer p {
+      padding-left: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .faq-container {
+      padding: 0 1rem;
+    }
+    
+    .faq-question-container {
+      padding: 1rem;
+    }
+    
+    .faq-card.active .faq-answer {
+      padding: 0 1rem 1rem;
+    }
+  }

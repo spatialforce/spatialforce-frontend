@@ -1,0 +1,557 @@
+body{
+  overflow-x:hidden;
+}
+.about-container {
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--light);
+  max-width: 1280px ;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+
+.about-container .section-title {
+  font-size: 2.2rem ;
+  color: var(--primary) ;
+  margin-bottom: 3rem ;
+  text-align: center ;
+  position: relative;
+  padding-bottom: 1rem ;
+}
+
+.about-container .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50% ;
+  transform: translateX(-50%);
+  width: 60px ;
+  height: 3px;
+  background: var(--accent);
+}
+
+
+.about-container .about-personal-hero {
+  padding: 2rem 0 ;
+  margin: 4rem 0 ;
+}
+
+.about-container .about-hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-container .about-hero-text {
+  max-width: 600px;
+}
+
+.about-container .about-hero-title {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--dark);
+}
+
+.about-container .about-gradient-text {
+  background: linear-gradient(45deg, var(--accent), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.about-container .about-hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.about-container .profile-photo {
+  width: 100%;
+  height: 500px;
+  object-fit: cover ;
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+}
+
+
+.about-container .journey-section {
+  padding:  0;
+  margin: auto 0;
+  background: rgba(91, 168, 158, 0.05);
+}
+
+.about-container .journey-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.about-container .timeline-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 2rem;
+  padding: 3rem 0;
+  position: relative;
+  border-left: 3px solid var(--accent);
+  margin-left: 60px;
+}
+
+.about-container .timeline-year {
+  font-weight: 700;
+  color: var(--accent);
+  padding-left: 2rem;
+  font-size: 1.1rem;
+}
+
+.about-container .timeline-content {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  margin-left: 2rem;
+  position: relative;
+}
+
+.about-container .timeline-content::before {
+  content: '';
+  position: absolute;
+  left: -2.2rem;
+  top: 2rem;
+  width: 15px;
+  height: 15px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+/* Philosophy Section */
+.about-container .philosophy-section {
+  padding: 4rem 0;
+}
+
+.about-container .philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-container .philosophy-card {
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.about-container .philosophy-card:hover {
+  transform: translateY(-5px);
+}
+
+.about-container .philosophy-icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+/* Methodology Section */
+.about-container .methodology-section {
+  padding: 4rem 0;
+  background: rgba(46, 85, 80, 0.03);
+}
+
+.about-container .workflow-diagram {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  display: block;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.about-container .methodology-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto;
+}
+
+.about-container .method-step {
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.about-container .step-number {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Capabilities Section */
+.about-container .capabilities-section {
+  padding: 4rem 0;
+}
+
+.about-container .capability-layers {
+  display: grid;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-container .tech-layer {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.about-container .tech-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.about-container .tech-list li {
+  padding: 0.85rem 0 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.about-container .tech-list li::before {
+  color: var(--accent);
+
+  
+}
+
+/* Engagement Section */
+.about-container .engagement-section {
+  padding: 4rem 0;
+  background: var(--light);
+}
+
+.about-container .engagement-principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-container .principle-card {
+  padding: 2rem;
+  text-align: center;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.about-container .principle-card:hover {
+  transform: translateY(-5px);
+}
+
+.about-container .principle-icon {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.about-gradient-text{
+  color: rgb(40, 97, 69) !important;
+}
+.about-container .learning-section {
+  padding: 4rem 0;
+}
+
+.about-container .learning-components {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-container .learning-card {
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.about-container .learning-card ul {
+  list-style: circle;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.about-container .learning-card li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-container .learning-card li::before {
+  color: var(--accent);
+}
+
+/* Ethics Section */
+.about-container .ethics-section {
+  padding: 4rem 0;
+  background: rgba(91, 168, 158, 0.05);
+}
+
+.about-container .ethics-principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-container .ethic-card {
+  padding: 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* CTA Section */
+.about-container .consultant-cta {
+  padding: 4rem 2rem;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-lg);
+  margin: 4rem 0;
+  text-align: center;
+}
+
+.about-container .cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.about-container .cta-button {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.about-container .cta-button.primary {
+  background: var(--accent);
+  color: var(--dark);
+}
+
+.about-container .cta-button.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.about-container .cta-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about-container .hero-content {
+    gap: 2rem;
+  }
+  .tech-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .about-container .hero-title {
+    font-size: 2.0rem;
+  }
+  
+  .about-container .profile-photo {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container .about-hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .about-gradient-text{
+    font-size: 2.1rem !important;
+    margin-top: 25px !important;
+
+  }
+
+  .about-gradient-text{
+    color: rgb(40, 97, 69) !important;
+  }
+  .about-container .timeline-item {
+    grid-template-columns: 1fr;
+    margin-left: 30px;
+  }
+  
+  .about-container .tech-list {
+    columns: 1;
+  }
+  
+  .about-container .learning-components {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-container .cta-buttons {
+    flex-direction: column;
+  }
+  
+  .about-container .methodology-steps {
+    grid-template-columns: 1fr;
+  }
+  .tech-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container .about-hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .about-container .section-title {
+    align-items: center;
+    font-size: 1.5rem;
+    margin: auto;
+  }
+  
+  .about-container .timeline-content {
+    margin-left: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .about-container .timeline-content::before {
+    left: -1.7rem;
+  }
+  
+  .about-container .profile-photo {
+    height: 300px;
+  }
+  
+  .about-container .cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+  .tech-layer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  .tech-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .about-hero-text{
+    align-items: center;
+    text-align: center;
+
+  }
+  .about-hero-content{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: auto 0 !important;
+    justify-content: center;
+  }
+  .about-personal-hero{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: auto !important;
+  }
+  .about-hero-title{
+    font-size: 1.4rem !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center !important;
+    text-align: center;
+  }
+  .journey-section{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin: auto 0;
+  }
+  .journey-timeline{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin-left:  0px;
+  }
+ .about-profile-photo {
+    width: 80% !important;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 5px !important;
+    box-shadow: var(--shadow);
+  }
+  .philosophy-section{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: auto !important;
+  }
+  .philosophy-grid{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: auto 0 !important;
+    max-width: 400px !important;
+  }
+  .methodology-steps h3{
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  .capabilities-section h2, h3{
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  }

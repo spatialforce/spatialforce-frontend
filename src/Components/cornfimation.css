@@ -1,0 +1,22 @@
+/* Confirmation.css */
+.confirmation-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .payment-details {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .confirmation-container h2 {
+    color: #28a745;
+  }

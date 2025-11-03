@@ -1,0 +1,114 @@
+/* AdsPopup.css */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .wide-popup {
+    width: 90%;
+    max-width: 600px;
+    min-height: auto;
+    padding: 2rem;
+  }
+  
+  .popup-content {
+    background: white;
+    border-radius: 15px;
+    position: relative;
+    animation: popIn 0.3s ease-out;
+  }
+  
+  .ad-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .ad-text {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .ad-text p {
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  
+  .contact-btn {
+    background: var(--accent);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+  }
+  
+  .contact-btn:hover {
+    background: var(--secondary);
+  }
+  
+  /* Keep other styles from previous answer */
+  @keyframes popIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-light);
+  }
+  
+  .popup-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .highlight-text {
+    font-size: 1.2rem;
+    color: var(--primary);
+    text-align: center;
+    margin: 1rem 0;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 768px) {
+    .ad-content {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .ad-text {
+      text-align: center;
+    }
+    
+    .wide-popup {
+      width: 95%;
+      padding: 1.5rem;
+    }
+  }

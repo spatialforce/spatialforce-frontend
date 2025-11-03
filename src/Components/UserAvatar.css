@@ -1,0 +1,51 @@
+/* UserAvatar.css */
+.user-avatar-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-avatar-container:focus {
+  outline: 2px solid #3a7068;
+  outline-offset: 2px;
+}
+/* In your global CSS */
+.MuiModal-hidden {
+  visibility: hidden !important;
+}
+
+/* MUI Menu overrides */
+.MuiMenu-paper {
+  border-radius: 8px !important;
+  min-width: 220px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.MuiMenuItem-root {
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiMenuItem-root:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.MuiMenuItem-root .MuiListItemIcon-root {
+  min-width: 36px !important;
+  color: inherit !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-avatar-wrapper {
+    margin-left: 10px;
+  }
+}

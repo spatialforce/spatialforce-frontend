@@ -1,0 +1,218 @@
+/* ForestArticle.css */
+.forests-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.7;
+  color: #333;
+}
+
+.article-header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+
+.article-header h1 {
+  font-size: 2.4rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+.meta {
+  color: #95a5a6;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+.overview-map {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.land-use-map {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.map-caption {
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.forest-intro {
+  background: #f8f9fa;
+  padding: 20px;
+  border-left: 4px solid #3498db;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.forests-list {
+  display: grid;
+  gap: 60px;
+}
+
+.forest-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.forest-visuals {
+  position: sticky;
+  top: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.forest-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-caption {
+  background: #2c3e50;
+  color: white;
+  padding: 8px 15px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.forest-content h2 {
+  color: #2980b9;
+  margin-top: 0;
+  font-size: 1.8rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.quick-facts {
+  background: #f5f9fc;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.quick-facts p {
+  margin: 8px 0;
+}
+
+.boundary-section {
+  margin: 30px 0;
+}
+
+.boundary-section h3 {
+  color: #27ae60;
+}
+
+.boundary-description {
+  background: #f0f7ff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.boundary-points {
+  padding-left: 20px;
+}
+
+.boundary-points li {
+  margin-bottom: 10px;
+}
+
+.ecology-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.features {
+  background: #f0fff4;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.threats {
+  background: #fff0f0;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.ecology-section h3 {
+  color: #2c3e50;
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.ecology-section ul {
+  padding-left: 20px;
+}
+
+.ecology-section li {
+  margin-bottom: 10px;
+}
+
+.human-impact {
+  background: #fff8e1;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.human-impact h3 {
+  color: #e74c3c;
+  margin-top: 0;
+}
+
+.article-footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .forest-card {
+    grid-template-columns: 1fr;
+  }
+  
+  .forest-visuals {
+    position: static;
+  }
+  
+  .ecology-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .article-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .forests-container {
+    padding: 15px;
+  }
+  
+  .forest-card {
+    gap: 20px;
+  }
+}

@@ -1,0 +1,390 @@
+/* ===== ROOT VARIABLES ===== */
+:root {
+  --primary: #23574d;
+  --secondary: #4a9c91;
+  --accent: #ff6b6b;
+  --dark: #1a2e2a;
+  --light: #f8fbfa;
+  --error: #dc3545;
+  --success: #28a745;
+  --border-radius: 0.5rem;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+  
+  --gradient: linear-gradient(
+    135deg, 
+    var(--primary), 
+    var(--secondary)
+  );
+}
+
+/* ===== BASE RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+/* ===== GLOBAL STYLES ===== */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: var(--transition);
+}
+
+svg {
+  vertical-align: middle;
+}
+
+/* ===== LOADING STATES ===== */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  animation: spin 1s linear infinite;
+  color: var(--primary);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-fallback {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.retry-button {
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+}
+
+/* ===== TESTIMONIALS CONTAINER ===== */
+.testimonials-container {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonials-heading {
+  font-size: 2.5rem;
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.testimonials-subheading {
+  text-align: center;
+  color: var(--secondary);
+  margin-bottom: 3rem;
+}
+
+/* ===== ERROR MESSAGES ===== */
+.error-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fee2e2;
+  color: var(--error);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1000;
+  box-shadow: var(--shadow);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.close-error {
+  color: var(--error);
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+}
+
+/* ===== RATE/REVIEW SECTION ===== */
+.rate-us-section {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.rate-us-heading {
+  font-size: 1.5rem;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+}
+
+.rate-us-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.star-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.star {
+  font-size: 1.5rem;
+  transition: var(--transition);
+}
+
+.star.filled {
+  color: var(--primary);
+}
+
+.comment-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--secondary);
+  border-radius: var(--border-radius);
+  min-height: 120px;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.submit-button {
+  background: #fff;
+  background-color: var(--secondary) !important;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  align-self:center;
+
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ===== TESTIMONIALS GRID ===== */
+.testimonials-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-bottom: 3rem;
+}
+
+.review-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.review-name {
+  font-size: 1.1rem;
+  color: var(--dark);
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.review-text {
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+/* ===== EDIT FORM ===== */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.edit-comment-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--secondary);
+  border-radius: var(--border-radius);
+  min-height: 100px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.save-button {
+  background: var(--success);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.cancel-button {
+  background: var(--error);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+/* ===== LIKE BUTTON ===== */
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.like-button:hover:not(:disabled) {
+  background: rgba(74, 156, 145, 0.1);
+}
+
+.like-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.like-button svg {
+  font-size: 1.2rem;
+}
+
+.like-button .liked {
+  color: var(--error);
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button {
+  color: var(--primary);
+  padding: 0.25rem 0.5rem;
+}
+
+.delete-button {
+  color: var(--error);
+  padding: 0.25rem 0.5rem;
+}
+
+/* ===== ADDITIONAL REVIEWS ===== */
+.additional-reviews-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.show-more-button {
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: var(--border-radius);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+.show-more-button:hover {
+  background: var(--secondary);
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.upside-down {
+  transform: rotate(180deg);
+}
+
+.hidden-reviews {
+  display: none;
+  margin-top: 2rem;
+}
+
+.hidden-reviews.visible {
+  display: grid;
+  gap: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .testimonials-container {
+    padding: 2rem 1rem;
+  }
+
+  .testimonials-heading {
+    font-size: 2rem;
+  }
+
+  .rate-us-section {
+    padding: 1.5rem;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-header {
+    flex-direction: column;
+  }
+}

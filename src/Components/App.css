@@ -1,0 +1,47 @@
+/* App.css */
+:root {
+  --primary: #23574d;
+  --secondary: hsl(172, 36%, 45%);
+  --accent: #4a9c91;
+  --dark: #1a2e2a;
+  --light: #f8fbfa;
+  --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family:sans-serif !important;
+  
+}
+
+
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  top:0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 60px;
+    
+  }
+  .navbar{
+    height: 70px;
+  }
+ 
+}
