@@ -13,7 +13,7 @@ import {
   faChartLine,
   faGlobeAfrica
 } from '@fortawesome/free-solid-svg-icons';
-import './Gis-applications.css'
+import './GIS-applications.css'
 const GisZimbabwe = () => {
   return (
     <div className="gis-zimbabwe-container">
