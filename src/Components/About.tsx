@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import './About.css';
 import { FaCode, FaGlobe, FaDatabase, FaRocket, FaUniversity, FaHandsHelping } from 'react-icons/fa';
 import consultantPhoto from '../assets/consultant-profile.jpg';

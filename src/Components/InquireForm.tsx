@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet'; // Import Helmet for SEO
+import { Helmet } from 'react-helmet-async';// Import Helmet for SEO
 import './InquireForm.css';
 import { API_BASE_URL } from './config';
 

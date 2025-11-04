@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet'; // For SEO meta tags
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTree, faTractor, faWater, faMapMarkedAlt,
@@ -15,6 +14,7 @@ import AnimatedTicker from './Icon-animation'; // Import AnimatedTicker componen
 import Footer from './Footer'; // Import Footer component
 import ReviewSystem from './ReviewSystem';
 import MenuSchema from './MenuSchema'
+import { Helmet } from 'react-helmet-async';
 
 function Menu() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
