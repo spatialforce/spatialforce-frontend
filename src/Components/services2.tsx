@@ -7,7 +7,7 @@ import { serviceList } from './Services-list';
 import { Link } from 'react-router-dom';
 import QGIS from '../assets/qgis.svg';
 import ARCMAP from '../assets/arcmap.png';
-import ARCGISPRO from '../assets/ARCGISpro.png';
+import ARCGISPRO from '../assets/ARCGISPRO.png';
 import { 
   FiLayers,       // For Foundation Technologies icon
   FiMap,          // For Cartographic Modeling
