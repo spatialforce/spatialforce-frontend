@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import Stripe from 'stripe';
+import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -11,29 +11,33 @@ import nodemailer from 'nodemailer';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import jwt from 'jsonwebtoken';
-const router = express.Router();
 import rateLimit from 'express-rate-limit';
 import pgSession from 'connect-pg-simple';
 import crypto from 'crypto';
-import helmet from 'helmet';
-import compression from 'compression';
+import compression from 'compression'; 
 import bcrypt from 'bcryptjs';
 
 
 
 
-// 2. Initialize environment exactly as you had it
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
 
-
+console.log('Environment:', {
+  GOOGLE_CLIENT_ID: !!process.env.GOOGLE_CLIENT_ID,
+  EMAIL_USER: !!process.env.EMAIL_USER,
+  SESSION_SECRET: !!process.env.SESSION_SECRET
+});
 
 // 3. Database configuration unchanged
 const { Pool } = pkg;
-
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 
@@ -48,6 +52,12 @@ const transporter = nodemailer.createTransport({
   sender: 'no-reply@spatialforce.co.zw'
 
 });
+// Verify connection
+transporter.verify()
+  .then(() => console.log('NEW TRANSPORTER READY'))
+  .catch(err => console.error('FRESH TRANSPORTER ERROR:', err));
+
+
 transporter.verify(function(error, success) {
   if (error) {
     console.log('Email connection error:', error);
@@ -56,17 +66,50 @@ transporter.verify(function(error, success) {
   }
 });
 
-// 5. Stripe unchanged
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+transporter.verify(function(error, success) {
+  if (error) {
+    console.log('Email connection error:', error);
+  } else {
+    console.log('Server is ready to send emails');
+  }
+});
 
-// 6. Express setup unchanged
+
 const app = express();
 const PORT = process.env.PORT || 5001;
-// 7. Middleware in original order
+// Replace this line:
+// app.use(helmet());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        connectSrc: ["'self'", "https://spatialforce.co.zw","https://www.spatialforce.co.zw"],
+        imgSrc: ["'self'", "data:", "https://*.googleusercontent.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        frameSrc: ["'self'", "https://accounts.google.com"],
+        objectSrc: ["'none'"]
+      }
+    },
+    hsts: {
+      maxAge: 63072000, // 2 years in seconds
+      includeSubDomains: true,
+      preload: true
+    },
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    frameguard: { action: 'deny' },
+    xssFilter: true,
+    noSniff: true,
+    hidePoweredBy: true
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(helmet()); // Adds security headers
 app.use(compression());
 app.use((req, res, next) => {
   if (req.url === '/favicon.ico') {
@@ -75,16 +118,28 @@ app.use((req, res, next) => {
     next();
   }
 });
+const allowedOrigins = [
+  'https://www.spatialforce.co.zw',
+  'https://spatialforce.co.zw'
+  ];
+
 app.use(cors({
-  origin: [
-    'https://spatialforce.co.zw',
-    'https://www.spatialforce.co.zw', 
-    'http://localhost:5173'
-  ],
-  credentials: true,
+  origin:function (origin,callback) {
+  if (!origin) return callback(null,true);
+
+   if (allowedOrigins.indexOf(origin) ===-1) {
+     const msg ='The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
+     }
+     return callback(null, true);
+
+    },
+    credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 }));
+
 const PgSession = pgSession(session);
 // In your session middleware
 app.set('trust proxy', 1); // Required for secure cookies in production
@@ -105,11 +160,13 @@ app.use(session({
   cookie: {
     secure: true,
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     domain: process.env.COOKIE_DOMAIN 
   
-  }
+  },
+  proxy: true
+
 }));
 
 app.use(passport.initialize());
@@ -252,6 +309,7 @@ app.use((req, res, next) => {
   };
   next();
 });
+
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -410,6 +468,11 @@ passport.use(new GoogleStrategy({
   }
 }));
 
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email) && !/[<>]/.test(email);
+}
+
 app.get('/api/auth/google', (req, res, next) => {
   if (!req.session) {
     return res.status(500).json({ error: 'Session not initialized' });
@@ -530,7 +593,7 @@ app.post('/api/auth/logout', (req, res) => {
 
   // Clear cookies first
   res.clearCookie('auth_token', {
-    domain: process.env.COOKIE_DOMAIN || 'localhost',
+    domain: '.spatialforce.co.zw'|| 'localhost',
     path: '/',
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production'
@@ -762,52 +825,43 @@ app.post('/api/auth/login', async (req, res) => {
     client.release();
   }
 });
-// Session-specific rate limiter
 const sessionRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // Limit each IP to 20 requests per windowMs
+  max: 20, // Limit each IP to 20 requests per window
   message: {
     error: 'Too many session requests',
     code: 'SESSION_RATE_LIMIT',
     solution: 'Please wait 15 minutes before trying again'
   },
-  headers: true, // Send X-RateLimit-* headers
-  skip: (req) => {
-    // Don't count requests from authenticated users
-    if (req.isAuthenticated()) return true;
-    
-    // Don't count requests from localhost in development
-    return process.env.NODE_ENV !== 'production' && 
-           req.ip === '::ffff:127.0.0.1';
-  },
+  standardHeaders: true, // Return rate limit info in standard headers
+  legacyHeaders: false, // Disable the deprecated X-RateLimit-* headers
   keyGenerator: (req) => {
-    // Use session ID + IP address for better tracking
-    return `${req.sessionID}-${req.ip}`;
-  },
-  validate: {
-    validations: {
-      ip: true, // Validate IP address
-      session: true // Validate session ID
-    },
-    xForwardedForHeader: true // Respect X-Forwarded-For header
+    // Use session ID + IP address for tracking
+    return `${req.sessionID || 'no-session'}-${req.ip}`;
   },
   handler: (req, res) => {
-    // Log blocked requests
     console.warn('Rate limit exceeded:', {
       ip: req.ip,
-      sessionId: req.sessionID,
-      path: req.path
+      path: req.path,
+      sessionId: req.sessionID
     });
-    
     res.status(429).json({
-      error: 'Too many session requests',
-      code: 'SESSION_RATE_LIMIT',
-      retryAfter: req.rateLimit.resetTime
+      error: 'Too many requests',
+      code: 'RATE_LIMIT_EXCEEDED'
     });
+  },
+  skip: (req) => {
+    // Skip rate limiting for authenticated users
+    return req.isAuthenticated && req.isAuthenticated();
   }
 });
+// Apply to login routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10
+});
+app.use('/api/auth/login', authLimiter);
 
-// Enhanced session endpoint
 app.get('/api/auth/session', 
   sessionRateLimiter,
   async (req, res) => {
@@ -1021,6 +1075,7 @@ app.post('/api/validate-token', (req, res) => {
     });
   }
 });
+
 app.post('/api/activate', async (req, res) => {
   // Validate environment configuration
   if (!process.env.JWT_SECRET || !process.env.REFRESH_SECRET) {
@@ -1299,7 +1354,10 @@ app.post('/api/resend-code', async (req, res) => {
     // Send email
     try {
       await transporter.sendMail({
-        from: `"Account Security" <${process.env.EMAIL_USER}>`,
+        from: {
+          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+        },
         to: normalizedEmail,
         subject: 'Your New Activation Code',
         html: `
@@ -1366,13 +1424,13 @@ export const validatePassword= (password) => {
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
- 
+
 
   if (password.length < minLength) return 'Password must be at least 8 characters';
   if (!hasUpperCase) return 'Password must contain at least one uppercase letter';
   if (!hasLowerCase) return 'Password must contain at least one lowercase letter';
   if (!hasNumber) return 'Password must contain at least one number';
- 
+
   return null;
 };
 
@@ -1430,17 +1488,15 @@ app.post('/api/signup', async (req, res) => {
     const passwordError = validatePassword(password);
     if (passwordError) validationErrors.push(passwordError);
 
-    // Return validation errors
     if (validationErrors.length > 0) {
-      console.log(`[Signup ${requestId}] Validation failed`, {
-        errors: validationErrors,
-        ...maskedBody
-      });
-      return res.status(400).json({
+      return res.status(400).json({ 
         success: false,
-        errors: validationErrors,
-        code: 'VALIDATION_ERROR',
-        requestId
+        errors: validationErrors, // Send array of errors
+        fields: {
+          email: !email ? 'Required' : emailRegex.test(email) ? 'Valid' : 'Invalid',
+          password: passwordError ? 'Invalid' : 'Valid'
+        },
+        code: 'VALIDATION_ERROR'
       });
     }
 
@@ -1507,48 +1563,57 @@ app.post('/api/signup', async (req, res) => {
         'email'
       ]
     );
-
     console.log('Attempting to send to:', normalizedEmail);
     if (normalizedEmail === 'kudzanaichakavarika67@gmail.com') {
       throw new Error('TEST: Would have sent to admin email instead of user');
     }
     try {
       await transporter.sendMail({
-        from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM}>`,
-        to: normalizedEmail,
+        from: {
+          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+        },
+        to: normalizedEmail, 
         subject: 'Account Activation Required',
         html: `
-          <div style="font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: auto;">
-            <h2 style="color: #2B6CB0;">Welcome to Spatial Force!</h2>
-            <p>Your activation code is:</p>
-            <div style="font-size: 32px; letter-spacing: 3px; margin: 25px 0; 
-              padding: 20px; background: #F7FAFC; text-align: center;">
-              ${activationCode}
-            </div>
-            <p>This code will expire in 15 minutes.</p>
-            <p style="color: #718096; font-size: 0.9em;">
-              If you didn't create this account, please ignore this email.
-            </p>
-          </div>
-        `
+        <div style="font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: auto; border: 1px solid #E2E8F0; border-radius: 8px; background-color: #FFFFFF;">
+        <h2 style="color: #2B6CB0; text-align: center;">Welcome to Spatial Force!</h2>
+        
+        <p style="font-size: 1.1em;">Thank you for choosing Spatial Force. We are excited to have you on board! To get started with your account, please verify your email address by using the activation code provided below.</p>
+        
+        <p style="font-size: 1.1em;">Your activation code is:</p>
+        
+        <div style="font-size: 36px; letter-spacing: 5px; margin: 25px 0; 
+          padding: 20px; background: #F7FAFC; text-align: center; border-radius: 5px; 
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+          <strong>${activationCode}</strong>
+        </div>
+        
+        <p style="font-size: 1em;">Please note that this code is time-sensitive and will expire in <strong>15 minutes</strong>. If you do not enter the code in time, you will need to request a new one.</p>
+        
+        <p style="color: #718096; font-size: 0.9em; text-align: center;">
+          If you didn’t create an account with us, please ignore this email. Your security is important to us, and we want to ensure that you only receive emails related to your account.
+        </p>
+        
+        <p style="text-align: center; margin-top: 30px;">
+          <a href="#" style="text-decoration: none; color: #2B6CB0; font-weight: bold;">Visit our website</a>
+          to learn more about our services and how we can assist you in achieving your goals.
+        </p>
+      </div>
+        `,
+        headers: {
+          'X-Entity-Ref-ID': crypto.randomBytes(16).toString('hex')
+        }
       });
-      console.log(`[Signup ${requestId}] Activation email sent`, {
-        email: normalizedEmail[0] + '***'
+      console.log('Activation email sent to:', normalizedEmail); // Add this for debugging
+    } catch (error) {
+      console.error('Error sending activation email:', {
+        intendedRecipient: normalizedEmail,
+        error: error.message
       });
-    } catch (emailError) {
-      await client.query('ROLLBACK');
-      console.error(`[Signup ${requestId}] Email send failed`, {
-        error: emailError.message,
-        stack: emailError.stack,
-        ...maskedBody
-      });
-      return res.status(500).json({
-        success: false,
-        error: 'Failed to send activation email',
-        code: 'EMAIL_FAILURE',
-        requestId
-      });
+      throw error;
     }
+ 
 
     await client.query('COMMIT');
 
@@ -1643,19 +1708,27 @@ app.post('/api/forgot-password', async (req, res) => {
       return res.status(500).json({ error: 'Failed to generate reset code' });
     }
     await transporter.sendMail({
-      from: `"Spatial Force" <${process.env.EMAIL_USER}>`,
+      from:{
+         name: process.env.Mail_FROM_NAME || 'Spatial Force',
+         address: process.env.MAIL_FROM || 'no-reply@spatialcorce.co.zw'
+        },
       to: email,
       subject: 'Password Reset Code',
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>Password Reset Request</h2>
-          <p>Your password reset code is:</p>
-          <div style="font-size: 24px; letter-spacing: 2px; margin: 20px 0; padding: 15px; background: #F7FAFC;">
-            ${resetCode}
-          </div>
-          <p>This code will expire in 15 minutes.</p>
+      <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px;">
+        <h2 style="color: #333;">Password Reset Request</h2>
+        <p>Dear User,</p>
+        <p>We received a request to reset your password. If you did not make this request, please ignore this email.</p>
+        <p>Your password reset code is:</p>
+        <div style="font-size: 24px; letter-spacing: 2px; margin: 20px 0; padding: 15px; background: #F7FAFC; border: 1px solid #ccc; border-radius: 4px;">
+          ${resetCode}
         </div>
-      `,
+        <p>This code will expire in 15 minutes. Please enter it in the password reset form to proceed with resetting your password.</p>
+        <p>If you have any issues or did not request a password reset, please contact our support team at <a href="mailto:support@example.com">support@example.com</a>.</p>
+        <p>Thank you for your attention.</p>
+        <p>Best regards,<br>The Support Team</p>
+      </div>
+    `,
     });
 
 
@@ -1809,18 +1882,37 @@ app.post('/api/resend-reset-code', async (req, res) => {
 
     // Send email
     await transporter.sendMail({
-      from: `"Spatial Force" <${process.env.EMAIL_USER}>`,
-      to: email,
+      from: {
+        name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+        address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+      },
+      to: normalizedEmail,
       subject: 'New Password Reset Code',
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>New Reset Code Request</h2>
-          <p>Your new password reset code is:</p>
-          <div style="font-size: 24px; letter-spacing: 2px; margin: 20px 0; padding: 15px; background: #F7FAFC;">
-            ${newCode}
-          </div>
-          <p>This code will expire in 15 minutes.</p>
-        </div>
+      <div style="font-family: Arial, sans-serif; padding: 30px; max-width: 600px; margin: auto; border: 1px solid #E2E8F0; border-radius: 8px; background-color: #FFFFFF;">
+      <h2 style="color: #2B6CB0; text-align: center;">New Password Reset Code Request</h2>
+      
+      <p style="font-size: 1.1em;">We received a request to reset your password. To proceed, please use the code provided below to verify your identity and set a new password for your account.</p>
+      
+      <p style="font-size: 1.1em;">Your new password reset code is:</p>
+      
+      <div style="font-size: 36px; letter-spacing: 5px; margin: 25px 0; 
+        padding: 20px; background: #F7FAFC; text-align: center; border-radius: 5px; 
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+        <strong>${newCode}</strong>
+      </div>
+      
+      <p style="font-size: 1em;">Please note: This code is valid for <strong>15 minutes</strong>. If you do not use it within this time frame, you will need to request a new code.</p>
+      
+      <p style="color: #718096; font-size: 0.9em; text-align: center;">
+        If you did not request this password reset, please disregard this email. Your account security is our top priority.
+      </p>
+      
+      <p style="text-align: center; margin-top: 30px;">
+        <a href="https://spatialforce.co.zw" style="text-decoration: none; color: #2B6CB0; font-weight: bold;">Visit our website</a>
+        for more information or assistance.
+      </p>
+    </div>
       `,
     });
 
@@ -2271,8 +2363,11 @@ app.post('/api/bookings', validateBooking, async (req, res) => {
 
     // Client Confirmation Email
     await transporter.sendMail({
-      from: `"Spatial Force Bookings" <${process.env.EMAIL_USER}>`,
-      to: email,
+      from: {
+        name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+        address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+      },
+      to: process.env.ADMIN_EMAIL,
       subject: `Booking Confirmation: ${service}`,
       html: bookingEmailTemplate({ 
         name, 
@@ -2289,7 +2384,10 @@ app.post('/api/bookings', validateBooking, async (req, res) => {
     // Admin Notification
     if (process.env.ADMIN_EMAIL) {
       await transporter.sendMail({
-        from: `"Booking System" <${process.env.EMAIL_USER}>`,
+        from: {
+          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+        },
         to: process.env.ADMIN_EMAIL,
         subject: `NEW BOOKING: ${service} by ${name}`,
         html: `
@@ -2378,7 +2476,7 @@ app.post('/api/inquiries', validateInquiry, async (req, res) => {
 
     // Client Confirmation
     await transporter.sendMail({
-      from: `"Spatial Force Inquiries" <${process.env.EMAIL_USER}>`,
+      from: `"Spatial Force " <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `Inquiry Received: ${inquiry_type}`,
       html: inquiryEmailTemplate(req.body)
@@ -2387,7 +2485,10 @@ app.post('/api/inquiries', validateInquiry, async (req, res) => {
     // Admin Notification
     if (process.env.ADMIN_EMAIL) {
       await transporter.sendMail({
-        from: `"Inquiry System" <${process.env.EMAIL_USER}>`,
+        from: {
+          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
+        },
         to: process.env.ADMIN_EMAIL,
         subject: `NEW INQUIRY: ${inquiry_type} from ${name}`,
         html: `
@@ -2432,7 +2533,20 @@ app.use((req, res, next) => {
   }
 });
 
-
+app.get('/api/test-email', async (req, res) => {
+  try {
+    await transporter.sendMail({
+      from: `Test <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL,
+      subject: 'Email Test',
+      text: 'This is a test email from SpatialForce'
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Email Test Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // ====================
 // Utility Routes
@@ -2468,39 +2582,10 @@ app.get('/api/health', async (req, res) => {
     res.status(503).json(healthCheck);
   }
 });
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const frontendPath = path.resolve(__dirname, '../dist'); // Adjusted path
 
-if (fs.existsSync(frontendPath)) {
-  // Serve static files
-  app.use(express.static(frontendPath));
-  
-  // Handle client-side routing
-  app.get(/^(?!\/api).*/, (req, res) => {  // ✅ Proper regex to exclude API routes
-    res.sendFile(path.join(frontendPath, 'index.html'));
-  });
 
-} else {
-  console.warn('⚠️ Frontend build not found - API-only mode');
-  // Setup API routes only
-  app.get('/', (req, res) => {
-    res.json({ message: "Backend running - build frontend for UI" });
-  });
-}
 
-// Serve Static Files
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Catch-all Route for Frontend
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
-
-// ====================
-// Error Handling Middleware
-// ====================
-// Add request logging middleware
 
 // Trust first proxy if behind load balancer
 app.set('trust proxy', 1);
@@ -2584,68 +2669,50 @@ app.use((req, res, next) => {
 });
 
 
-
-
-
-// Add this before starting the server
-const checkDatabase = async () => {
-  try {
-    const client = await pool.connect();
-    console.log('✅ Database connection verified');
-    client.release();
-  } catch (error) {
-    console.error('🚨 Database connection failed:');
-    console.error('- Verify DB_HOST in .env');
-    console.error('- Check PostgreSQL service status');
-    console.error('- Validate DB_USER permissions');
-    process.exit(1);
+// Remove stack traces in production
+app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    delete err.stack;
   }
-};
-
-
-// ====================
-// Start the Server
-// ====================
-const startup = async () => {
-  await checkDatabase(); 
-  try {
-    await pool.query('SELECT 1');
-    console.log('✅ Database connection established');
-
-    if (process.env.EMAIL_USER) {
-      await transporter.verify();
-      console.log('✅ Email service authenticated');
-    }
-
-    app.listen(PORT, () => {
-      console.log(`
-      ===========================================
-       Spatial Force Service API
-      -------------------------------------------
-      Status:       Operational
-      Port:         ${PORT}
-      Database:     ${process.env.DB_NAME}@${process.env.DB_HOST}
-      Email Service: ${process.env.EMAIL_USER ? 'Enabled' : 'Disabled'}
-      Environment:  ${process.env.NODE_ENV || 'development'}
-      ===========================================`);
-    });
-  } catch (startupError) {
-    console.error('🚨 Failed to start server:', startupError);
-    process.exit(1);
-  }
-};
-
-// Graceful Shutdown
-process.on('SIGINT', async () => {
-  console.log('\n🛑 Received SIGINT. Closing pool gracefully...');
-  try {
-    await pool.end();
-    console.log('✅ Pool closed successfully');
-    process.exit(0);
-  } catch (shutdownError) {
-    console.error('❌ Pool shutdown error:', shutdownError);
-    process.exit(1);
-  }
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
-startup();
+
+// ADD THIS AT THE VERY END OF server/index.js:
+
+// Export the Express app for Vercel
+export default app;
+
+// Only start server directly if NOT in Vercel
+if (process.env.VERCEL !== '1') {
+  const PORT = process.env.PORT || 5001;
+  
+  const startup = async () => {
+    await checkDatabase(); 
+    try {
+      await pool.query('SELECT 1');
+      console.log('✅ Database connection established');
+
+      if (process.env.EMAIL_USER) {
+        await transporter.verify();
+        console.log('✅ Email service authenticated');
+      }
+
+      app.listen(PORT, () => {
+        console.log(`
+        ===========================================
+         Spatial Force Service API
+        -------------------------------------------
+         Status:       Operational
+         Port:         ${PORT}
+         Environment:  ${process.env.NODE_ENV || 'development'}
+        ===========================================`);
+      });
+    } catch (startupError) {
+      console.error('🚨 Failed to start server:', startupError);
+      process.exit(1);
+    }
+  };
+
+  startup();
+}
