@@ -1132,9 +1132,7 @@
   .spatialforce-section-title{
     color:rgb(53, 51, 51) !important;
   }
-  .spatialforce-showcase-text{
-
-  }
+ 
   .process-step:nth-child(even) .step-header {
     flex-direction: row;
   }

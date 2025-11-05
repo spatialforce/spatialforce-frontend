@@ -9,6 +9,7 @@ import CookieConsent from './Cookies';
 import Services2 from './services2';
 import ProtectedRoute from './ProtectedRoute';
 import FooterNote from './Footernote';
+import SpeedInsights from "@vercel/speed-insights";
 import './App.css';
 import WelcomePopup from './WelcomePopup';
 import Cart from './Cart';
@@ -16,6 +17,7 @@ import Login from './Login';
 import Signup from './Signup';
 import ActivationPage from './ActivationPage';
 import ReviewSystem from './ReviewSystem';
+import ErrorBoundary from './ErrorBoundary';
 import axios from 'axios';
 import { API_BASE_URL } from './config';
 import LoginWelcomePage from './LoginWelcomePage';
@@ -24,44 +26,34 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GisZimbabwe from './GIS-applications';
+import generateSitemap from '../utils/generateSitemap';
 
 
-// Add all solid icons to library
 library.add(fas);
 
+// Use regular lazy loading - remove the problematic prefetchableLazy
+const SmartCitySolutions = lazy(() => import('./Smartcitysolutions'));
+const AIGIS = lazy(() => import('./AI'));
+const Home = lazy(() => import('./Home'));
+const Menu = lazy(() => import('./Menu'));
+const About = lazy(() => import('./About'));
+const Services = lazy(() => import('./Services'));
+const Bookings = lazy(() => import('./Bookings'));
+const InquireContactForm = lazy(() => import('./InquireForm'));
+const Confirmation = lazy(() => import('./confirmation'));
+const Contact = lazy(() => import('./Contact'));
+const TermsandConditions = lazy(() => import('./TermsandConditions'));
+const Privacy = lazy(() => import('./privacy'));
+const Forest = lazy(() => import('./ForestArticle'));
+const OAuthSuccess = lazy(() => import('./OAuthsuccess'));
+const ForgotPasswordPage = lazy(() => import('./ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./ResetPasswordPage'));
+const Healthmap = lazy(() => import('./Healthmap'));
+const CovidMap = lazy(() => import('./covid19map'));
+const Webapplications = lazy(() => import('./Webmaps'));
+const Firetracker = lazy(() => import('./Fire-tracker'))
 
-
-// Optimized lazy loading with prefetch hint
-const prefetchableLazy = (factory: () => Promise<{ default: React.ComponentType<any> }>) => {
-  const Component = lazy(factory);
-  // Prefetch the component when idle
-  if (typeof window !== 'undefined') {
-    window.requestIdleCallback?.(() => factory());
-  }
-  return Component;
-};
-const SmartCitySolutions=prefetchableLazy(()=> import('./Smartcitysolutions'))
-const AIGIS=prefetchableLazy(() => import('./AI'))
-const Home = prefetchableLazy(() => import('./Home'));
-const Menu = prefetchableLazy(() => import('./Menu'));
-const About = prefetchableLazy(() => import('./About'));
-const Services = prefetchableLazy(() => import('./Services'));
-const Bookings = prefetchableLazy(() => import('./Bookings'));
-const InquireContactForm = prefetchableLazy(() => import('./InquireForm'));
-const Confirmation = prefetchableLazy(() => import('./confirmation'));
-const Contact = prefetchableLazy(() => import('./Contact'));
-const TermsandConditions = prefetchableLazy(() => import('./TermsandConditions'));
-const Privacy = prefetchableLazy(() => import('./privacy'));
-const Forest = prefetchableLazy(() => import('./ForestArticle'));
-const OAuthSuccess = prefetchableLazy(() => import('./OAuthsuccess'));
-const ForgotPasswordPage = prefetchableLazy(() => import('./ForgotPasswordPage'));
-const ResetPasswordPage = prefetchableLazy(() => import('./ResetPasswordPage'));
-const Healthmap = prefetchableLazy(() => import('./Healthmap'));
-const CovidMap = prefetchableLazy(() => import('./covid19map'));
-const Webapplications=prefetchableLazy(() => import('./Webmaps'));
-const Firetracker=prefetchableLazy(() => import('./Fire-tracker'));
-
-const NotFound = prefetchableLazy(() => import('./NotFound'));
+const NotFound = lazy(() => import('./NotFound'));
 interface AppLocation extends Location {
   state: LocationState;
   pathname: string;
@@ -115,9 +107,36 @@ interface LoginWelcomePopupProps {
   method: 'email' | 'google';
 }
 
-// Update the component usage with proper type safety
-// In App.tsx
-// Add this state
+// Add these wrapper components before your App component
+const ForgotPasswordWrapper = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  return (
+    <ForgotPasswordPage 
+      onLoginClick={() => navigate('/login')}
+      onSignupClick={() => navigate('/signup')}
+      onCodeSent={(email) => {
+        // Handle code sent logic
+      }}
+    />
+  );
+};
+
+const Sitemap = () => {
+  const sitemapContent = generateSitemap();
+  
+  return (
+    <div>
+      <Helmet>
+        <title>Sitemap</title>
+      </Helmet>
+      <pre>{sitemapContent}</pre>
+    </div>
+  );
+};
+
+
 const [showLoginWelcome, setShowLoginWelcome] = useState(false);
 const [loginWelcomeData, setLoginWelcomeData] = useState({
   email: '',
@@ -361,38 +380,74 @@ useEffect(() => {
   };
 
   return (
-   
     <div className="app-container">
-      <Helmet>
-        <title>Spatial Force | Geospatial Intelligence & Solutions</title>
-        <meta name="description" content="Spatial Force offers advanced geospatial solutions..." />
-      </Helmet>
-      {showNavbar && (
-      <Navbar 
-        onLoginClick={() => setShowLoginModal(true)}
-        onSignupClick={() => setShowSignupModal(true)}
-      />
-    )}
+      <HelmetProvider>
+      <div className="app-container">
+        <Helmet>
+          {/* Essential Meta Tags */}
+          <title>Spatial Force - Geospatial Solutions & GIS Services</title>
+          <meta name="description" content="Professional GIS services, geospatial solutions and spatial data analysis. Expert mapping, remote sensing and environmental monitoring services based in Bulawayo." />
+          <meta name="keywords" content="GIS services, geospatial solutions, mapping, spatial analysis, remote sensing, environmental monitoring" />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://spatialforce.co.zw/" />
+          <meta property="og:title" content="Spatial Force - Geospatial Intelligence & Solutions" />
+          <meta property="og:description" content="Professional GIS services and geospatial solutions for businesses and governments." />
+          <meta property="og:image" content="https://spatialforce.co.zw/og-image.jpg" />
+          
+          {/* Twitter */}
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta property="twitter:url" content="https://spatialforce.co.zw/" />
+          <meta property="twitter:title" content="Spatial Force - Geospatial Intelligence & Solutions" />
+          <meta property="twitter:description" content="Professional GIS services and geospatial solutions for businesses and governments based in Bulawayo Zimbabwe." />
+          <meta property="twitter:image" content="https://spatialforce.co.zw/twitter-image.jpg" />
+          
+          {/* Canonical URL */}
+          <link rel="canonical" href="https://spatialforce.co.zw/" />
+          
+          {/* Robots */}
+          <meta name="robots" content="index, follow" />
+        </Helmet>
+        
+        {/* Your app content */}
+      </div>
+    </HelmetProvider>
+      <SpeedInsights />
       
+      {showNavbar && (
+        <Navbar 
+          onLoginClick={() => setShowLoginModal(true)}
+          onSignupClick={() => setShowSignupModal(true)}
+        />
+      )}
 
-<Suspense fallback={null}>
-{(showWelcomePopup || location.state?.showWelcomePopup) && (
-      <WelcomePopup 
-        onClose={() => {
-          setShowWelcomePopup(false);
-          navigate(location.pathname, {
-            state: { ...location.state, showWelcomePopup: undefined },
-            replace: true
-          });
-        }}
-        email={location.state?.email || searchParams.get('email') || undefined}
-      />
-    )}
-</Suspense>
-      <Suspense fallback={<div className="instant-loader">Loading...</div>}>
-        <Cart />
+      {/* Improved Suspense with better fallback */}
+      <Suspense fallback={
+        <div className="global-loader">
+          <div className="loader-spinner"></div>
+          <p>Loading Spatial Force...</p>
+        </div>
+      }>
+        {(showWelcomePopup || location.state?.showWelcomePopup) && (
+          <WelcomePopup 
+            onClose={() => {
+              setShowWelcomePopup(false);
+              navigate(location.pathname, {
+                state: { ...location.state, showWelcomePopup: undefined },
+                replace: true
+              });
+            }}
+            email={location.state?.email || searchParams.get('email') || undefined}
+          />
+        )}
       </Suspense>
 
+      <Suspense fallback={
+        <div className="cart-loader">Loading Cart...</div>
+      }>
+        <Cart />
+      </Suspense>
       {showConsent && (
         <CookieConsent onAccept={() => {
           Cookies.set('cookieConsent', 'accepted', { expires: 30 });
@@ -424,7 +479,6 @@ useEffect(() => {
       )}
        
 
-
        {showLoginModal && (
   <div className="modal-backdrop">
     <Login
@@ -444,63 +498,99 @@ useEffect(() => {
       initialMessage={loginMessage}
       initialEmail={email}
       onSuccessfulLogin={closeAllModals}
+      // Add the missing props:
+      email={email} // You already have this state
+      method="email" // Default to 'email' method
     />
   </div>
 )}
-
-      <div className="app-content">
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/booking-login-prompt" element={<LoginPromptPage />} />
-          <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
-          <Route path="/contact/:inquiryType" element={<InquireContactForm />} />
-          <Route path="/confirmation" element={<Confirmation />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/terms" element={<TermsandConditions />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/articles-and-projects" element={<GisZimbabwe />} />
-          <Route path="/gis-forest-resources-zimbabwe" element={<Forest />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/reviews" element={<ReviewSystem/>} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/welcome" element={<LoginWelcomePage />} />
-          <Route path="/services2" element={<Services2 />} />
-          <Route path="/smartcitysolutions" element={<SmartCitySolutions />} />
-          <Route path="/Artificial-Intelligence" element={<AIGIS />} />
-          <Route path="/Bulawayo-webmap-showcase" element={<Healthmap />} />
-          <Route path="/web-applications" element={<Webapplications />} />
-          <Route path="/fire-tracker" element={<Firetracker />} />
-          <Route 
-  path="/Covid19-tracker" 
+<div className="app-content">
+        {/* Wrap Routes in Suspense */}
+        <Suspense fallback={
+          <div className="page-loader">
+            <div className="loader-spinner"></div>
+            <p>Loading page...</p>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route 
+  path="/sitemap.xml" 
   element={
-    <div className="fullscreen-map-container">
-      <CovidMap />
-    </div>
+    <Sitemap />
   } 
 />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services2" element={<Services2 />} />
+            <Route path="/booking-login-prompt" element={<LoginPromptPage />} />
+            <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+            <Route path="/contact/:inquiryType" element={<InquireContactForm />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<TermsandConditions />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/articles-and-projects" element={<GisZimbabwe />} />
+            <Route path="/gis-forest-resources-zimbabwe" element={<Forest />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/welcome" element={<LoginWelcomePage />} />
+            <Route path="/smartcitysolutions" element={<SmartCitySolutions />} />
+            <Route path="/Artificial-Intelligence" element={<AIGIS />} />
+            <Route path="/Bulawayo-webmap-showcase" element={<Healthmap />} />
+            <Route path="/web-applications" element={<Webapplications />} />
+            <Route path="/fire-tracker" element={<Firetracker />} />
+            <Route path="/footer-note" element={<FooterNote />} />
+            <Route 
+              path="/Covid19-tracker" 
+              element={
+                <div className="fullscreen-map-container">
+                  <CovidMap />
+                </div>
+              } 
+            />
+    
+          <Route 
+            path="/forgot-password" 
+            element={
+              <ForgotPasswordPage 
+                onLoginClick={() => setShowLoginModal(true)}
+                onSignupClick={() => setShowSignupModal(true)}
+                onCodeSent={(email) => {
+                  // Handle successful code sending
+                  console.log('Code sent to:', email);
+                }}
+              />
+            } 
+          />
+          <Route 
+            path="/reviews" 
+            element={
+              <ReviewSystem 
+                onLoginClick={() => setShowLoginModal(true)}
+                // Remove onSignupClick since ReviewSystem doesn't need it
+              />
+            } 
+          />
 
-
-    <Route path="/activate" element={
-    <ActivationPage 
-      onSuccess={(user) => {
-        navigate('/', { 
-          state: { 
-            showWelcomePopup: true,
-            email: user.email,
-            justActivated: true,
-            from: location.pathname // Preserve original location
-          },
-          replace: true
-        });
-      }}
-    />
-  } />
-        </Routes>
+           <Route path="/activate" element={
+              <ActivationPage 
+                onSuccess={(user) => {
+                  navigate('/', { 
+                    state: { 
+                      showWelcomePopup: true,
+                      email: user.email,
+                      justActivated: true,
+                      from: location.pathname
+                    },
+                    replace: true
+                  });
+                }}
+              />
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </div>
     </div>
   );
@@ -508,13 +598,15 @@ useEffect(() => {
 
 const AppWrapper = () => (
   <HelmetProvider>
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <App />
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <App />
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   </HelmetProvider>
 );
 

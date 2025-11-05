@@ -22,8 +22,8 @@ interface LoginProps {
   setShowLoginModal: (show: boolean) => void;
   setShowLoginWelcome: (show: boolean) => void;
   setLoginWelcomeData: (data: { email: string; method: 'email' | 'google' }) => void;
-  email: string;
-  method: 'email' | 'google';
+  email?: string; // Make optional
+  method?: 'email' | 'google'; // Make optional
 }
 
 const Login: React.FC<LoginProps> = ({

@@ -21,13 +21,23 @@ export default defineConfig({
     assetsInlineLimit: 4096,
     rollupOptions: {
       output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          // Remove or fix the auth chunk that's causing the issue
+          utils: ['axios', 'js-cookie'],
+          icons: ['@fortawesome/react-fontawesome', '@fortawesome/free-solid-svg-icons'],
+          leaflet: ['leaflet', 'react-leaflet'],
+          seo: ['react-helmet-async']
+        },
         assetFileNames: 'assets/[name]-[hash][extname]',
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js'
+       
       }
     },
     sourcemap: false,
-    minify: 'terser'
+    minify: 'terser',
+    chunkSizeWarningLimit: 1000,
   },
   optimizeDeps: {
     include: [
@@ -35,10 +45,15 @@ export default defineConfig({
       'react-leaflet',
       'axios',
       'react',
-      'react-dom'
-    ]
+      'react-dom',
+      'react-router-dom',
+      'js-cookie',
+      'react-helmet-async',
+      '@fortawesome/react-fontawesome'
+    ],
+    exclude: ['@fortawesome/free-solid-svg-icons']
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+    'import.meta.env.PROD': JSON.stringify(process.env.NODE_ENV === 'production')
   }
 });
