@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
     <div className="vercel-style-container">
       <div className="legal-header">
         <h1>Privacy Policy</h1>
-        <p className="last-updated">Last Updated: 12-03-2024</p>
+        <p className="last-updated">Last Updated: 12-06-2024</p>
         <div className="compliance-banner">
           <span className="compliance-badge gdpr">GDPR Compliant</span>
           <span className="compliance-badge ccpa">CCPA Ready</span>
