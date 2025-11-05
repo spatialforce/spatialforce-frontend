@@ -24,6 +24,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import GisZimbabwe from './GIS-applications';
 import generateSitemap from '../utils/generateSitemap';
+import { Analytics } from "@vercel/analytics/react"
 
 
 library.add(fas);
@@ -378,6 +379,7 @@ useEffect(() => {
 
   return (
     <div className="app-container">
+      <Analytics />
       <HelmetProvider>
       <div className="app-container">
         <Helmet>
