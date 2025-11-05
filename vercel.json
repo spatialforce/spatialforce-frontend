@@ -1,27 +1,16 @@
-
-
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/sitemap.xml",
-      "dest": "/index.html",
-      "headers": {
-        "Content-Type": "application/xml"
-      }
+      "source": "/sitemap.xml",
+      "destination": "/index.html"
     },
     {
-      "src": "/robots.txt",
-      "dest": "/index.html",
-      "headers": {
-        "Content-Type": "text/plain"
-      }
+      "source": "/robots.txt",
+      "destination": "/index.html"
     },
     {
-      "src": "/[^.]+",
-      "dest": "/index.html",
-      "headers": {
-        "Cache-Control": "s-maxage=0"
-      }
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -33,7 +22,7 @@
           "value": "nosniff"
         },
         {
-          "key": "X-Frame-Options",
+          "key": "X-Frame-Options", 
           "value": "DENY"
         },
         {
