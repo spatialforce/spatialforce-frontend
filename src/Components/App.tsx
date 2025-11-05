@@ -539,7 +539,7 @@ useEffect(() => {
             <Route path="/Bulawayo-webmap-showcase" element={<Healthmap />} />
             <Route path="/web-applications" element={<Webapplications />} />
             <Route path="/fire-tracker" element={<Firetracker />} />
-            <Route path="/footer-note" element={<FooterNote />} />
+          
             <Route 
               path="/Covid19-tracker" 
               element={
