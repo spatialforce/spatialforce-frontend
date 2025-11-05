@@ -8,8 +8,6 @@ import Navbar from './Navbar';
 import CookieConsent from './Cookies';
 import Services2 from './services2';
 import ProtectedRoute from './ProtectedRoute';
-import FooterNote from './Footernote';
-import SpeedInsights from "@vercel/speed-insights";
 import './App.css';
 import WelcomePopup from './WelcomePopup';
 import Cart from './Cart';
@@ -24,7 +22,6 @@ import LoginWelcomePage from './LoginWelcomePage';
 import LoginPromptPage from './LoginPromptPage';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GisZimbabwe from './GIS-applications';
 import generateSitemap from '../utils/generateSitemap';
 
@@ -413,7 +410,7 @@ useEffect(() => {
         {/* Your app content */}
       </div>
     </HelmetProvider>
-      <SpeedInsights />
+   
       
       {showNavbar && (
         <Navbar 
