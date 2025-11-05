@@ -380,7 +380,7 @@ useEffect(() => {
   return (
     <div className="app-container">
       <Analytics />
-      <HelmetProvider>
+    
       <div className="app-container">
         <Helmet>
           {/* Essential Meta Tags */}
@@ -411,7 +411,7 @@ useEffect(() => {
         
         {/* Your app content */}
       </div>
-    </HelmetProvider>
+   
    
       
       {showNavbar && (
