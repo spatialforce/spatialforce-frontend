@@ -378,10 +378,8 @@ useEffect(() => {
   };
 
   return (
-    <div className="app-container">
-      <Analytics />
-    
       <div className="app-container">
+         <Analytics />
         <Helmet>
           {/* Essential Meta Tags */}
           <title>Spatial Force - Geospatial Solutions & GIS Services</title>
@@ -408,10 +406,6 @@ useEffect(() => {
           {/* Robots */}
           <meta name="robots" content="index, follow" />
         </Helmet>
-        
-        {/* Your app content */}
-      </div>
-   
    
       
       {showNavbar && (
