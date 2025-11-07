@@ -6,21 +6,22 @@ import {
   FiSearch, FiLayout, FiCheckCircle, FiPackage,
   FiCode, FiCpu, FiMapPin, FiNavigation
 } from 'react-icons/fi';
-import heroImage from '../assets/hero.png';
-import hero1 from '../assets/hero1.png';
-import hero2 from '../assets/hero2.png';
-import hero3 from '../assets/hero3.png';
-import hero4 from '../assets/hero4.png';
-import hero5 from '../assets/hero5.png';
-import hero6 from '../assets/hero6.png';
-import hero7 from '../assets/hero7.png';
-import hero8 from '../assets/hero8.png';
-import showcaseImage from '../assets/showcase.png';
 import Footer from './Footer'
-
 import './Home.css';
 
 const Home = () => {
+  // ✅ CORRECT: Use absolute paths to images in public folder
+  const heroImage = "/images/hero.png";
+  const hero1 = "/images/hero1.png";
+  const hero2 = "/images/hero2.png";
+  const hero3 = "/images/hero3.png";
+  const hero4 = "/images/hero4.png";
+  const hero5 = "/images/hero5.png";
+  const hero6 = "/images/hero6.png";
+  const hero7 = "/images/hero7.png";
+  const hero8 = "/images/hero8.png";
+  const showcaseImage = "/images/showcase.png";
+
   const heroImages = [
     heroImage,
     hero1,
@@ -120,78 +121,46 @@ const Home = () => {
 
   return (
     <div className="spatial-home">
-       {/* SEO Meta Tags */}
-       <Helmet>
+      <Helmet>
         <title>Spatial Force | Geospatial Intelligence & GIS Solutions</title>
         <meta name="description" content="Professional geospatial services including custom map design, spatial analysis, and GIS application development. Transform location data into decisions." />
-        
-        {/* Open Graph / Social Media */}
-        <meta property="og:title" content="Spatial Force | Geospatial Intelligence Solutions" />
-        <meta property="og:description" content="Award-winning geospatial services for businesses and organizations. Specialists in location intelligence and data visualization." />
-        <meta property="og:image" content={heroImages[0]} />
-        <meta property="og:url" content="https://spatialforce.co.zw" />
-        <meta property="og:type" content="website" />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Spatial Force | Geospatial Intelligence Solutions" />
-        <meta name="twitter:description" content="Professional GIS services for spatial analysis and custom mapping solutions." />
-        <meta name="twitter:image" content={heroImages[0]} />
-        
-        {/* Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ProfessionalService",
-            "name": "Spatial Force",
-            "description": "Geospatial intelligence and GIS solutions provider",
-            "url": "https://spatialforce.co.zw",
-            "logo": "https://spatialforce.co.zw/logo.png",
-            "sameAs": [
-              "https://linkedin.com/company/spatialforce",
-              "https://twitter.com/spatialforce"
-            ]
-          })}
-        </script>
       </Helmet>
+
       <section className="spatial-hero-container">
-  {/* Background slideshow */}
-  <div className="spatial-hero-slideshow">
-    {heroImages.map((img, index) => (
-      <img
-        key={index}
-        src={img}
-        alt={`Hero ${index + 1}`}
-        className={`spatial-hero-image ${index === currentSlide ? 'active' : ''}`}
-        loading="eager"
-      />
-    ))}
-  </div>
-  
-  {/* Dark overlay */}
-  <div className="spatial-hero-overlay"></div>
-  
-  {/* Content */}
-  <div className="spatial-hero-content">
-    <h1 className="spatial-hero-title">
-      <span className="highlight">Geospatial Intelligence</span> <span className='highlight'> That</span><br /><span className='highlight'>  Transforms </span>
-    <span className="text-gradient">Locations</span> <span className='highlight'>Into</span> <br/> 
-      <span className="highlight">Decisions</span>
-    </h1>
-    <p className="spatial-hero-subtitle">
-      We craft elegant geospatial solutions that reveal hidden patterns, 
-      optimize operations and empower data-driven decisions.
-    </p>
-    <div className="spatial-hero-actions">
-      <Link to="/menu" className="spatial-btn primary">
-        Explore Solutions
-      </Link>
-      <Link to="/fire-tracker" className="spatial-btn primary">
-        Fire tracker
-      </Link>
-    </div>
-  </div>
-</section>
+        {/* Background slideshow */}
+        <div className="spatial-hero-slideshow">
+          {heroImages.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Hero ${index + 1}`}
+              className={`spatial-hero-image ${index === currentSlide ? 'active' : ''}`}
+              loading="eager"
+            />
+          ))}
+        </div>
+        
+        {/* Dark overlay */}
+        <div className="spatial-hero-overlay"></div>
+        
+        {/* Content */}
+        <div className="spatial-hero-content">
+          <h1 className="spatial-hero-title">
+            <span className="highlight">Geospatial Intelligence</span> <span className='highlight'> That</span><br /><span className='highlight'>  Transforms </span>
+            <span className="text-gradient">Locations</span> <span className='highlight'>Into</span> <br/> 
+            <span className="highlight">Decisions</span>
+          </h1>
+          <p className="spatial-hero-subtitle">
+            We craft elegant geospatial solutions that reveal hidden patterns, 
+            optimize operations and empower data-driven decisions.
+          </p>
+          <div className="spatial-hero-actions">
+            <Link to="/menu" className="spatial-btn primary">
+              Explore Solutions
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Why Choose Us Section */}
       <section className="features-section">
@@ -227,13 +196,13 @@ const Home = () => {
             </p>
           </div>
           <div className="spatialforce-showcase-image">
-          <img
-  src={showcaseImage}
-  alt="Interactive GIS map showing land use patterns with color-coded zoning districts"
-  loading="lazy"
-  width="800"
-  height="450"
-/>
+            <img
+              src={showcaseImage}
+              alt="Interactive GIS map showing land use patterns with color-coded zoning districts"
+              loading="lazy"
+              width="800"
+              height="450"
+            />
           </div>
         </div>
       </section>
@@ -284,22 +253,22 @@ const Home = () => {
             </div>
             
             {technologies.map((tech, index) => (
-  <div 
-    key={index} 
-    className="tech-node"
-    style={{
-      '--i': index,
-      '--total': technologies.length,
-      animationDelay: `${index * 0.1}s`
-    }}
-  >
-    <div className="tech-icon">{tech.icon}</div>
-    <div className="tech-tooltip">
-      <h4>{tech.name}</h4>
-      <p>{tech.category}</p>
-    </div>
-  </div>
-))}
+              <div 
+                key={index} 
+                className="tech-node"
+                style={{
+                  '--i': index,
+                  '--total': technologies.length,
+                  animationDelay: `${index * 0.1}s`
+                }}
+              >
+                <div className="tech-icon">{tech.icon}</div>
+                <div className="tech-tooltip">
+                  <h4>{tech.name}</h4>
+                  <p>{tech.category}</p>
+                </div>
+              </div>
+            ))}
             
             <div className="connecting-lines"></div>
           </div>
@@ -319,41 +288,40 @@ const Home = () => {
             </div>
           </div>
         </div>
-        
-       
       </section>
+      
       <section className="conclusion-section">
-      <div className="conclusion-content">
-        <div className={`text-container ${isExpanded ? 'expanded' : ''}`}>
-          <p className="conclusion-text">
-            In a world where location intelligence is transforming industries, the right geospatial partner 
-            makes all the difference. With a unique blend of technical precision and creative problem-solving, 
-            I transform complex spatial data into clear, actionable insights that drive strategic decisions. 
-            Every project benefits from meticulous attention to detail and a commitment to delivering not just 
-            maps, but meaningful spatial narratives that tell your story.
-          </p>
-          <p className="conclusion-text">
-            Ready to unlock the power of your location data? Let's collaborate to build geospatial solutions 
-            that give you a competitive edge. Whether you need a one-time analysis or an enterprise-wide spatial 
-            platform, I bring the expertise and passion needed to elevate your spatial strategy. The journey from 
-            raw data to strategic advantage begins with a conversation—reach out today to discuss how we can 
-            transform your challenges into opportunities.
-          </p>
+        <div className="conclusion-content">
+          <div className={`text-container ${isExpanded ? 'expanded' : ''}`}>
+            <p className="conclusion-text">
+              In a world where location intelligence is transforming industries, the right geospatial partner 
+              makes all the difference. With a unique blend of technical precision and creative problem-solving, 
+              I transform complex spatial data into clear, actionable insights that drive strategic decisions. 
+              Every project benefits from meticulous attention to detail and a commitment to delivering not just 
+              maps, but meaningful spatial narratives that tell your story.
+            </p>
+            <p className="conclusion-text">
+              Ready to unlock the power of your location data? Let's collaborate to build geospatial solutions 
+              that give you a competitive edge. Whether you need a one-time analysis or an enterprise-wide spatial 
+              platform, I bring the expertise and passion needed to elevate your spatial strategy. The journey from 
+              raw data to strategic advantage begins with a conversation—reach out today to discuss how we can 
+              transform your challenges into opportunities.
+            </p>
+          </div>
+          
+          <button 
+            className="toggle-button" 
+            onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
+          >
+            {isExpanded ? 'Read less' : 'Read full message'}
+            <span className={`arrow ${isExpanded ? 'up' : 'down'}`}></span>
+          </button>
         </div>
-        
-        <button 
-          className="toggle-button" 
-          onClick={() => setIsExpanded(!isExpanded)}
-          aria-expanded={isExpanded}
-        >
-          {isExpanded ? 'Read less' : 'Read full message'}
-          <span className={`arrow ${isExpanded ? 'up' : 'down'}`}></span>
-        </button>
-      </div>
-    </section>
-<Footer/>
+      </section>
+      
+      <Footer/>
     </div>
-    
   );
 };
 

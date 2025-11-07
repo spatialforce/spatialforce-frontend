@@ -1,218 +1,280 @@
-/* ForestArticle.css */
+/* =====================================================
+   ForestArticle.css  —  Clean, readable, mobile-first
+   ===================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #ffffff;
+  --ink: #0e1616;           /* dark text */
+  --muted: #475657;         /* secondary text */
+  --subtle: #e9efef;        /* hairline separators */
+  --accent: #1f8b84;        /* SpatialForce teal */
+  --accent-ink: #114a47;
+  --caption: #5a6a6a;
+  --card-bg: #ffffff;
+}
+
+/* ---------- Page container ---------- */
 .forests-container {
+  background: var(--bg);
+  color: var(--ink);
+  padding: 24px 12px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.7;
-  color: #333;
 }
 
-.article-header {
-  text-align: center;
-  margin-bottom: 40px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 20px;
+/* Prevent any horizontal scroll on narrow devices */
+.forests-container,
+.forests-container * {
+  box-sizing: border-box;
 }
-
-.article-header h1 {
-  font-size: 2.4rem;
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.3rem;
-  color: #7f8c8d;
-  font-weight: normal;
-}
-
-.meta {
-  color: #95a5a6;
-  font-style: italic;
-  margin-top: 15px;
-}
-
-.overview-map {
-  text-align: center;
-  margin: 40px 0;
-}
-
-.land-use-map {
+img, video, iframe {
   max-width: 100%;
-  height: auto;
-  border: 1px solid #ddd;
-  box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-}
-
-.map-caption {
-  font-style: italic;
-  color: #666;
-  text-align: center;
-  margin-top: 8px;
-}
-
-.forest-intro {
-  background: #f8f9fa;
-  padding: 20px;
-  border-left: 4px solid #3498db;
-  margin-bottom: 40px;
-  font-size: 1.1rem;
-}
-
-.forests-list {
-  display: grid;
-  gap: 60px;
-}
-
-.forest-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-.forest-visuals {
-  position: sticky;
-  top: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.forest-image {
-  width: 100%;
   height: auto;
   display: block;
 }
+p, li, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 
-.image-caption {
-  background: #2c3e50;
-  color: white;
-  padding: 8px 15px;
+/* ---------- Header ---------- */
+.article-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.article-header h1 {
+  margin: 0 0 6px 0;
+  font-size: clamp(1.5rem, 3.6vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: .2px;
+}
+.article-header .subtitle {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: clamp(.98rem, 2.2vw, 1.1rem);
+  color: var(--muted);
+}
+.article-header .meta {
+  margin-top: 8px;
+  font-size: .9rem;
+  color: var(--caption);
+  display: inline-flex;
+  gap: 10px;
 }
 
+/* ---------- Overview map ---------- */
+.overview-map {
+  margin: 18px auto 22px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--subtle);
+}
+.land-use-map {
+  width: 100%;
+  display: block;
+}
+
+/* ---------- Intro paragraph ---------- */
+.forest-intro {
+  margin: 4px auto 24px;
+  max-width: 78ch;
+}
+.forest-intro p {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- Forest list ---------- */
+.forests-list {
+  display: grid;
+  gap: 18px;
+}
+
+/* Each forest card: image + content in 1 column (mobile-first) */
+.forest-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--subtle);
+  border-radius: 14px;
+}
+
+/* Visual side */
+.forest-visuals {
+  display: grid;
+  gap: 8px;
+}
+.forest-image {
+  width: 100%;
+  border-radius: 12px;
+  background: var(--subtle);
+}
+.image-caption {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--caption);
+  text-align: center;
+}
+
+/* Content side */
 .forest-content h2 {
-  color: #2980b9;
-  margin-top: 0;
-  font-size: 1.8rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+  margin: 2px 0 10px 0;
+  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+  line-height: 1.2;
 }
-
 .quick-facts {
-  background: #f5f9fc;
-  padding: 15px;
-  border-radius: 5px;
-  margin: 20px 0;
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #f7fbfb;
+  border: 1px solid var(--subtle);
+  border-radius: 10px;
+  margin-bottom: 12px;
 }
-
 .quick-facts p {
-  margin: 8px 0;
+  margin: 0;
+  font-size: .98rem;
+  line-height: 1.5;
+}
+.quick-facts strong {
+  color: var(--accent-ink);
 }
 
-.boundary-section {
-  margin: 30px 0;
+/* Sections inside each card */
+.boundary-section,
+.ecology-section,
+.human-impact {
+  margin-top: 12px;
+}
+.forest-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.05rem;
+  color: var(--accent-ink);
 }
 
-.boundary-section h3 {
-  color: #27ae60;
+/* Boundary description block */
+.boundary-description p {
+  margin: 0 0 8px 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
-.boundary-description {
-  background: #f0f7ff;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 15px;
+/* Generic UL cleanup */
+.boundary-points,
+.features ul,
+.threats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
 }
 
-.boundary-points {
-  padding-left: 20px;
+/* Custom list markers (subtle) */
+.boundary-points li,
+.features ul li,
+.threats ul li {
+  position: relative;
+  padding-left: 18px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.boundary-points li::before,
+.features ul li::before,
+.threats ul li::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: .68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .55;
 }
 
-.boundary-points li {
-  margin-bottom: 10px;
-}
-
+/* Ecology (features + threats) side-by-side on wide; stacked on mobile */
 .ecology-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin: 30px 0;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.features, .threats {
+  padding: 10px 12px;
+  background: #f9fcfc;
+  border: 1px solid var(--subtle);
+  border-radius: 10px;
 }
 
-.features {
-  background: #f0fff4;
-  padding: 20px;
-  border-radius: 5px;
+/* Human impact paragraph */
+.human-impact p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
-.threats {
-  background: #fff0f0;
-  padding: 20px;
-  border-radius: 5px;
-}
-
-.ecology-section h3 {
-  color: #2c3e50;
-  font-size: 1.2rem;
-  margin-top: 0;
-}
-
-.ecology-section ul {
-  padding-left: 20px;
-}
-
-.ecology-section li {
-  margin-bottom: 10px;
-}
-
-.human-impact {
-  background: #fff8e1;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.human-impact h3 {
-  color: #e74c3c;
-  margin-top: 0;
-}
-
+/* ---------- Footer ---------- */
 .article-footer {
-  margin-top: 60px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  margin: 22px 0 8px 0;
+  padding: 14px 12px;
+  border-top: 1px solid var(--subtle);
+  color: var(--muted);
+}
+.article-footer p {
+  margin: 4px 0;
+  font-size: .95rem;
 }
 
-@media (max-width: 900px) {
+/* ---------- Links (if any appear inside) ---------- */
+.forests-container a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.forests-container a:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================
+   Responsive enhancements
+   ===================================================== */
+
+/* Medium screens: breathe a bit more, keep single-column card */
+@media (min-width: 640px) {
+  .forests-container { padding: 28px 16px; }
+  .forest-card { padding: 16px; }
+}
+
+/* Large tablets / small desktops: two-column card layout */
+@media (min-width: 900px) {
   .forest-card {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+    gap: 18px;
+    padding: 18px;
   }
-  
-  .forest-visuals {
-    position: static;
-  }
-  
   .ecology-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
   }
+  .forest-intro { max-width: 84ch; }
 }
 
-@media (max-width: 600px) {
-  .article-header h1 {
-    font-size: 1.8rem;
-  }
-  
-  .forests-container {
-    padding: 15px;
-  }
-  
-  .forest-card {
-    gap: 20px;
-  }
+/* Wide desktops: comfortable line-lengths */
+@media (min-width: 1200px) {
+  .forests-container { padding: 36px 20px; }
+  .forest-card { padding: 20px; }
+  .quick-facts { padding: 12px 14px; }
+}
+
+/* =====================================================
+   Print (optional): nice, clean A4
+   ===================================================== */
+@media print {
+  .forests-container { max-width: 100%; padding: 0; }
+  .article-header, .article-footer { page-break-inside: avoid; }
+  .forest-card { break-inside: avoid; border-color: #d9e3e3; }
+  .forests-container a { text-decoration: underline; color: #000; }
 }

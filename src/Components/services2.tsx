@@ -5,9 +5,7 @@ import Modal from './modal';
 import './services2.css';
 import { serviceList } from './Services-list';
 import { Link } from 'react-router-dom';
-import QGIS from '../assets/qgis.svg';
-import ARCMAP from '../assets/arcmap.png';
-import ARCGISPRO from '../assets/ARCGISPRO.png';
+
 import { 
   FiLayers,       // For Foundation Technologies icon
   FiMap,          // For Cartographic Modeling
@@ -82,6 +80,9 @@ const Services: React.FC = () => {
       }
     ]
   };
+  const QGIS = "/images/qgis.svg";
+  const ARCMAP = "/images/arcmap.png";
+  const ARCGISPRO = "/images/ARCGISPRO.png";
 
   useEffect(() => {
     document.title = 'Professional GIS Services | Spatial Force - Geospatial Solutions';
@@ -176,52 +177,53 @@ const Services: React.FC = () => {
         </section>
 
         <section aria-labelledby="industry-applications-heading" className="industry-applications">
-          <h2 id="industry-applications-heading" className="section-heading">
-            Industry-Specific GIS Applications
-          </h2>
-          <div className="industry-grid">
-            <div className="industry-card" itemScope itemType="https://schema.org/Service">
-              <h3 itemProp="name">Urban Planning & Smart Cities</h3>
-              <ul>
-                <li itemProp="description">Zoning analysis and land use optimization</li>
-                <li itemProp="description">3D city modeling and infrastructure planning</li>
-                <li itemProp="description">Traffic flow simulation and route optimization</li>
-              </ul>
-            </div>
-            <div className="industry-card" itemScope itemType="https://schema.org/Service">
-              <h3 itemProp="name">Environmental Management</h3>
-              <ul>
-                <li itemProp="description">NDVI vegetation health monitoring</li>
-                <li itemProp="description">Watershed analysis and flood prediction</li>
-                <li itemProp="description">Carbon footprint mapping</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+  <h2 id="industry-applications-heading" className="section-heading">Industry-Specific GIS Applications</h2>
 
-        <section aria-labelledby="technology-stack-heading" className="technology-stack">
-          <h2 id="technology-stack-heading" className="section-heading">
-            Advanced Geospatial Technology Stack
-          </h2>
-          <div className="tech-list">
-            <div className="tech-item">
-              <h3>Data Acquisition</h3>
-              <ul>
-                <li>Satellite Imagery (Sentinel-2, Landsat 9)</li>
-                <li>UAV/Drone Photogrammetry</li>
-                <li>LiDAR Point Cloud Processing</li>
-              </ul>
-            </div>
-            <div className="tech-item">
-              <h3>Analysis & Processing</h3>
-              <ul>
-                <li>ArcGIS Pro Advanced Suite</li>
-                <li>QGIS with Python Scripting</li>
-                <li>Google Earth Engine API</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+  <div className="industry-grid centered">
+    <div className="industry-card center-card" itemScope itemType="https://schema.org/Service">
+      <h3 className="center-title" itemProp="name">Urban Planning &amp; Smart Cities</h3>
+      <ul className="list-clean list-centered" role="list">
+        <li itemProp="description">Zoning analysis and land use optimization</li>
+        <li itemProp="description">3D city modeling and infrastructure planning</li>
+        <li itemProp="description">Traffic flow simulation and route optimization</li>
+      </ul>
+    </div>
+
+    <div className="industry-card center-card" itemScope itemType="https://schema.org/Service">
+      <h3 className="center-title" itemProp="name">Environmental Management</h3>
+      <ul className="list-clean list-centered" role="list">
+        <li itemProp="description">NDVI vegetation health monitoring</li>
+        <li itemProp="description">Watershed analysis and flood prediction</li>
+        <li itemProp="description">Carbon footprint mapping</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<section aria-labelledby="technology-stack-heading" className="technology-stack">
+  <h2 id="technology-stack-heading" className="section-heading">Advanced Geospatial Technology Stack</h2>
+
+  <div className="tech-list centered">
+    <div className="tech-item center-card">
+      <h3 className="center-title">Data Acquisition</h3>
+      <ul className="list-clean list-centered" role="list">
+        <li>Satellite Imagery (Sentinel-2, Landsat 9)</li>
+        <li>UAV/Drone Photogrammetry</li>
+        <li>LiDAR Point Cloud Processing</li>
+      </ul>
+    </div>
+
+    <div className="tech-item center-card">
+      <h3 className="center-title">Analysis &amp; Processing</h3>
+      <ul className="list-clean list-centered" role="list">
+        <li>ArcGIS Pro Advanced Suite</li>
+        <li>QGIS with Python Scripting</li>
+        <li>Google Earth Engine API</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
         <section aria-labelledby="case-studies-heading" className="case-studies">
           <h2 id="case-studies-heading" className="section-heading">

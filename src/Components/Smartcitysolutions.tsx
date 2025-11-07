@@ -2,9 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import './SmartCitySolutions.css';
-import Opendata from '../assets/Open-data.svg'
-import GIS from '../assets/GIS.svg'
-import AI from '../assets/AI.svg'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faHandshake, 
@@ -34,7 +32,11 @@ const SmartCitySolutions = () => {
       "addressRegion": "Matabeleland",
       "addressCountry": "ZW"
     }
+
   };
+  const Opendata = "/images/Open-data.svg";
+  const GIS = "/images/GIS.svg";
+  const AI = "/images/AI.svg";
 
   return (
     <div className="smart-city-container">
@@ -416,20 +418,21 @@ const SmartCitySolutions = () => {
 </div>
 
   </div>
+  
   <div className="tech-badge">
-  <div className="tech-pill">
-    <img src={GIS} className="tech-icon" alt="GIS" />
-    <span>GIS Research</span>
-  </div>
-  <div className="tech-pill">
-    <img src={AI} className="tech-icon" alt="AI" />
-    <span>AI Analytics</span> 
-  </div>
-  <div className="tech-pill">
-    <img src={Opendata} className="tech-icon" alt="Open Data" />
-    <span>Open Data</span>
-  </div>
-</div>
+          <div className="tech-pill">
+            <img src={GIS} className="tech-icon" alt="GIS Technology" width="24" height="24" loading="lazy" />
+            <span>GIS Research</span>
+          </div>
+          <div className="tech-pill">
+            <img src={AI} className="tech-icon" alt="AI Analytics" width="24" height="24" loading="lazy" />
+            <span>AI Analytics</span> 
+          </div>
+          <div className="tech-pill">
+            <img src={Opendata} className="tech-icon" alt="Open Data" width="24" height="24" loading="lazy" />
+            <span>Open Data</span>
+          </div>
+        </div>
 </section>
 
 <section className="gis-content-section">
@@ -609,8 +612,8 @@ const SmartCitySolutions = () => {
             </Link>
             <div className="contact-channel">
                 <p>Contact Our Team:</p>
-                <a href="tel:+263717428085" className="contact-link">
-                    <FontAwesomeIcon icon={faPhone}/> +263 717 428 085
+                <a href="tel:+263779135076" className="contact-link">
+                    <FontAwesomeIcon icon={faPhone}/> +263 779 135 5076
                 </a>
                 <a href="mailto:gis@spatialforce.co.zw" className="contact-link">
                     <FontAwesomeIcon icon={faEnvelope}/> gis@spatialforce.co.zw
@@ -720,7 +723,7 @@ const SmartCitySolutions = () => {
       
       <div className="mobile-contact-info">
         <a href="tel:+263717428085" className="mobile-contact-link">
-          <FontAwesomeIcon icon={faPhone} /> +263 717 428 085
+          <FontAwesomeIcon icon={faPhone} /> +263 77 913 5076
         </a>
         <a href="mailto:no-reply@spatialforce.co.zw" className="mobile-contact-link">
           <FontAwesomeIcon icon={faEnvelope} /> gis@spatialforce.co.zw

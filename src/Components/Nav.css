@@ -47,15 +47,7 @@
     align-items: center;
     gap: 2rem;
   }
-  .navbar-logo {
-    /* Remove height: 100%*/
-    font-style:italic;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0 !important;
-    margin: 0 !important;
-    line-height: 1 !important;
-  }
+ 
   
   .nav-links {
     display: flex !important;

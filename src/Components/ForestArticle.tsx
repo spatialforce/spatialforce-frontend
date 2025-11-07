@@ -1,32 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import './ForestArticle.css';
-import gwaaiImage from '../assets/gwaai.png';
-import bembesiImage from '../assets/bembesi.png';
-import kaviraImage from '../assets/kavira.png';
-import lakeAliceImage from '../assets/lake alice.png';
-import gwampaImage from '../assets/gwampa.png';
-import insezeImage from '../assets/inseze extension.png';
-import chesaImage from '../assets/chesa.png';
-import landUseMap from '../assets/forest.jpg';
 import FooterNote from './Footernote';
 
-interface Forest {
-  id: number;
-  name: string;
-  image: string;
-  location: string;
-  area: string;
-  remainingCover: string;
-  boundaryDescription: React.ReactNode;
-  keyFeatures: string[];
-  majorThreats: string[];
-  conservationStatus: string;
-  humanEncroachment: string;
-}
-
 const MatabelelandGazetteForests = () => {
-  const forests: Forest[] = [
+  const gwaaiImage = "/images/gwaai.png";
+  const bembesiImage = "/images/bembesi.png";
+  const kaviraImage = "/images/kavira.png";
+  const lakeAliceImage = "/images/lake alice.png";
+  const gwampaImage = "/images/gwampa.png";
+  const insezeImage = "/images/inseze extension.png";
+  const chesaImage = "/images/chesa.png";
+  const landUseMap = "/images/forest.jpg";
+
+  const forests = [
     {
       id: 1,
       name: 'Gwaai Forest',
@@ -121,7 +108,7 @@ const MatabelelandGazetteForests = () => {
       remainingCover: '34,765.60 hectares (89.1%) as of 2024',
       boundaryDescription: (
         <div>
-          <p>Northern boundary has lost 3,420.6 hectares to human settlements and cultivation affecting Lake Alice Dam's water retention capacity.</p>
+          <p>Northern boundary has lost 3,420.6 hectares to human settlements and cultivation affecting Lake Alice Dam\'s water retention capacity.</p>
           <ul className="boundary-points">
             <li>Encroachment along northern and Southern edge of the forest reserve area</li>
             <li>Visible conversion of forest to farmland</li>
@@ -223,16 +210,45 @@ const MatabelelandGazetteForests = () => {
   return (
     <div className="forests-container">
       <Helmet>
-        <title>Complete Matabeleland Gazette Forests Documentation | Spatial Force</title>
-        <meta 
-          name="description" 
-          content="Detailed boundary maps, conservation status, and threat analysis for all 7 protected forests in Matabeleland" 
-        />
-        <meta name="keywords" content="Gwaai Forest, Bembesi Forest, Kavira Forest, Lake Alice Forest, Gwampa Forest, Inseze Extension, Chesa Forest, Zimbabwe protected areas" />
-      </Helmet>
+  <title>Matabeleland Gazette Forests - Complete Boundary Maps & Conservation Status 2024</title>
+  <meta 
+    name="description" 
+    content="Official 2024 boundary documentation for 7 protected forests in Matabeleland. Detailed maps of Gwaai, Bembesi, Kavira forests with conservation status and threat analysis." 
+  />
+  <meta name="keywords" content="Matabeleland forests, Gwaai Forest map, Bembesi Forest boundary, Zimbabwe protected areas, forest conservation, gazetted forests, Forestry Commission Zimbabwe, spatial mapping, environmental protection" />
+  <meta name="author" content="Kudzanai Chakavarika - Spatial Force" />
+  <meta name="robots" content="index, follow" />
+  
+  {/* Open Graph Meta Tags */}
+  <meta property="og:title" content="Matabeleland Gazette Forests | Complete Boundary Maps & Conservation Status 2024" />
+  <meta property="og:description" content="Official 2024 documentation with detailed boundary maps for 7 protected forests in Matabeleland. GIS analysis by Spatial Force." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://spatialforce.co.zw/matabeleland-forests" />
+  <meta property="og:image" content="https://spatialforce.co.zw/images/forest.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Spatial Force" />
+  <meta property="og:locale" content="en_ZW" />
+  <meta property="article:author" content="Kudzanai Chakavarika" />
+  <meta property="article:published_time" content="2024-01-15" />
+  <meta property="article:section" content="Environmental Conservation" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@SpatialForce" />
+  <meta name="twitter:creator" content="@kudzanaic" />
+  <meta name="twitter:title" content="Matabeleland Gazette Forests - Boundary Maps & Conservation 2024" />
+  <meta name="twitter:description" content="Complete GIS documentation of 7 protected forests in Zimbabwe. Detailed boundary analysis and threat assessment." />
+  <meta name="twitter:image" content="https://spatialforce.co.zw/images/forest.jpg" />
+  <meta name="twitter:image:alt" content="Matabeleland Forests Composite Boundary Map" />
+  <meta name="geo.region" content="ZW" />
+  <meta name="geo.placename" content="Matabeleland North" />
+  <meta name="geo.position" content="-19.0;27.0" />
+  <meta name="ICBM" content="-19.0, 27.0" />
+  
+  <link rel="canonical" href="https://spatialforce.co.zw/matabeleland-forests" />
+</Helmet>
 
       <header className="article-header">
-        <h1>Matabeleland  North Gazette Forests</h1>
+        <h1>Matabeleland North Gazette Forests</h1>
         <p className="subtitle">Complete Boundary Documentation & Conservation Status</p>
         <div className="meta">
           <span>Kudzanai Chakavarika</span>
@@ -245,22 +261,25 @@ const MatabelelandGazetteForests = () => {
           src={landUseMap} 
           alt="Composite map of Matabeleland forests"
           className="land-use-map"
+          width="800"
+          height="600"
+          loading="eager"
           onError={(e) => (e.currentTarget.style.display = 'none')}
         />
       </div>
 
       <section className="forest-intro">
         <p>
-        This official document provides complete boundary descriptions, conservation status, 
-    and threat assessments for seven gazetted forests in Matabeleland province. 
-    Kindly note that some forests are missing from this documentation - we are working 
-    tirelessly to gather more information about additional gazetted forests and will 
-    update this resource as new data becomes available. All maps and information 
-    were produced by Spatial Force in collaboration with Chesa Research Station, 
-    and all content complies with the Forest Act [Chapter 19:05]
-    .If you have additional information that could improve 
-    this resource, please feel free to contact us so we can enhance this website 
-    to better serve all stakeholders
+          This official document provides complete boundary descriptions, conservation status, 
+          and threat assessments for seven gazetted forests in Matabeleland province. 
+          Kindly note that some forests are missing from this documentation - we are working 
+          tirelessly to gather more information about additional gazetted forests and will 
+          update this resource as new data becomes available. All maps and information 
+          were produced by Spatial Force in collaboration with Chesa Research Station, 
+          and all content complies with the Forest Act [Chapter 19:05]
+          .If you have additional information that could improve 
+          this resource, please feel free to contact us so we can enhance this website 
+          to better serve all stakeholders
         </p>
       </section>
 
@@ -272,6 +291,9 @@ const MatabelelandGazetteForests = () => {
                 src={forest.image}
                 alt={`Current aerial view of ${forest.name}`}
                 className="forest-image"
+                width="600"
+                height="400"
+                loading="lazy"
                 onError={(e) => (e.currentTarget.style.display = 'none')}
               />
               <p className="image-caption">Fig {forest.id}: {forest.name} Boundary Map</p>

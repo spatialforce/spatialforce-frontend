@@ -1,25 +1,11 @@
-import landUse from "../assets/environment.png";
-import fireMap from "../assets/Fire-analysis.png";
-import indicies from "../assets/indiciess.png";
-import webDev from "../assets/Web-dev.png";
-import webGIS from "../assets/web-application.png";
-import API from "../assets/API.png";
-import GEE from "../assets/GEE.png";
-import database from "../assets/database.png";
-import desktop from "../assets/desktop-support.png";
-import dashbord from "../assets/dashboard.png";
-import sourcing from "../assets/Sourcing.jpg";
-import tutorial from "../assets/tutorial.png";
-import hydrology from "../assets/hydrology.jpg"
-
 export const serviceList = [
   {
-    id: "web-dev", // Unique ID
+    id: "web-dev",
     name: "Web Development",
-    image: webDev,
+    image: "/images/Web-dev.png",
     price: 100,
     description: "Transform your digital presence with tailored web applications designed for responsiveness and user engagement, perfectly aligned with your business goals.",
-    icon: "icons/web-dev-icon.png",
+    icon: "/images/icons/web-dev-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 4 weeks",
@@ -28,16 +14,15 @@ export const serviceList = [
       faqs: [
         { question: "What technologies do you use?", answer: "We utilize React, Node.js, and other modern frameworks." },
       ],
-     
     },
   },
   {
-    id: "web-gis", // Unique ID
+    id: "web-gis",
     name: "Web GIS",
-    image: webGIS,
+    image: "/images/web-application.png",
     price: 150,
     description: "Revolutionize your mapping capabilities by integrating GIS technology into your web applications, offering enhanced spatial analysis and user interactivity.",
-    icon: "icons/web-gis-icon.png",
+    icon: "/images/icons/web-gis-icon.png",
     details: {
       cta: "Request a Demo",
       duration: "Delivered in 5 weeks",
@@ -46,16 +31,15 @@ export const serviceList = [
       faqs: [
         { question: "What is Web GIS?", answer: "It's GIS technology integrated into web applications for mapping and spatial analysis." },
       ],
-    
     },
   },
   {
-    id: "desktop-support", // Unique ID
+    id: "desktop-support",
     name: "Desktop Support",
-    image: desktop,
+    image: "/images/desktop-support.png",
     price: 20,
     description: "Experience hassle-free technical support for your desktop applications, ensuring your systems run smoothly and efficiently.",
-    icon: "icons/desktop-support-icon.png",
+    icon: "/images/icons/desktop-support-icon.png",
     details: {
       cta: "Get Support",
       duration: "Available 24/7",
@@ -64,16 +48,15 @@ export const serviceList = [
       faqs: [
         { question: "What support do you offer?", answer: "We assist with software issues, installations, and troubleshooting." },
       ],
-   
     },
   },
   {
-    id: "tutorials", // Unique ID
+    id: "tutorials",
     name: "Tutorials",
-    image: tutorial,
+    image: "/images/tutorial.png",
     price: 30,
     description: "Empower yourself with our comprehensive tutorials in GIS and remote sensing, designed to enhance your skills and understanding.",
-    icon: "icons/tutorials-icon.png",
+    icon: "/images/icons/tutorials-icon.png",
     details: {
       cta: "Enroll Now",
       duration: "Self-paced",
@@ -82,16 +65,15 @@ export const serviceList = [
       faqs: [
         { question: "Are the tutorials online?", answer: "Yes, all tutorials are available online for your convenience." },
       ],
-
     },
   },
   {
-    id: "api-integration", // Unique ID
+    id: "api-integration",
     name: "API Integration",
-    image: API,
+    image: "/images/API.png",
     price: 200,
     description: "Streamline your operations with seamless API integration, connecting diverse systems for efficient data exchange and operational synergy.",
-    icon: "icons/api-icon.png",
+    icon: "/images/icons/api-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 3 weeks",
@@ -100,16 +82,15 @@ export const serviceList = [
       faqs: [
         { question: "What systems can you integrate?", answer: "We can integrate various web services and databases." },
       ],
-  
     },
   },
   {
-    id: "google-earth-engine", // Unique ID
+    id: "google-earth-engine",
     name: "Google Earth Engine (GEE)",
-    image: GEE,
+    image: "/images/GEE.png",
     price: 50,
     description: "Leverage the full potential of geospatial data analysis with our Google Earth Engine services, providing powerful insights for informed decision-making.",
-    icon: "icons/gee-icon.png",
+    icon: "/images/icons/gee-icon.png",
     details: {
       cta: "Contact Us",
       duration: "Delivered in 2 weeks",
@@ -122,12 +103,12 @@ export const serviceList = [
     },
   },
   {
-    id: "land-use", // Unique ID
+    id: "land-use",
     name: "Land Use and Land Cover",
-    image: landUse,
+    image: "/images/environment.png",
     price: 50,
     description: "Unlock valuable insights with our comprehensive analysis of land use patterns. Understand changes over time to make informed decisions for sustainable development.",
-    icon: "icons/land-use-icon.png",
+    icon: "/images/icons/land-use-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 2 weeks",
@@ -136,16 +117,15 @@ export const serviceList = [
       faqs: [
         { question: "What data do you need?", answer: "We require recent satellite imagery and local land use data." },
       ],
-  
     },
   },
   {
-    id: "fire-analysis", // Unique ID
+    id: "fire-analysis",
     name: "Fire Analysis",
-    image: fireMap,
+    image: "/images/Fire-analysis.png",
     price: 80,
     description: "Mitigate risks with our advanced fire analysis services, identifying high-risk areas and leveraging historical data for effective prevention strategies.",
-    icon: "icons/fire-analysis-icon.png",
+    icon: "/images/icons/fire-analysis-icon.png",
     details: {
       cta: "Request a Quote",
       duration: "Delivered in 3 weeks",
@@ -154,16 +134,15 @@ export const serviceList = [
       faqs: [
         { question: "How do you assess risk?", answer: "We analyze historical fire data and current vegetation patterns." },
       ],
-    
     },
   },
   {
-    id: "indices-calculation", // Unique ID
+    id: "indices-calculation",
     name: "Indices Calculation",
-    image: indicies,
+    image: "/images/indiciess.png",
     price: 50,
     description: "Enhance your environmental assessments with precise calculations of vegetation and water indices, ensuring optimal health monitoring.",
-    icon: "icons/indices-icon.png",
+    icon: "/images/icons/indices-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 1 week",
@@ -176,12 +155,12 @@ export const serviceList = [
     },
   },
   {
-    id: "hydrology", // Unique ID
+    id: "hydrology",
     name: "Hydrology",
-    image: hydrology, 
+    image: "/images/hydrology.jpg",
     price: 80,
     description: "Navigate the intricacies of water resource management with our expert hydrology analysis, ensuring sustainable practices and effective watershed management.",
-    icon: "icons/hydrology-icon.png",
+    icon: "/images/icons/hydrology-icon.png",
     details: {
       cta: "Contact Us",
       duration: "Delivered in 4 weeks",
@@ -190,16 +169,15 @@ export const serviceList = [
       faqs: [
         { question: "What do you analyze?", answer: "We analyze water flow, quality, and resource distribution." },
       ],
-
     },
   },
   {
-    id: "database-design", // Unique ID
+    id: "database-design",
     name: "Database Design",
-    image: database,
+    image: "/images/database.png",
     price: 100,
     description: "Optimize your data management with our expert database design services, ensuring efficiency and reliability in handling geospatial data.",
-    icon: "icons/database-design-icon.png",
+    icon: "/images/icons/database-design-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 3 weeks",
@@ -208,16 +186,15 @@ export const serviceList = [
       faqs: [
         { question: "What database systems do you use?", answer: "We work with SQL, NoSQL, and cloud-based solutions." },
       ],
-  
     },
   },
   {
-    id: "data-sourcing", // Unique ID
+    id: "data-sourcing",
     name: "Data Sourcing",
-    image: sourcing,
+    image: "/images/Sourcing.jpg",
     price: 20,
     description: "Gain access to critical data resources with our data sourcing services, tailored to meet the specific needs of your projects.",
-    icon: "icons/data-sourcing-icon.png",
+    icon: "/images/icons/data-sourcing-icon.png",
     details: {
       cta: "Request Data",
       duration: "Delivered in 1 week",
@@ -230,12 +207,12 @@ export const serviceList = [
     },
   },
   {
-    id: "dashboards", // Unique ID
+    id: "dashboards",
     name: "Dashboards",
-    image: dashbord,
+    image: "/images/dashboard.png",
     price: 80,
     description: "Visualize your data effectively with our interactive dashboards, designed to facilitate insights and enhance decision-making processes.",
-    icon: "icons/dashboards-icon.png",
+    icon: "/images/icons/dashboards-icon.png",
     details: {
       cta: "Get Started",
       duration: "Delivered in 4 weeks",
@@ -244,7 +221,6 @@ export const serviceList = [
       faqs: [
         { question: "What tools do you use for dashboards?", answer: "We use Tableau, Power BI, and custom web solutions." },
       ],
-  
     },
   },
 ];

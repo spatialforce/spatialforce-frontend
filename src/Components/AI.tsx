@@ -91,12 +91,64 @@ import {
 </Helmet>
 
 const AIGIS = () => {
+  const featuredImage = "/images/ai-gis-zimbabwe-featured.jpg";
+  const companyLogo = "/images/spatial-force-logo.png";
+  const authorPhoto = "/images/kudzanai-chakavarika-profile.jpg";
   return (
     <div className="ai-gis-container">
-      <Helmet>
-        <title>AI in GIS | Spatial Intelligence Revolution | SpatialForce</title>
-        <meta name="description" content="Discover how artificial intelligence is transforming geographic information systems for smarter decision-making and spatial analysis." />
-        <meta name="keywords" content="AI in GIS, machine learning spatial analysis, geospatial AI, predictive mapping, remote sensing AI" />
+        <Helmet>
+        <title>AI in GIS for Developing Countries | Zimbabwe Spatial Intelligence | SpatialForce</title>
+        <meta name="description" content="Discover how AI-powered GIS is transforming development in Zimbabwe - from agriculture to urban planning. Learn about Africa's geospatial revolution." />
+        <meta name="keywords" content="AI GIS Zimbabwe, geospatial AI Africa, Zimbabwe spatial intelligence, AI urban planning, precision agriculture Zimbabwe" />
+        <meta name="author" content="SpatialForce" />
+        
+        {/* ✅ CORRECT: Open Graph with images that ACTUALLY EXIST */}
+        <meta property="og:title" content="AI-Powered GIS Revolution in Zimbabwe | SpatialForce" />
+        <meta property="og:description" content="How AI is transforming spatial analysis for sustainable development in Zimbabwe and across Africa" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://spatialforce.co.zw/Artificial-Intelligence" />
+        <meta property="og:image" content="https://spatialforce.co.zw/images/ai-gis-zimbabwe-featured.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* ✅ CORRECT: Twitter Cards with real images */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI-Powered GIS Revolution in Zimbabwe | SpatialForce" />
+        <meta name="twitter:description" content="How AI is transforming spatial analysis for sustainable development in Zimbabwe" />
+        <meta name="twitter:image" content="https://spatialforce.co.zw/images/ai-gis-zimbabwe-featured.jpg" />
+        
+        {/* ✅ CORRECT: Structured Data with correct image URLs */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "AI-Powered GIS Transformation in Developing Economies",
+            "description": "Comprehensive analysis of how artificial intelligence is revolutionizing geographic information systems in Zimbabwe and across Africa",
+            // ✅ CORRECT: Image that actually exists
+            "image": "https://spatialforce.co.zw/images/ai-gis-zimbabwe-featured.jpg",
+            "author": {
+              "@type": "Organization",
+              "name": "SpatialForce",
+              // ✅ CORRECT: Logo that actually exists
+              "logo": "https://spatialforce.co.zw/images/spatial-force-logo.png"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "SpatialForce",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://spatialforce.co.zw/images/spatial-force-logo.png"
+              }
+            },
+            "datePublished": "2024-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://spatialforce.co.zw/Artificial-Intelligence"
+            }
+          })}
+        </script>
+        
+        <link rel="canonical" href="https://spatialforce.co.zw/Artificial-Intelligence" />
       </Helmet>
 
       <section className="ai-hero">

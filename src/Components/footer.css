@@ -1,160 +1,159 @@
-/* Footer Section */
-.footer-section {
-    background-color: #3d8388;
-    color: #fff !important;
-    padding: 40px 30px;
-    font-family: 'Arial', sans-serif;
-}
+/* ================================
+   Spatial Force – Solid Color Footer (Final)
+   ================================ */
 
-.footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1200px;
+   :root {
+    --bg-solid: #23655f;        /* rich teal tone – constant color */
+    --text:  #d5e1e1;
+    --muted: #b8c6c6;
+    --link:  rgba(255,255,255,0.96);
+  
+    --heading: #d4dbdb;         /* bright cyan for headings */
+    --contact: #1f408d;         /* high-contrast email/phone */
+    --contact-hover: #2a0d6c;
+  
+    --wa: #29c863;              /* WhatsApp */
+    --wa2: #079141;
+  
+    --container: 1200px;
+    --col-gap: clamp(2rem, 6vw, 4rem);
+  }
+  
+  .sf3-footer {
+    background: var(--bg-solid);  /* CONSTANT COLOR */
+    color: var(--text) !important;
+    margin-top: auto;
+  }
+  
+  .sf3-container {
+    max-width: var(--container);
     margin: 0 auto;
-    gap: 20px;
-}
-
-.footer-column {
-    flex: 1;
-    min-width: 200px;
-    margin-bottom: 20px;
-}
-
-.footer-column h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #fff;
-}
-
-.footer-column p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.footer-column a {
-    color: #ecf0f1 !important;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-column a:hover {
-    color: #f1c40f !important;
-    text-decoration: none !important;
-}
-
-/* Quick Links */
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-column ul li {
-    margin-bottom: 10px;
-}
-
-/* Newsletter Form */
-.newsletter-form {
-    display: flex;
-    gap: 10px;
-}
-
-.newsletter-form input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-}
-
-.newsletter-form button {
-    padding: 10px 20px;
-    background-color: #f1c40f;
-    border: none;
-    border-radius: 5px;
-    color: #2c3e50;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.newsletter-form button:hover {
-    background-color: #e67e22;
-}
-
-/* Social Icons */
-.social-icons {
-    color: #fff;
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.social-icon {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
-}
-
-.social-icon:hover {
-    transform: scale(1.2);
-}
-
-/* Footer Bottom */
-.footer-bottom {
+    padding: 3rem 1rem 1.25rem;
+  }
+  
+  /* === 3 equal columns, equal gaps, centered content === */
+  .sf3-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--col-gap);
+    align-items: start;
+    justify-items: center;
     text-align: center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #34495e !important;
-    font-size: 0.8rem;
+    padding-bottom: 2rem;
+  }
+  
+  .sf3-col {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 42ch;
+  }
+  
+  /* Headings */
+  .sf3-heading {
+    margin: 0 0 0.35rem 0;
+    font-weight: 800;
+    font-size: 1.12rem;
+    color: var(--heading) !important;
+  }
+  
+  /* Body */
+  .sf3-text { 
+    margin: 0; 
+    line-height: 1.6;
+    color: white;
+   }
+  
+  
+  /* Company info */
+  .sf3-company p {
+    margin: 0 0 0.45rem 0;
+    font-size: 0.95rem;
+    color: white;
+  }
+  .sf3-company a {
+    color: var(--contact) !important;
     text-decoration: none;
-}
-
-.footer-bottom p {
-    margin: 5px 0;
-    font-size: 1rem;
-}
-.footer-bottom a {
-    color: #f5f8f8 !important;
-
-}
-.footer-bottom a:hover{
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .sf3-company a:hover {
+    color: var(--contact-hover);
+    opacity: 0.95;
+  }
+  
+  /* Lists (centered) */
+  .sf3-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+    justify-items: center;
+  }
+  .sf3-list--plain li { color: white!important; }
+  
+  /* Links */
+  .sf3-link {
+    color: var(--link) !important;
     text-decoration: none;
-    color: rgb(226, 230, 231) !important;
-
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    transition: color 0.15s ease, opacity 0.15s ease;
+  }
+  .sf3-link:hover { color: #ccac0f; opacity: 0.95; }
+  
+  /* WhatsApp CTA */
+  .sf3-cta-row {
+    display: grid;
+    place-items: center;
+    margin-top: 1.6rem;
+  }
+  .sf3-cta {
+    display: inline-grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 0.55rem;
+  
+    background: linear-gradient(90deg, var(--wa2), var(--wa));
+    color: #2f3335  !important;
+    font-weight: 600;
+  
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .sf3-cta:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+  .sf3-wa { fill: currentColor; color: #bbced8; }
+  
+  /* Bottom */
+  .sf3-bottom {
+    padding-top: 1.25rem;
+    text-align: center;
+  }
+  
+  .sf3-legal {
+    margin: 0 0 0.4rem 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .sf3-copy{
+    color: #bbced8;
+  }
+  .sf3-legal-link {
+    color: var(--link);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .sf3-legal-link:hover { color: #b1a4a4; opacity: 0.95; }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sf3-grid {
+      grid-template-columns: 1fr;
+      row-gap: 1.5rem;
     }
-
-    .footer-column{
-        display: flex;
-        flex-direction: column;
-        align-items: center !important;
-        text-align: center;
-
-    }
-
-    .newsletter-form {
-        flex-direction: column;
-    }
-
-    .newsletter-form button {
-        width: 100%;
-    }
-    
-.footer-bottom p {
-    margin: 5px 0;
-    font-size: 0.8rem;
-}
-.footer-bottom a {
-    color: #f9fcfd !important;
-
-}
-}
+  }
+  

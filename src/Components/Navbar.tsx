@@ -7,6 +7,8 @@ import { Avatar } from '@mui/material';
 import UserAvatar from './UserAvatar';
 import './Nav.css';
 
+
+
 interface NavbarProps {
   onSignupClick: () => void;
   onLoginClick: () => void;
@@ -39,7 +41,9 @@ const Navbar = ({ onSignupClick, onLoginClick }: NavbarProps) => {
 
   const handleBookNow = () => {
     isAuthenticated ? navigate('/bookings') : setShowLoginNotice(true);
+
   };
+  const Navlogo = "/images/Navlogo.png";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -111,11 +115,20 @@ const Navbar = ({ onSignupClick, onLoginClick }: NavbarProps) => {
           </div>
         </div>
       )}
+    <div className="navbar-container">
+  <Link to="/" className="navbarlogo" aria-label="Spatial Force Home">
+    <img 
+      src={Navlogo} 
+      alt="Spatial Force logo" 
+      className="navbar-logo-img" 
+      width="120"
+      height="120"
+      loading="eager"
+    />
+  </Link>
 
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          Spatial Force
-        </Link>
+
+
 
         <div className="desktop-nav">
           <ul className="nav-links">

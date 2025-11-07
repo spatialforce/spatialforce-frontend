@@ -1,302 +1,384 @@
 
+/* ---------- Layout tokens ---------- */
+:root{
+  --bg: #ffffff;
+  --ink: #0e1616;            /* primary text */
+  --muted: #4a5a5b;          /* secondary text */
+  --hint: #6b7c7c;           /* tertiary */
+  --hair: #e7eeee;           /* hairline separators */
+  --accent: #1f8b84;         /* SpatialForce teal */
+  --accent-ink: #125c57;
+  --chip: #f4fbfb;           /* soft chip background */
+  --card: #ffffff;
 
-html, body {
-  line-height: 1.9;
-  color: #333;
-  background: #f5f5f5;
+  /* Fixed navbar height (adjust if your nav height changes) */
+  --nav-h: 72px;
+  /* iOS safe area + a little breathing space */
+  --top-inset: env(safe-area-inset-top, 0px);
+  --top-offset: calc(var(--nav-h) + var(--top-inset) + 16px);
 }
 
-/* Main Container */
-.gis-zimbabwe-container {
-  width: 100%;
-  max-width: 1300px;
+/* ---------- Global resets ---------- */
+.gis-zimbabwe-container{
+  background: var(--bg);
+  color: var(--ink);
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 22px 12px;
+
+  /* ✅ Push everything below the fixed navbar */
+  padding-top: var(--top-offset);
 }
 
-
-.gis-introduction,
-.gis-header,
-section {
-  width: 100%;
-  text-align: center;
-  padding: 1.2rem 1rem;
-  margin: 0 auto;
+.gis-zimbabwe-container, .gis-zimbabwe-container *{
+  box-sizing: border-box;
 }
 
+img, video, iframe{ max-width:100%; height:auto; display:block; }
 
-.gis-header {
-  background: #3b3d41;
-  color: white;
+p, li, h1, h2, h3, h4, h5, h6{
+  overflow-wrap:anywhere; word-break:break-word;
+  margin-block: 0.6em;
 }
 
-.header-content {
-  max-width: 800px;
-  margin: 0 auto;
+/* Links */
+.gis-zimbabwe-container a{
+  color: var(--accent);
+  text-decoration: none;
+}
+.gis-zimbabwe-container a:hover{
+  text-decoration: underline;
 }
 
-.gis-header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.8rem;
-  color: #f5f5f5;
+/* Headings (strong override for global CSS collisions) */
+.gis-zimbabwe-container h1,
+.gis-zimbabwe-container h2,
+.gis-zimbabwe-container h3,
+.gis-zimbabwe-container h4{
+  line-height: 1.2;
+  letter-spacing: .2px;
+}
+.gis-zimbabwe-container h1{ font-size: clamp(1.6rem, 5.2vw, 2.4rem); margin: .3em 0 .15em; }
+.gis-zimbabwe-container h2{ font-size: clamp(1.25rem, 4.2vw, 1.8rem); margin: .9em 0 .35em; }
+.gis-zimbabwe-container h3{ font-size: clamp(1.05rem, 3.4vw, 1.25rem); margin: .8em 0 .3em; }
+.gis-zimbabwe-container h4{ font-size: clamp(.98rem, 3vw, 1.1rem); }
+
+/* ✅ Anchor/heading offset for in-page links so they don’t hide under nav */
+.gis-zimbabwe-container [id],
+.gis-zimbabwe-container h1[id],
+.gis-zimbabwe-container h2[id],
+.gis-zimbabwe-container h3[id]{
+  scroll-margin-top: calc(var(--nav-h) + 24px);
 }
 
-.subtitle {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-.header-stats {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  background: rgba(255,255,255,0.1);
-  padding: 0.8rem;
-  border-radius: 4px;
-}
-
-.stat-number {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #7fd3ff;
-}
-
-/* Section Styles */
-section {
-  background: white;
-  margin: 1rem auto;
-}
-
-section h2 {
-  font-size: 1.6rem;
-  color: #f4f5f7;
-  margin-bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
+/* Repeated id fix (author requested override) */
+.gis-zimbabwe-container [id="GIS-heading-2"]{
+  color: var(--accent-ink) !important;
+  display: grid;
+  grid-auto-flow: column;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: start;
+  gap: .5rem;
 }
 
-section h3 {
-  font-size: 1.3rem;
-  color: #22634d;
-  margin: 1rem 0;
+/* FontAwesome icon alignment */
+.gis-zimbabwe-container svg{
+  width: 1.05em; height: 1.05em;
+  transform: translateY(1px);
 }
 
-/* Content Blocks */
-.organization,
-.municipal-highlight,
-.mining-application,
-.mining-limitation,
-.sector {
-  max-width: 800px;
-  margin: 0 auto 1.5rem;
-  text-align: left;
-  padding: 1rem;
+/* Section spacing */
+section{ margin: 20px 0; }
+
+/* Subtitles & small meta text */
+.subtitle{ color: var(--muted); font-size: clamp(.96rem, 2.4vw, 1.05rem); }
+.author{ color: var(--hint); font-size: .92rem; }
+
+/* Hairline separators */
+.hr, .rule{
+  border: 0; height: 1px; background: var(--hair);
+  margin: 16px 0;
 }
 
-/* Lists */
-ul {
-  padding-left: 1.2rem;
-  margin: 0.8rem 0;
-  text-align: left;
+/* ============ INTRODUCTION ============ */
+.gis-introduction .intro-content{
+  max-width: 82ch;
+  margin-inline: auto;
+}
+.gis-definition,
+.remote-sensing,
+.history-future,
+.resources{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 12px;
+}
+.gis-definition ul,
+.remote-sensing ul,
+.history-future ul,
+.resource-links{
+  list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px;
+}
+.gis-definition li,
+.remote-sensing li,
+.history-future li,
+.resource-links li{
+  position: relative; padding-left: 16px; color: var(--ink);
+}
+.gis-definition li::before,
+.remote-sensing li::before,
+.history-future li::before,
+.resource-links li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
 }
 
-li {
-  margin-bottom: 0.4rem;
+/* Timeline (stacked chips) */
+.timeline{ display: grid; gap: 8px; margin: 10px 0 4px; }
+.era{
+  background: var(--chip);
+  border: 1px solid var(--hair);
+  border-radius: 10px;
+  padding: 10px 12px;
 }
+.era h4{ margin: 0 0 4px 0; color: var(--accent-ink); }
+.era p{ margin: 0; color: var(--muted); line-height: 1.55; }
 
+/* ============ HEADER (HERO) ============ */
+.gis-header{
+  background: linear-gradient(180deg, #f9fdfd, #ffffff);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  padding: 16px 14px;
 
-.applications-section .sector-container {
+  /* Tiny nudge in case header sits directly under nav edge */
+  margin-top: 4px;
+}
+.header-content{ text-align: center; }
+.header-stats{
+  margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
-
-.applications-section .sector {
-  background: #f8f8f8;
-  padding: 1.2rem;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.applications-section .sector h3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 0.8rem;
-}
-
-.applications-section .sector ul {
-  text-align: left;
-  padding-left: 1.2rem;
-}
-
-/* Future Trends Section */
-.conclusion-section .future-trends {
-  max-width: 800px;
-  margin: 1.5rem auto;
-  text-align: center;
-}
-
-.conclusion-section .future-trends ul {
-  display: inline-block;
-  text-align: left;
-  margin: 1rem auto;
-  padding-left: 1.5rem;
-}
-
-
-.company-list {
+.stat-item{
+  background: var(--chip);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  padding: 10px 8px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  max-width: 1100px;
-  margin: 1.5rem auto;
+  place-items: center;
+}
+.stat-number{
+  font-weight: 700;
+  font-size: clamp(1.05rem, 5vw, 1.4rem);
+  color: var(--accent-ink);
+  line-height: 1.1;
+}
+.stat-item span:last-child{ color: var(--muted); font-size: .9rem; }
+
+/* ============ GENERIC CARD SECTION ============ */
+.section-card{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
 }
 
+/* ============ INTRO SECTION ============ */
+.introduction-section p{ color: var(--muted); line-height: 1.65; }
 
-.municipal-section .other-municipal {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
+/* ============ ORGANIZATIONS ============ */
+.organizations-section .organization{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.organizations-section .organization h3{ color: var(--accent-ink); }
+.organizations-section .organization p{ color: var(--muted); line-height: 1.6; }
+
+/* ============ MUNICIPAL ============ */
+.municipal-section .municipal-highlight,
+.municipal-section .other-municipal{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.municipal-section ul{ list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.municipal-section li{
+  position: relative; padding-left: 16px;
+}
+.municipal-section li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
 }
 
-.municipal-section .other-municipal h3 {
-  margin-bottom: 1rem;
+/* ============ MINING ============ */
+.mining-section .mining-application,
+.mining-section .mining-limitation{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.mining-section ul{ list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.mining-section li{
+  position: relative; padding-left: 16px;
+}
+.mining-section li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
 }
 
-.municipal-section .other-municipal ul {
-  display: inline-block;
-  text-align: left;
-  margin: 0 auto;
-  padding-left: 1.5rem;
-}
-
-
-.municipal-section .municipal-highlight {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 1.5rem;
-  padding: 1.2rem;
-}
-
-.municipal-section .municipal-highlight ul {
-  display: inline-block;
-  text-align: left;
-  margin: 1rem auto;
-  padding-left: 1.5rem;
-}
-.timeline {
+/* ============ COMPANIES ============ */
+.companies-section .company-list{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.4rem;
-  margin: 1.8rem 0;
+  gap: 12px;
+  margin-top: 10px;
 }
-.gis-footer {
-  background: #393a39;
-  color: white;
-  padding: 1.5rem;
-  text-align: center;
-  margin-bottom: 20px;
+.company-group{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
 }
-
-.gis-footer-content {
-  max-width: 800px;
-  margin: 0 auto;
+.company-group h3{ color: var(--accent-ink); margin-top: 0; }
+.company-group ul{
+  list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px;
 }
-
-.gis-footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  color: #ccd0d4 !important;
+.company-group li{
+  position: relative; padding-left: 16px;
 }
-#GIS-heading-2
-{
-  color: #413f3f !important;
+.company-group li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
 }
 
+/* ============ APPLICATIONS ============ */
+.applications-section .sector{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.applications-section .sector h3{ color: var(--accent-ink); }
+.applications-section .sector ul{
+  list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px;
+}
+.applications-section .sector li{
+  position: relative; padding-left: 16px;
+}
+.applications-section .sector li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
+}
 
-@media (max-width: 768px) {
-  #GIS-heading-2
-  {
-    color: #4e4d4d !important;
+/* ============ CONCLUSION ============ */
+.conclusion-section .future-trends,
+.conclusion-section .call-to-action{
+  background: var(--card);
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.conclusion-section ul{
+  list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px;
+}
+.conclusion-section li{
+  position: relative; padding-left: 16px;
+}
+.conclusion-section li::before{
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: .55;
+}
+.call-to-action p{ color: var(--muted); line-height: 1.65; }
+
+/* ============ FOOTER ============ */
+.gis-footer{
+  margin-top: 20px;
+  border-top: 1px solid var(--hair);
+  padding-top: 14px;
+}
+.gis-footer-content{
+  display: grid;
+  gap: 12px;
+}
+.footer-info h4{ margin: 0; color: var(--accent-ink); }
+.footer-info p{ margin: 2px 0; color: var(--muted); }
+.gis-footer-links{
+  display: inline-flex; flex-wrap: wrap; gap: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE ENHANCEMENTS
+   ========================================================= */
+
+/* ≥ 680px: float pairs where it helps, keep air */
+@media (min-width:680px){
+  .gis-zimbabwe-container{ padding: 26px 16px; padding-top: var(--top-offset); }
+
+  .companies-section .company-list{
+    grid-template-columns: 1fr 1fr;
   }
-  .gis-header h1 {
-    font-size: 2.2rem;
+
+  .applications-section .sector{
+    padding: 16px;
   }
 
-  section {
-    padding: 2rem;
+  .municipal-section .municipal-highlight,
+  .municipal-section .other-municipal{
+    padding: 16px;
   }
-  
-  .company-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .gis-footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    color: #ccd0d4 !important;
-    text-decoration: none !important;
+
+  .header-stats{
+    max-width: 680px;
+    margin-inline: auto;
   }
 }
 
-@media (max-width: 992px) {
-  .company-list {
+/* ≥ 980px: two-column editorial feel for long text sections */
+@media (min-width:980px){
+  .gis-introduction .intro-content{ max-width: 1000px; }
+
+  .companies-section .company-list{
     grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
   }
-  
-  .gis-introduction,
-  section {
-    padding: 2rem;
+
+  .applications-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .applications-section > h2{
+    grid-column: 1 / -1; /* heading full width */
+  }
+
+  .gis-footer-content{
+    grid-template-columns: 1.2fr .8fr;
+    align-items: start;
   }
 }
 
-
-.gis-introduction {
-  background: white;
+/* Ultra-wide polish */
+@media (min-width:1200px){
+  .gis-zimbabwe-container{ padding: 32px 20px; padding-top: var(--top-offset); }
 }
 
-.intro-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.intro-content h2{
- margin-top: 40px;
-
-}
-
-.gis-introduction h2 {
-  font-size: 1.8rem;
-}
-
-.gis-introduction h3 {
-  font-size: 1.4rem;
-}
-
-.resource-links {
-  list-style: none;
-  padding-left: 0;
-  text-align: center;
-}
-
-.resource-links li {
-  margin-bottom: 0.8rem;
-}
-
-/* Font Awesome Icons */
-.svg-inline--fa {
-  margin-right: 0.5rem;
+/* =========================================================
+   OPTIONAL: Print tidy
+   ========================================================= */
+@media print{
+  .gis-zimbabwe-container{ max-width:100%; padding:0; }
+  .gis-header, .companies-section .company-list, .applications-section{ break-inside: avoid; }
+  .gis-zimbabwe-container a{ color:#000; text-decoration: underline; }
 }

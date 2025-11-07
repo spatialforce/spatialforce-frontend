@@ -3,13 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import googleLogo from '../assets/google-logo.svg';
 import './Login.css';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { API_BASE_URL } from './config';
-
 
 interface LoginProps {
   onClose?: () => void;
@@ -50,6 +48,10 @@ const Login: React.FC<LoginProps> = ({
   const [message, setMessage] = useState(initialMessage);
   const [provider, setProvider] = useState<string | null>(null); 
   const providerParam = searchParams.get('provider');
+  
+  // ✅ CORRECT: Use absolute path for Google logo
+  const googleLogo = "/images/google-logo.svg";
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const errorParam = params.get('auth_error');
@@ -475,7 +477,14 @@ const Login: React.FC<LoginProps> = ({
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
               >
-                <img src={googleLogo} alt="Google" className="oauth-logo" />
+                <img 
+                  src={googleLogo} 
+                  alt="Google" 
+                  className="oauth-logo" 
+                  width="20"
+                  height="20"
+                  loading="lazy"
+                />
                 Continue with Google
               </button>
             </div>

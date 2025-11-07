@@ -1,23 +1,21 @@
 // AnimatedTicker.jsx
 import React from 'react';
 import './icon-animation.css'; 
-import Icon1 from '../assets/icon1.svg'; 
-import Icon2 from '../assets/icon2.svg'; 
-import Icon3 from '../assets/icon3.svg'; 
-import Icon4 from '../assets/icon4.svg'; 
-import Icon5 from '../assets/icon5.svg'; 
-import Icon6 from '../assets/icon6.svg'; 
-import Icon7 from '../assets/icon7.svg'; 
-import Icon8 from '../assets/icon8.svg'; 
-import Icon9 from '../assets/icon9.svg'; 
-import Icon10 from '../assets/icon10.svg'; 
-import Icon11 from '../assets/icon11.svg';
-import Icon12 from '../assets/icon12.svg';
-import Icon13 from '../assets/icon13.svg';
 
 const icons = [
-    Icon1, Icon2, Icon3, Icon4, Icon5,
-    Icon6, Icon7, Icon8, Icon9, Icon10, Icon11,Icon12,Icon13
+    "/images/icon1.svg", 
+    "/images/icon2.svg", 
+    "/images/icon3.svg", 
+    "/images/icon4.svg", 
+    "/images/icon5.svg", 
+    "/images/icon6.svg", 
+    "/images/icon7.svg", 
+    "/images/icon8.svg", 
+    "/images/icon9.svg", 
+    "/images/icon10.svg", 
+    "/images/icon11.svg",
+    "/images/icon12.svg",
+    "/images/icon13.svg"
 ];
 
 const AnimatedTicker = () => {
@@ -33,7 +31,15 @@ const AnimatedTicker = () => {
             <div className="icon-ticker">
                 <div className="icon-wrapper">
                     {repeatedIcons.map((icon, index) => (
-                        <img key={index} className="icon" src={icon} alt={`Icon ${index + 1}`} />
+                        <img 
+                            key={index} 
+                            className="icon" 
+                            src={icon} 
+                            alt={`Technology icon ${index + 1}`}
+                            width="50"
+                            height="50"
+                            loading="lazy"
+                        />
                     ))}
                 </div>
             </div>

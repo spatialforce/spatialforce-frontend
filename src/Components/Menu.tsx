@@ -6,7 +6,6 @@ import {
   faChartLine, faSeedling, faCloud, faMountain,faExclamationTriangle,faCity,faBus
 } from '@fortawesome/free-solid-svg-icons';
 import './Menu.css'; // Import CSS
-import Climatechange from '../assets/climatechange.png';
 import Service from './Services'; // Import Service component
 import FAQ from './FAQ'; // Import FAQ component
 import Testimonial from './ReviewSystem'; // Import Testimonial component
@@ -32,8 +31,7 @@ function Menu() {
   const handleResearchScroll = (ref) => {
     researchRefs[ref].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  // Slideshow data with unique information for each slide
+  const Climatechange = "/images/climatechange.png";
   const slides = [
     {
       image: 'https://images.unsplash.com/flagged/photo-1574848487348-533aaf72833e?auto=format&fit=crop&w=1350&q=80',
@@ -103,7 +101,7 @@ function Menu() {
     "@type": "Organization",
     "name": "Spatial Force",
     "url": "https://spatialforce.co.zw",
-    "logo": "https://spatialforce.co.zw/logo.png",
+    "logo": "https://spatialforce.co.zw/spatialforce-logo.png",
     "description": "Spatial Force provides cutting-edge geospatial solutions for environmental monitoring, urban planning, and agricultural optimization.",
     "sameAs": [
       "https://linkedin.com/company/spatial-force",
@@ -117,7 +115,7 @@ function Menu() {
     <div className="geospatial-portal">
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>Spatial Force - Geospatial Intelligence & Solutions</title>
+        <title>Spatial Force | Geospatial Intelligence & Solutions</title>
         <meta
           name="description"
           content="Spatial Force offers advanced geospatial solutions including satellite imagery analysis, GIS data processing and climate resilience planning. Explore our services today."

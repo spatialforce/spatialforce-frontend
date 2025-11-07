@@ -1,0 +1,236 @@
+:root{
+    --geo-bg: #0b1d19;           /* deep teal-black */
+    --geo-fg: #e7f1ee;           /* soft white */
+    --geo-accent: #5be0c4;       /* mint-cyan */
+    --geo-accent-2: #3fb089;     /* teal */
+    --geo-gold: #ffd66e;         /* warm highlight */
+    --geo-muted: #9fb7b1;        /* muted text */
+    --ring-alpha: 0.35;
+  }
+  
+  .geo-loader{
+    color: var(--geo-fg);
+    display: grid;
+    gap: 1.25rem;
+    padding: 2rem 1.25rem;
+    border-radius: 1rem;
+    background:
+      radial-gradient(1200px 800px at 20% -10%, rgba(91,224,196,0.05), transparent),
+      radial-gradient(1200px 800px at 110% 120%, rgba(63,176,137,0.06), transparent),
+      linear-gradient(180deg, rgba(14,32,28,0.85), rgba(14,32,28,0.95));
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  
+  .geo-loader--fullscreen{
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background:
+      radial-gradient(1400px 1000px at 10% -10%, rgba(91,224,196,0.07), transparent),
+      radial-gradient(1200px 900px at 100% 120%, rgba(63,176,137,0.08), transparent),
+      linear-gradient(180deg, #0a1b18, #0b1d19 45%, #0c211d 100%);
+    display: grid;
+    place-content: center;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  
+  .geo-loader__core{
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+  }
+  
+  /* ===== Globe ===== */
+  .geo-loader__orb{
+    position: relative;
+    width: clamp(160px, 28vw, 260px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(0 4px 20px rgba(91,224,196,.15));
+  }
+  
+  .geo-loader__globe{
+    width: 100%;
+    height: 100%;
+    transform: translateZ(0); /* enable GPU */
+  }
+  
+  .globe__sphere{
+    fill: radial-gradient(circle at 35% 30%, #163b33 0%, #102c27 60%, #0d2420 100%);
+    fill: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'>\
+    <radialGradient id='g' cx='3.5' cy='3' r='6' gradientUnits='userSpaceOnUse'>\
+      <stop offset='0' stop-color='%23163b33'/>\
+      <stop offset='0.6' stop-color='%23102c27'/>\
+      <stop offset='1' stop-color='%230d2420'/>\
+    </radialGradient>\
+    <circle cx='5' cy='5' r='5' fill='url(%23g)'/>\
+  </svg>");
+    stroke: rgba(255,255,255,.06);
+    stroke-width: .75;
+  }
+  
+  .globe__rings .globe__ring,
+  .globe__meridian{
+    fill: none;
+    stroke: rgba(91,224,196,var(--ring-alpha));
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-dasharray: 8 6;
+    animation: dashMove 4.8s linear infinite;
+  }
+  
+  .globe__ring--tilt1{
+    transform-origin: 60px 60px;
+    transform: rotate(35deg);
+    opacity: .85;
+  }
+  
+  .globe__ring--tilt2{
+    transform-origin: 60px 60px;
+    transform: rotate(-35deg);
+    opacity: .7;
+  }
+  
+  .globe__meridian{
+    stroke: rgba(91,224,196, calc(var(--ring-alpha) - .12));
+    stroke-dasharray: 10 8;
+  }
+  
+  /* Orbiting dots */
+  .geo-loader__dot{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, var(--geo-gold) 0%, #ffeaad 65%, rgba(255,230,150,.7) 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 18px rgba(255,214,110,.55), 0 0 32px rgba(255,214,110,.3);
+    top: 50%;
+    left: 50%;
+    transform-origin: -10px -10px; /* outside center to create orbit */
+  }
+  
+  .geo-loader__dot--a{
+    animation: orbitA 3.6s linear infinite;
+  }
+  .geo-loader__dot--b{
+    animation: orbitB 4.4s linear infinite 0.2s;
+    filter: hue-rotate(-25deg) saturate(1.1);
+  }
+  .geo-loader__dot--c{
+    animation: orbitC 5.2s linear infinite 0.35s;
+    filter: hue-rotate(35deg) saturate(1.2);
+  }
+  
+  /* ===== Text ===== */
+  .geo-loader__text{
+    text-align: center;
+    max-width: 680px;
+    padding-inline: 1rem;
+  }
+  
+  .geo-loader__title{
+    font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+    letter-spacing: .5px;
+    margin: 0;
+    background: linear-gradient(90deg, #ffffff, #d9fff5 55%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 18px rgba(91,224,196,.2);
+  }
+  
+  .geo-loader__hint{
+    margin: .5rem auto 0;
+    font-size: .975rem;
+    color: var(--geo-muted);
+  }
+  
+  .geo-loader__note{
+    margin-top: .6rem;
+    font-size: .9rem;
+    color: #c7e2dc;
+    opacity: .9;
+  }
+  
+  .geo-loader__link{
+    color: var(--geo-accent);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* ===== Skeletons ===== */
+  .geo-loader__skeleton{
+    display: grid;
+    gap: .8rem;
+    margin-top: 1rem;
+  }
+  
+  .sk{
+    height: 12px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.1), rgba(255,255,255,.06));
+    background-size: 200% 100%;
+    animation: shimmer 1.25s linear infinite;
+  }
+  
+  .sk--xl{ height: 18px; width: min(680px, 86vw); }
+  .sk--lg{ height: 14px; width: min(620px, 84vw); }
+  .sk--md{ height: 12px; width: min(520px, 78vw); }
+  
+  .sk-row{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: .8rem;
+  }
+  
+  .sk--card{
+    height: 70px;
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.12), rgba(255,255,255,.05));
+    animation: shimmer 1.4s linear infinite;
+  }
+  
+  /* ===== Animations ===== */
+  @keyframes dashMove{
+    to { stroke-dashoffset: -100; }
+  }
+  @keyframes orbitA{
+    0% { transform: rotate(0deg) translateX(58px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(58px) rotate(-360deg); }
+  }
+  @keyframes orbitB{
+    0% { transform: rotate(0deg) translateX(48px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(48px) rotate(-360deg); }
+  }
+  @keyframes orbitC{
+    0% { transform: rotate(0deg) translateX(38px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(38px) rotate(-360deg); }
+  }
+  @keyframes shimmer{
+    0%{ background-position: -200% 0; }
+    100%{ background-position: 200% 0; }
+  }
+  
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce){
+    .globe__rings .globe__ring,
+    .globe__meridian,
+    .geo-loader__dot,
+    .sk,
+    .sk--card{
+      animation: none !important;
+    }
+  }
+  
+  /* ===== Responsive ===== */
+  @media (max-width: 520px){
+    .sk-row{ grid-template-columns: 1fr; }
+  }
+  

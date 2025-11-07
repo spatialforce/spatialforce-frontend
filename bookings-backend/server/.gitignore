@@ -1,0 +1,15 @@
+# Environment and config files
+.env
+.env.local
+.env.production
+*.env
+config/*.json
+credentials/
+keys/
+*.key
+*.pem
+*.p12
+
+# Google Cloud credentials
+*.json
+service-account-*

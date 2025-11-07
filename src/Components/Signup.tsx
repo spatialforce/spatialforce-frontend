@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import googleLogo from '../assets/google-logo.svg';
 import './Signup.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from './AuthContext';
@@ -55,6 +54,7 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
     hasNumber: false,
     errors: []
   });
+  const googleLogo = "/images/google-logo.svg";
 
   // OAuth callback handling
   useEffect(() => {

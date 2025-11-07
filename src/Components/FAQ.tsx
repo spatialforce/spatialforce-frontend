@@ -35,7 +35,7 @@ const FAQ = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
   useEffect(() => {
-    document.title = 'Spatial Force - FAQ'; // Update the title
+    document.title = 'Spatial Force '; // Update the title
   }, []);
 
 

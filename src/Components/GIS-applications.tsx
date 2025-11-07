@@ -35,7 +35,7 @@ const GisZimbabwe = () => {
               "@type": "Organization",
               "name": "SpatialForce"
             },
-            "image": "https://spatialforce.co.zw/consultant-profile.jpg",
+            "image": "https://spatialforce.co.zw/kudzanai-chakavarika-profile.jpg",
             "datePublished": "2023-10-20"
           })}
         </script>

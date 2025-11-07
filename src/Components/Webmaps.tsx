@@ -11,7 +11,7 @@ const WebMaps = () => {
         <meta name="keywords" content="Zimbabwe web mapping, GIS applications, interactive maps, spatial data visualization, health facility mapping" />
         <meta property="og:title" content="Interactive Web Mapping Solutions | SpatialForce Zimbabwe" />
         <meta property="og:description" content="Transform your spatial data into actionable insights with our custom web mapping solutions." />
-        <link rel="canonical" href="https://www.spatialforce.co.zw/webmaps" />
+        <link rel="canonical" href="https://www.spatialforce.co.zw/web-applications" />
       </Helmet>
 
       {/* Hero Section */}
@@ -171,27 +171,27 @@ const WebMaps = () => {
 
         <div className="sf-webmaps-tech-grid">
           <div className="sf-webmaps-tech-item">
-            <img src="assets/leaflet.png" alt="Leaflet" className="sf-webmaps-tech-logo" />
+            <img src="images/leaflet.png" alt="Leaflet" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">Leaflet</span>
           </div>
           <div className="sf-webmaps-tech-item">
-            <img src="assets/openlayers.png" alt="OpenLayers" className="sf-webmaps-tech-logo" />
+            <img src="images/openlayers.png" alt="OpenLayers" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">OpenLayers</span>
           </div>
           <div className="sf-webmaps-tech-item">
-            <img src="assets/postgis.png" alt="PostGIS" className="sf-webmaps-tech-logo" />
+            <img src="images/postgis.png" alt="PostGIS" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">PostGIS</span>
           </div>
           <div className="sf-webmaps-tech-item">
-            <img src="assets/QGIS.png" alt="QGIS" className="sf-webmaps-tech-logo" />
+            <img src="images/QGIS.png" alt="QGIS" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">QGIS</span>
           </div>
           <div className="sf-webmaps-tech-item">
-            <img src="assets/python.png" alt="Python" className="sf-webmaps-tech-logo" />
+            <img src="images/python.png" alt="Python" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">Python + Django</span>
           </div>
           <div className="sf-webmaps-tech-item">
-            <img src="assets/react.png" alt="React" className="sf-webmaps-tech-logo" />
+            <img src="images/react.png" alt="React" className="sf-webmaps-tech-logo" />
             <span className="sf-webmaps-tech-name">React</span>
           </div>
         </div>

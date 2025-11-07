@@ -2,12 +2,13 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import './About.css';
 import { FaCode, FaGlobe, FaDatabase, FaRocket, FaUniversity, FaHandsHelping } from 'react-icons/fa';
-import consultantPhoto from '../assets/consultant-profile.jpg';
-import projectWorkflow from '../assets/project-process.png';
+
 import Footer from './Footer';
 
 const AboutSection = () => {
-  // Structured data for SEO
+  const consultantPhoto = "/images/kudzanai-chakavarika-profile.jpg";
+  const projectWorkflow = "/images/project-process.png";
+  const companyLogo = "/images/spatial-force-logo.png";
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@graph": [
@@ -117,7 +118,7 @@ const AboutSection = () => {
         },
         "primaryImageOfPage": {
           "@type": "ImageObject",
-          "url": "https://spatialforce.co.zw/assets/Kudzanai.png"
+          "url": "https://spatialforce.co.zw/Kudzanai.png"
         }
       },
       {
@@ -145,30 +146,23 @@ const AboutSection = () => {
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title> About | Spatial Force - Geospatial Solutions</title>
+      <title>About | Spatial Force - Geospatial Solutions</title>
         <meta
           name="description"
           content="Learn about Spatial Force, a geospatial consultancy specializing in advanced spatial solutions, computational geography, and earth observation. Explore our technical expertise and project methodology."
         />
-        <meta
-          name="keywords"
-          content="geospatial intelligence, spatial informatics, GIS consulting, computational geography, earth observation, spatial data architecture"
-        />
+        
+        {/* ✅ CORRECT: Open Graph with images that actually exist */}
         <meta property="og:title" content="Spatial Force - About | Geospatial Intelligence & Spatial Informatics" />
-        <meta
-          property="og:description"
-          content="Learn about Spatial Force, a geospatial consultancy specializing in advanced spatial solutions, computational geography, and earth observation."
-        />
-        <meta property="og:image" content="https://spatialforce.co.zw/assets/consultant-profile.jpg" />
+        <meta property="og:image" content="https://spatialforce.co.zw/images/kudzanai-chakavarika-profile.jpg" />
         <meta property="og:url" content="https://spatialforce.co.zw/about" />
+        
+        {/* ✅ CORRECT: Twitter Cards with real images */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Spatial Force - About | Geospatial Intelligence & Spatial Informatics" />
-        <meta
-          name="twitter:description"
-          content="Learn about Spatial Force, a geospatial consultancy specializing in advanced spatial solutions, computational geography, and earth observation."
-        />
-        <meta name="twitter:image" content="https://spatialforce.co.zw/assets/Kudzanai.png" />
+        <meta name="twitter:image" content="https://spatialforce.co.zw/images/spatial-force-logo.png" />
+        
         <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
+
       </Helmet>
 
       {/* Main Content */}
@@ -182,12 +176,15 @@ const AboutSection = () => {
                 Geospatial Intelligence & Spatial Informatics
               </h1>
               <p className="about-hero-subtitle">
-                Individual consultancy specializing in transformative spatial solutions through advanced geocomputation.
+              Founded by Kudzanai Chakavarika, Spatial Force is a Bulawayo based registered geospatial consultancy delivering innovative mapping, spatial data intelligence and analytical solutions that support planning, conservation and resource management across Zimbabwe and beyond.
               </p>
             </div>
             <img
               src={consultantPhoto}
-              alt="Kudzanai Chakavarika, Geospatial Consultant at Spatial Force"
+              alt="Kudzanai Chakavarika - Lead Geospatial Consultant at Spatial Force Zimbabwe"
+              title="Kudzanai Chakavarika GIS Consultant"
+              width="400"
+              height="500"
               className="profile-photo"
               loading="lazy"
             />
@@ -213,7 +210,7 @@ const AboutSection = () => {
               <div className="timeline-content">
                 <h3>Industry Immersion</h3>
                 <p>
-                  Worked with Forest Commission of Zimbabwe to come up with Land use maps for all the gazzette forests in Matebeleland North for conservation purposes.
+                Contributed to the Forestry Commission of Zimbabwe’s efforts in mapping and assessing gazetted forests across Matabeleland North to guide conservation strategies and forest protection initiatives.
                 </p>
               </div>
             </div>
@@ -259,7 +256,10 @@ const AboutSection = () => {
           <h2 className="section-title">Solution Development Process</h2>
           <img
             src={projectWorkflow}
-            alt="Project workflow diagram for geospatial solutions"
+            alt="Spatial Force Project Workflow - GIS Development Process Diagram"
+            title="Geospatial Project Development Workflow"
+            width="800"
+            height="400"
             className="workflow-diagram"
             loading="lazy"
           />
