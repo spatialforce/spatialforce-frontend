@@ -325,7 +325,7 @@ const TermsAndConditions = () => {
       </div>
 
       <button className="back-to-top" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-        ↑ Back to Top
+        Back to Top
       </button>
     </div>
   );

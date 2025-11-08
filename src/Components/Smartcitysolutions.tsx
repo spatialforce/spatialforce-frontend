@@ -606,10 +606,7 @@ const SmartCitySolutions = () => {
             <div className="usp-item">Cultural Heritage Awareness</div>
         </div>
         <div className="cta-group">
-            <Link to="/contact" className="primary-cta">
-                Schedule a Consultation
-                <FontAwesomeIcon icon={faHandshake} className="cta-icon"/>
-            </Link>
+         
             <div className="contact-channel">
                 <p>Contact Our Team:</p>
                 <a href="tel:+263779135076" className="contact-link">
@@ -716,10 +713,7 @@ const SmartCitySolutions = () => {
         <div className="mobile-usp-item">Cultural Heritage</div>
       </div>
       
-      <Link to="/contact" className="mobile-primary-cta">
-        Schedule Consultation
-        <FontAwesomeIcon icon={faHandshake} className="mobile-cta-icon" />
-      </Link>
+   
       
       <div className="mobile-contact-info">
         <a href="tel:+263717428085" className="mobile-contact-link">
