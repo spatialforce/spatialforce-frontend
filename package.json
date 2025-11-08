@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "vercel-build": "git lfs pull && vite build",
     "preview": "vite preview",
     "start": "vite preview --port 4173"
   },
