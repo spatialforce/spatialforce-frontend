@@ -80,17 +80,18 @@ const GeoSolutions: React.FC = () => {
               Geo solutions explained in clear language.
             </h1>
             <p className="gs3-hero-lede">
-              This page outlines how maps, spatial data and satellite imagery
-              can support everyday work. The emphasis is on clear layouts,
-              simple flows and tools that stay light enough for normal
-              connections.
+            Our mission is to tackle complex challenges with the power of spatial data.
+            We offer a complete range of support services to make this possible.
+            Since no two problems are the same, we do not offer one-size-fits-all answers.
+            Instead, we carefully design each solution to fit the complexity and details of your situation
             </p>
 
-            <ul className="gs3-hero-points">
-              <li>Clean map views instead of crowded screens</li>
-              <li>Small dashboards that highlight only key numbers</li>
-              <li>Step-by-step support instead of one-off hand-overs</li>
-            </ul>
+          <ul class="gs3-hero-points">
+    <li>Solve location puzzles with intuitive maps that simplify complexity</li>
+    <li>Pinpoint critical insights with dashboards designed for quick decisions</li>
+    <li>Navigate projects confidently with guided, ongoing analytical support</li>
+    <li>Address your exact situation with custom-built spatial solutions</li>
+</ul>
 
             <div className="gs3-hero-tags" aria-hidden="true">
               <span>GIS</span>
@@ -200,9 +201,7 @@ const GeoSolutions: React.FC = () => {
           <header className="gs3-section-head">
             <h2 className="gs3-h2">Geo visuals at a glance</h2>
             <p className="gs3-section-lede">
-              These illustrations hint at the type of calm, focused screens we
-              aim for: a clear centre, a few supporting numbers and plenty of
-              breathing space.
+             We craft any form of  geospatial data support and handling tools to make data interpretation easy for you.
             </p>
           </header>
 
@@ -320,8 +319,10 @@ const GeoSolutions: React.FC = () => {
           <header className="gs3-section-head">
             <h2 className="gs3-h2">How a small engagement might run</h2>
             <p className="gs3-section-lede">
-              The aim is to move in clear, manageable steps. Each step produces
-              something that can be tested and discussed before moving on.
+             Our mission is to tackle complex challenges with the power of spatial data.
+            We offer a complete range of support services to make this possible.
+Since no two problems are the same, we do not offer one-size-fits-all answers.
+Instead, we carefully design each solution to fit the complexity and details of your situation.
             </p>
           </header>
 
@@ -440,8 +441,6 @@ const GeoSolutions: React.FC = () => {
               <textarea id="msg" name="message" rows={5} />
             </div>
             <div className="gs3-form-note">
-              This form does not redirect to another page. It is only meant to
-              capture a short message while you are on this screen.
             </div>
             <button className="gs3-submit" type="submit">
               Send message
@@ -455,8 +454,7 @@ const GeoSolutions: React.FC = () => {
         <div className="gs3-container gs3-footer-inner">
           <div className="gs3-footer-brand">Spatial Force · Geo solutions</div>
           <div className="gs3-footer-copy">
-            © {year} Spatial Force. This page is for information only and does
-            not describe specific past projects.
+            © {year} Spatial Force.
           </div>
         </div>
       </footer>
