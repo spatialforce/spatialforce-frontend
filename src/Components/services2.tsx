@@ -117,29 +117,79 @@ const Services: React.FC = () => {
       </Helmet>
 
       <main id="main-content" aria-label="GIS Services Overview">
-        <header className="services-header" itemScope itemType="https://schema.org/WPHeader">
-          <h1 className="services-main-title">
-            Expert GIS Services and IT Solutions
-          </h1>
-          <div itemScope itemType="https://schema.org/Organization">
-            <meta itemProp="name" content="Spatial Force" />
-            <meta itemProp="logo" content="https://spatialforce.co.zw/logo.png" />
-          </div>
-          <p className="services-intro-text">
-            As dedicated consultants in the field of <strong>spatial data analysis</strong> and <strong>geographic information systems</strong>,
-            Spatial Force specializes in providing tailored solutions that address the unique 
-            challenges faced by individuals and small organizations. 
-            Our focus is on delivering insightful analyses and effective strategies for areas
-             such as urban planning, environmental management
-            and infrastructure development.
-          </p>
-          <p>
-            With a strong commitment to leveraging advanced technologies, we utilize tools such as GIS,  
-             LiDAR and AI powered analytics to enhance decision-making processes.
-            Our aim is to empower clients with the knowledge and insights needed to make informed 
-            choices and drive sustainable development.
-          </p>
-        </header>
+      <header
+  className="services-header"
+  itemScope
+  itemType="https://schema.org/WPHeader"
+>
+  <div itemScope itemType="https://schema.org/Organization">
+    <meta itemProp="name" content="Spatial Force" />
+    <meta itemProp="logo" content="https://spatialforce.co.zw/logo.png" />
+  </div>
+
+  <div className="services-hero-layout">
+    {/* LEFT: main text */}
+    <div className="services-hero-text">
+      <p className="services-eyebrow">
+        Geospatial consulting for real-world decisions
+      </p>
+
+      <h1 className="services-main-title">
+        Expert GIS services and IT solutions
+      </h1>
+
+      <p className="services-lead">
+        Spatial Force works as a practical GIS partner for individuals,
+        consultants and small organisations who need maps and analysis that
+        stand up in the field, in reports and in front of stakeholders.
+      </p>
+
+      <ul className="services-pill-list">
+        <li>Urban planning &amp; settlement growth</li>
+        <li>Environmental &amp; natural resource management</li>
+        <li>Infrastructure, utilities &amp; access to services</li>
+      </ul>
+
+      <div className="services-meta-row">
+        <span className="services-meta-pill">
+          Tailored to small teams &amp; solo practitioners
+        </span>
+        <span className="services-meta-pill">
+          From one-off maps to full workflows
+        </span>
+      </div>
+    </div>
+
+    {/* RIGHT: tech + methods */}
+    <aside className="services-hero-panel" aria-label="Core geospatial stack">
+      <p className="panel-label">How we work</p>
+
+      <div className="panel-tools-row">
+        <div className="panel-tool-chip">
+          <FiMap className="panel-tool-icon" />
+          <span>GIS mapping &amp; analysis</span>
+        </div>
+        <div className="panel-tool-chip">
+          <FiGlobe className="panel-tool-icon" />
+          <span>Remote sensing &amp; LiDAR</span>
+        </div>
+        <div className="panel-tool-chip">
+          <FiCpu className="panel-tool-icon" />
+          <span>AI-powered analytics</span>
+        </div>
+      </div>
+
+      <div className="services-highlight-box">
+        <p>
+          We combine GIS, LiDAR and AI-driven analytics to turn raw spatial
+          data into clear, defensible evidence for better planning and
+          policy decisions.
+        </p>
+      </div>
+    </aside>
+  </div>
+</header>
+
 
         <section aria-labelledby="core-services-heading" className="core-services">
           <h2 id="core-services-heading" className="section-heading">

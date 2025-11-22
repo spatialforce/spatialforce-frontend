@@ -10,93 +10,14 @@ import Footer from './Footer'
 import './Home.css';
 
 const Home = () => {
-  // ✅ CORRECT: Use absolute paths to images in public folder
-  const heroImage = "/images/hero.png";
-  const hero1 = "/images/hero1.png";
-  const hero2 = "/images/hero2.png";
-  const hero3 = "/images/hero3.png";
-  const hero4 = "/images/hero4.png";
-  const hero5 = "/images/hero5.png";
-  const hero6 = "/images/hero6.png";
-  const hero7 = "/images/hero7.png";
-  const hero8 = "/images/hero8.png";
+  // ✅ Use one hero image
+  const heroImage = "/images/hero7.png";
   const showcaseImage = "/images/showcase.png";
 
-  const heroImages = [
-    heroImage,
-    hero1,
-    hero2,
-    hero3,
-    hero4,
-    hero5,
-    hero6,
-    hero7,
-    hero8
-  ];
-  const [currentSlide, setCurrentSlide] = useState(0);
   const ecosystemRef = useRef(null);
   const [inView, setInView] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const slideDuration = 30000;
 
-
-  // Clean up interval on unmount
-  useEffect(() => {
-    return () => {
-      if (slideIntervalRef.current) {
-        clearInterval(slideIntervalRef.current);
-      }
-    };
-  }, []);
-
-  // Handle tab visibility changes
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        // Restart the slideshow when tab becomes visible
-        startSlideshow();
-      } else {
-        // Pause the slideshow when tab is hidden
-        if (slideIntervalRef.current) {
-          clearInterval(slideIntervalRef.current);
-          slideIntervalRef.current = null;
-        }
-      }
-    };
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
-
-  // Start the slideshow with consistent timing
-  const startSlideshow = () => {
-    // Clear any existing interval
-    if (slideIntervalRef.current) {
-      clearInterval(slideIntervalRef.current);
-      slideIntervalRef.current = null;
-    }
-    
-    // Set new interval
-    slideIntervalRef.current = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % heroImages.length);
-    }, slideDuration);
-  };
-
-  // Initialize slideshow
-  useEffect(() => {
-    startSlideshow();
-    return () => {
-      if (slideIntervalRef.current) {
-        clearInterval(slideIntervalRef.current);
-        slideIntervalRef.current = null;
-      }
-    };
-  }, [heroImages.length]);
-
-
-
- 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -123,21 +44,21 @@ const Home = () => {
     <div className="spatial-home">
       <Helmet>
         <title>Spatial Force | Geospatial Intelligence & GIS Solutions</title>
-        <meta name="description" content="Professional geospatial services including custom map design, spatial analysis, and GIS application development. Transform location data into decisions." />
+        <meta
+          name="description"
+          content="Professional geospatial services including custom map design, spatial analysis, and GIS application development. Transform location data into decisions."
+        />
       </Helmet>
 
       <section className="spatial-hero-container">
-        {/* Background slideshow */}
+        {/* ✅ Single animated background image */}
         <div className="spatial-hero-slideshow">
-          {heroImages.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`Hero ${index + 1}`}
-              className={`spatial-hero-image ${index === currentSlide ? 'active' : ''}`}
-              loading="eager"
-            />
-          ))}
+          <img
+            src={heroImage}
+            alt="SpatialForce geospatial intelligence hero"
+            className="spatial-hero-image"
+            loading="eager"
+          />
         </div>
         
         {/* Dark overlay */}
@@ -260,7 +181,7 @@ const Home = () => {
                   '--i': index,
                   '--total': technologies.length,
                   animationDelay: `${index * 0.1}s`
-                }}
+                } as React.CSSProperties}
               >
                 <div className="tech-icon">{tech.icon}</div>
                 <div className="tech-tooltip">

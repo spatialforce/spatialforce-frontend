@@ -70,7 +70,11 @@ button {
   position: relative;
   overflow: hidden;
   background: #000; /* Fallback background */
-  padding-bottom: 80px; /* Add padding to avoid overlap with nav bar */
+  padding-bottom: 80px;
+  margin-top: 0px !important; /* Add padding to avoid overlap with nav bar */
+}
+.navbar-spacer{
+  display: none !important;
 }
 
 /* CSS Slideshow Container */

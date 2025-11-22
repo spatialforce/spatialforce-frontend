@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './Login.css';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import { API_BASE_URL } from './config';
 
 interface LoginProps {
@@ -17,22 +15,20 @@ interface LoginProps {
   initialError?: string | null;
   initialMessage?: string | null;
   onSuccessfulLogin?: () => void;
-  setShowLoginModal: (show: boolean) => void;
-  setShowLoginWelcome: (show: boolean) => void;
-  setLoginWelcomeData: (data: { email: string; method: 'email' | 'google' }) => void;
-  email?: string; // Make optional
-  method?: 'email' | 'google'; // Make optional
+  setShowLoginModal?: (show: boolean) => void;
+  setShowLoginWelcome?: (show: boolean) => void;
+  setLoginWelcomeData?: (data: { email: string; method: 'email' | 'google' }) => void;
+  email?: string;
+  method?: 'email' | 'google';
 }
 
 const Login: React.FC<LoginProps> = ({
-  onClose,
   onSignupClick,
   onForgotPasswordClick,
   initialEmail = '',
   initialError = null,
   initialMessage = '',
-  onSuccessfulLogin,
-  setShowLoginModal
+  onSuccessfulLogin
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,12 +42,12 @@ const Login: React.FC<LoginProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const [message, setMessage] = useState(initialMessage);
-  const [provider, setProvider] = useState<string | null>(null); 
+  const [provider, setProvider] = useState<string | null>(null);
   const providerParam = searchParams.get('provider');
-  
-  // ✅ CORRECT: Use absolute path for Google logo
+
   const googleLogo = "/images/google-logo.svg";
 
+  // Handle auth_error / activation params on the URL, as a page
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const errorParam = params.get('auth_error');
@@ -60,99 +56,59 @@ const Login: React.FC<LoginProps> = ({
     const activationSuccess = params.get('activationSuccess');
     const activationError = params.get('activationError');
   
-    const handleAuthState = () => {
-      // Clean up auth tokens on any error state
-      if (errorParam || activationError) {
-        Cookies.remove('auth_token', { domain: 'localhost' });
-        localStorage.removeItem('authState');
-        axios.post(`${API_BASE_URL}/auth/logout`, {}, { withCredentials: true });
-      }
+    if (errorParam === 'existing_account') {
+      setError(`Account already exists with ${providerParam}. Please login instead.`);
+      setErrorType('EXISTING_ACCOUNT');
+      if (emailParam) setEmail(emailParam);
+      navigate(location.pathname, { replace: true });
+      return;
+    }
   
-      if (typeof setShowLoginModal === 'function') {
-        // Handle existing account error
-        if (errorParam === 'existing_account') {
-          setError(`Account already exists with ${providerParam}. Please login instead.`);
-          setErrorType('EXISTING_ACCOUNT');
-          setShowLoginModal(true);
-          //setShowSignupModal(false);
-          navigate(location.pathname, { replace: true });
-          return;
-        }
+    if (errorParam === 'existing_account_diff_provider') {
+      const providerDisplay = providerParam === 'email'
+        ? 'email/password'
+        : providerParam?.replace(/_/g, ' ') || 'another method';
+      setError(`This account was created with ${providerDisplay}. Please use that method.`);
+      setErrorType('AUTH_PROVIDER_MISMATCH');
+      if (emailParam) setEmail(emailParam);
+      navigate(location.pathname, { replace: true });
+      return;
+    }
   
-        // Handle provider mismatch errors
-        if (errorParam === 'existing_account_diff_provider') {
-          const providerDisplay = providerParam === 'email' 
-            ? 'email/password' 
-            : providerParam?.replace(/_/g, ' ') || 'another method';
-          setError(`This account was created with ${providerDisplay}. Please use that method.`);
-          setErrorType('AUTH_PROVIDER_MISMATCH');
-          if (emailParam) setEmail(emailParam);
-          setShowLoginModal(true);
-          return;
-        }
+    if (errorParam === 'google_account_not_found') {
+      const isEmailAccount = providerParam === 'email';
+      setError(
+        isEmailAccount
+          ? 'This account uses email/password. Please sign in with your credentials.'
+          : 'No account found with these Google credentials.'
+      );
+      setErrorType(isEmailAccount ? 'AUTH_PROVIDER_MISMATCH' : 'GOOGLE_ACCOUNT_NOT_FOUND');
+      if (emailParam) setEmail(emailParam);
+      navigate(location.pathname, { replace: true });
+      return;
+    }
   
-        // Handle Google account not found errors
-        if (errorParam === 'google_account_not_found') {
-          const isEmailAccount = providerParam === 'email';
-          setError(isEmailAccount
-            ? 'This account uses email/password. Please sign in with your credentials.'
-            : 'No account found with these Google credentials.');
-          setErrorType(isEmailAccount ? 'AUTH_PROVIDER_MISMATCH' : 'GOOGLE_ACCOUNT_NOT_FOUND');
-          if (emailParam) setEmail(emailParam);
-          setShowLoginModal(true);
-          return;
-        }
+    if (activationSuccess) {
+      setError('Account successfully activated! Please sign in.');
+      setErrorType('ACTIVATION_SUCCESS');
+      navigate(location.pathname, { replace: true });
+      return;
+    }
   
-        // Handle activation states
-        if (activationSuccess) {
-          setError('Account successfully activated! Please sign in.');
-          setErrorType('ACTIVATION_SUCCESS');
-          setShowLoginModal(true);
-          return;
-        }
+    if (activationError) {
+      setError(`Account activation failed: ${activationError}`);
+      setErrorType('ACTIVATION_ERROR');
+      navigate(location.pathname, { replace: true });
+      return;
+    }
   
-        if (activationError) {
-          setError(`Account activation failed: ${activationError}`);
-          setErrorType('ACTIVATION_ERROR');
-          setShowLoginModal(true);
-          return;
-        }
+    if (errorParam) {
+      setError('Authentication service unavailable. Please try again.');
+      setErrorType('GENERIC_ERROR');
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.search, location.pathname, navigate]);
   
-        // Handle generic authentication errors
-        if (errorParam) {
-          setError('Authentication service unavailable. Please try again.');
-          setErrorType('GENERIC_ERROR');
-          setShowLoginModal(true);
-        }
-      }
-  
-      // Clean URL parameters while preserving modal state
-      if (errorParam || activationSuccess || activationError) {
-        navigate(location.pathname, {
-          replace: true,
-          state: {
-            ...(location.state || {}),
-            showLoginModal: true,
-            authError: errorParam,
-            provider: providerParam,
-            email: emailParam,
-            activationSuccess,
-            activationError
-          }
-        });
-      }
-    };
-  
-    handleAuthState();
-  }, [
-    location.search,
-    location.pathname,
-    location.state,
-    navigate,
-    API_BASE_URL,
-    setShowLoginModal
-  ]);
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,7 +116,7 @@ const Login: React.FC<LoginProps> = ({
     setError(null);
     setErrorType(null);
     setProvider(null);
-  
+
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -174,23 +130,20 @@ const Login: React.FC<LoginProps> = ({
           password: password
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
-        // Handle provider mismatch
         if (data.code === 'AUTH_PROVIDER_MISMATCH') {
           setError(`Account was created with ${data.provider}. Please use ${data.provider} login.`);
           setErrorType('AUTH_PROVIDER_MISMATCH');
-          setErrorType(null);
           setProvider(data.provider);
           return;
         }
-  
-        // Handle other errors
+
         let errorMessage = 'Login failed. Please try again.';
         let errorType = 'GENERIC_ERROR';
-        
+
         if (data.code === 'INVALID_CREDENTIALS') {
           errorMessage = 'Invalid email or password';
           errorType = 'INVALID_CREDENTIALS';
@@ -200,68 +153,61 @@ const Login: React.FC<LoginProps> = ({
         } else if (data.error) {
           errorMessage = data.error;
         }
-  
+
         setError(errorMessage);
         setErrorType(errorType);
         throw new Error(errorMessage);
       }
-  
-      // Handle successful login
-      const authToken = data.token;
-      if (!authToken) {
+
+    
+      if (!data.user) {
         throw new Error('Authentication failed. Please try again.');
       }
-  
-      login({
-        id: data.user.id,
-        email: data.user.email,
-        firstName: data.user.first_name,
-        lastName: data.user.last_name,
-        authProvider: data.user.auth_provider,
-        isActive: data.user.is_active,
-        token: authToken
-      }, authToken);
+      
+      await login(
+        {
+          id: data.user.id,
+          email: data.user.email,
+          firstName: data.user.first_name,
+          lastName: data.user.last_name,
+          authProvider: data.user.auth_provider,
+          isActive: data.user.is_active,
+          token: null // optional, not used for auth
+        },
+        '' // token not needed anymore
+      );
+      
+      // no Cookies.set('auth_token', ...) here
+      // server has already set the HttpOnly cookie
       navigate(`/welcome?email=${encodeURIComponent(data.user.email)}&method=email`);
-  
-      Cookies.set('auth_token', authToken, {
-        domain: 'localhost',
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        expires: 7
-      });
-      setTimeout(() => {
-        if (onClose) onClose();
-        if (onSuccessfulLogin) onSuccessfulLogin();
-      }, 100);
-       
-    
- 
+      
+      if (onSuccessfulLogin) {
+        onSuccessfulLogin();
+      }
+      
+      // As a page: just go to welcome screen
+      navigate(`/welcome?email=${encodeURIComponent(data.user.email)}&method=email`);
+
+      if (onSuccessfulLogin) {
+        onSuccessfulLogin();
+      }
 
     } catch (err) {
       let errorMessage = 'Login failed. Please try again.';
       let errorType = 'GENERIC_ERROR';
-      
+
       if (err instanceof Error) {
         errorMessage = err.message;
-        
+
         if (err.message.includes('invalid') || err.message.includes('credentials')) {
           errorMessage = 'Invalid email or password';
           errorType = 'INVALID_CREDENTIALS';
         }
       }
-  
+
       setError(errorMessage);
       setErrorType(errorType);
-      
-      if (typeof setShowLoginModal === 'function') {
-        setShowLoginModal(true);
-      }
-      
-      // Cleanup on error
-      Cookies.remove('auth_token', { domain: 'localhost' });
-      localStorage.removeItem('authState');
-      axios.post(`${API_BASE_URL}/auth/logout`, {}, { withCredentials: true });
-  
+
     } finally {
       setIsLoading(false);
     }
@@ -281,12 +227,12 @@ const Login: React.FC<LoginProps> = ({
       const response = await fetch(`${API_BASE_URL}/auth/resend-activation`, {
         method: 'POST',
         headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${Cookies.get('auth_token')}` 
+          'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({ email }),
       });
+      
 
       const data = await response.json();
       
@@ -310,87 +256,6 @@ const Login: React.FC<LoginProps> = ({
     window.location.href = `${API_BASE_URL}/auth/google?redirect_uri=${redirectUrl}`;
   };
 
-  // Handle OAuth callback
-  useEffect(() => {
-    const handleOAuthCallback = async () => {
-      const token = new URLSearchParams(window.location.search).get('token');
-      
-      if (token) {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/auth/session`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-
-          if (response.data.authenticated) {
-            const userData = response.data.user;
-            login({
-              ...userData,
-              token,
-              authProvider: 'google'
-            }, token);
-
-            // Clear URL parameters
-            window.history.replaceState({}, document.title, window.location.pathname);
-            
-            if (typeof setShowLoginModal === 'function') {
-              setShowLoginModal(false);
-            }
-            if (onClose) onClose();
-            if (onSuccessfulLogin) onSuccessfulLogin();
-          }
-        } catch (error) {
-          console.error('Google login failed:', error);
-          setError('Google authentication failed');
-          Cookies.remove('auth_token');
-          if (typeof setShowLoginModal === 'function') {
-            setShowLoginModal(true);
-          }
-        }
-      }
-    };
-
-    handleOAuthCallback();
-  }, [location.search, login, onClose, onSuccessfulLogin, navigate, setShowLoginModal]);
-
-  // Session validation
-  useEffect(() => {
-    const validateSession = async () => {
-      try {
-        const token = Cookies.get('auth_token');
-        if (!token) {
-          Cookies.remove('auth_token', { domain: 'localhost' });
-          return;
-        }
-  
-        const response = await fetch(`${API_BASE_URL}/auth/validate-token`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-  
-        if (!response.ok) {
-          Cookies.remove('auth_token', { domain: 'localhost' });
-          return;
-        }
-  
-        const { user } = await response.json();
-        login(user, token);
-      } catch (error) {
-        Cookies.remove('auth_token', { domain: 'localhost' });
-      }
-    };
-
-    validateSession();
-    const interval = setInterval(validateSession, 300000);
-    return () => clearInterval(interval);
-  }, [login]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      Cookies.remove('auth_token', { domain: 'localhost' });
-      localStorage.removeItem('authState');
-    };
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -398,21 +263,10 @@ const Login: React.FC<LoginProps> = ({
         <meta name="description" content="Sign in to your account" />
       </Helmet>
 
-      <div className="login-modal">
+      {/* As a page now */}
+      <div className="login-page">
         <div className="login-content">
-          {onClose && (
-            <button 
-              className="close-button" 
-              onClick={onClose} 
-              aria-label="Close"
-              disabled={isLoading}
-            >
-              {/* Close button SVG */}
-            </button>
-          )}
-
           <form onSubmit={handleSubmit} className="login-form">
-          
             <h2>Welcome Back</h2>
             <p className="login-subtitle">Sign in to continue</p>
 
@@ -429,47 +283,24 @@ const Login: React.FC<LoginProps> = ({
                     {isResending ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Resend Email'}
                   </button>
                 )}
-                {errorType === 'AUTH_PROVIDER_MISMATCH'}
               </div>
             )}
 
+            {error && (
+              <div className={`auth-error ${errorType}`}>
+                <div className="error-content">
+                  <div className="error-message">{error}</div>
 
-{error && (
-  <div className={`auth-error ${errorType}`}>
-    <div className="error-content">
-      <div className="error-message">{error}</div>
-      
-      {(errorType === 'AUTH_PROVIDER_MISMATCH' || errorType === 'GOOGLE_ACCOUNT_NOT_FOUND') && (
-        <div className="error-actions">
-          {errorType === 'AUTH_PROVIDER_MISMATCH' && providerParam === 'email'}
-          
-          {errorType === 'GOOGLE_ACCOUNT_NOT_FOUND'}
-        </div>
-      )}
-    </div>
-  </div>
-)}
-             {onClose && (
-  <button 
-    className="close-button" 
-    onClick={onClose} 
-    aria-label="Close"
-    disabled={isLoading}
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width="20"
-      height="20"
-    >
-      <path fill="none" d="M0 0h24v24H0z" />
-      <path
-        d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
-        fill="currentColor"
-      />
-    </svg>
-  </button>
-)}
+                  {(errorType === 'AUTH_PROVIDER_MISMATCH' || errorType === 'GOOGLE_ACCOUNT_NOT_FOUND') && (
+                    <div className="error-actions">
+                      {errorType === 'AUTH_PROVIDER_MISMATCH' && providerParam === 'email'}
+                      {errorType === 'GOOGLE_ACCOUNT_NOT_FOUND'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="oauth-buttons">
               <button
                 type="button"

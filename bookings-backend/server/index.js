@@ -16,6 +16,8 @@ import pgSession from 'connect-pg-simple';
 import crypto from 'crypto';
 import compression from 'compression'; 
 import bcrypt from 'bcryptjs';
+import fetch from 'node-fetch';
+
 
 
 
@@ -40,84 +42,41 @@ const pool = new Pool({
   }
 });
 
-
 const transporter = nodemailer.createTransport({
-  host: 'smtp.sendgrid.net',
-  port: 587, // Keep using 587
-  secure: false, // MUST BE FALSE FOR PORT 587
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: process.env.SMTP_SECURE === 'true', // false for 587
   auth: {
-    user: 'apikey',
-    pass:process.env.SENDGRID_API_KEY
- },
-  sender: 'no-reply@spatialforce.co.zw'
-
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
 });
-// Verify connection
+
+export async function sendMail({ to, subject, html, text }) {
+  return transporter.sendMail({
+    from: {
+      name: process.env.MAIL_FROM_NAME || 'Spatial Force',
+      address: process.env.MAIL_FROM || process.env.EMAIL_USER
+    },
+    to,
+    replyTo: process.env.MAIL_REPLY_TO || process.env.MAIL_FROM || process.env.EMAIL_USER,
+    subject,
+    text,
+    html,
+    headers: { 'X-Entity-Ref-ID': crypto.randomBytes(16).toString('hex') }
+  });
+}
+
+// single verify only (optional)
 transporter.verify()
-  .then(() => console.log('NEW TRANSPORTER READY'))
-  .catch(err => console.error('FRESH TRANSPORTER ERROR:', err));
+  .then(() => console.log('✅ Mailer ready'))
+  .catch(err => console.error('❌ Mailer error:', err.message));
 
 
-transporter.verify(function(error, success) {
-  if (error) {
-    console.log('Email connection error:', error);
-  } else {
-    console.log('Server is ready to send emails');
-  }
-});
-
-transporter.verify(function(error, success) {
-  if (error) {
-    console.log('Email connection error:', error);
-  } else {
-    console.log('Server is ready to send emails');
-  }
-});
 
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-// Replace this line:
-// app.use(helmet());
-
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        connectSrc: ["'self'", "https://spatialforce.co.zw","https://www.spatialforce.co.zw"],
-        imgSrc: ["'self'", "data:", "https://*.googleusercontent.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        frameSrc: ["'self'", "https://accounts.google.com"],
-        objectSrc: ["'none'"]
-      }
-    },
-    hsts: {
-      maxAge: 63072000, // 2 years in seconds
-      includeSubDomains: true,
-      preload: true
-    },
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-    frameguard: { action: 'deny' },
-    xssFilter: true,
-    noSniff: true,
-    hidePoweredBy: true
-  })
-);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(compression());
-app.use((req, res, next) => {
-  if (req.url === '/favicon.ico') {
-    res.status(204).end();
-  } else {
-    next();
-  }
-});
 const allowedOrigins = [
   'https://www.spatialforce.co.zw',
   'https://spatialforce.co.zw'
@@ -136,20 +95,81 @@ app.use(cors({
     },
     credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200
+    allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'X-CSRF-Token'
+  ],
+  optionsSuccessStatus: 200,
+  maxAge: 86400
 }));
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        connectSrc: ["'self'", "https://spatialforce.co.zw", "https://www.spatialforce.co.zw", "https://spatialforce-backend.vercel.app"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://accounts.google.com",
+          "https://www.google.com",
+          "https://www.gstatic.com"
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://*.googleusercontent.com",
+          "https://www.google.com"
+        ],
+        frameSrc: [
+          "'self'",
+          "https://accounts.google.com",
+          "https://www.google.com"
+        ],
+        
+        objectSrc: ["'none'"]
+      }
+    },
+    hsts: {
+      maxAge: 63072000, // 2 years in seconds
+      includeSubDomains: true,
+      preload: true
+    },
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    frameguard: { action: 'deny' },
+    xssFilter: true,
+    noSniff: true,
+    hidePoweredBy: true
+  })
+);
+app.set('trust proxy', 1);
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(compression({ threshold: 1024 }));
+app.use((req, res, next) => {
+  if (req.url === '/favicon.ico') {
+    res.status(204).end();
+  } else {
+    next();
+  }
+});
+
+
 const PgSession = pgSession(session);
-// In your session middleware
-app.set('trust proxy', 1); // Required for secure cookies in production
+
 
 app.use(session({
   name: 'spatialforce.sid',
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  rolling: true,
+  rolling: false,
   store: new PgSession({
     pool: pool,
     tableName: 'user_sessions',
@@ -162,8 +182,6 @@ app.use(session({
     httpOnly: true,
     sameSite: 'none',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    domain: process.env.COOKIE_DOMAIN 
-  
   },
   proxy: true
 
@@ -230,28 +248,6 @@ const authenticateJWT = (req, res, next) => {
     });
   }
 };
-app.use((req, res, next) => {
-  if (req.session.user && req.path !== '/auth/refresh') {
-    // Generate new JWT with fresh expiration
-    const newToken = jwt.sign(
-      {
-        userId: req.session.user.id,
-        email: req.session.user.email
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-
-    // Reset JWT cookie expiration
-    res.cookie('auth_token', newToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
-  }
-  next();
-});
 
 // --------------------------
 // Passport Configuration
@@ -296,12 +292,7 @@ passport.deserializeUser(async (serialized, done) => {
 // Update the Google Strategy's success handler:
 
 // Update the serializeUser function:
-passport.serializeUser((user, done) => {
-  done(null, {
-    id: user.id,
-    provider: user.auth_provider // Ensure this matches deserialize
-  });
-});
+
 // Add isAuthenticated helper method if it's missing
 app.use((req, res, next) => {
   req.isAuthenticated = function() {
@@ -429,16 +420,6 @@ passport.use(new GoogleStrategy({
         provider: user.auth_provider 
       });
     }
-
-    // Fixed syntax issue here - changed existingUser.rows[0].auth_provider to user.auth_provider
-    if (user.auth_provider !== 'google') {
-      return done(null, false, { 
-        message: 'existing_account_diff_provider',
-        provider: user.auth_provider,
-        email: normalizedEmail
-      });
-    }
-
     // 5. Update existing Google user
     await pool.query(
       `UPDATE users SET
@@ -562,9 +543,8 @@ app.get('/api/auth/google/callback',
           res.cookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'none',
             maxAge: 8 * 60 * 60 * 1000,
-            domain: process.env.COOKIE_DOMAIN || 'localhost',
             path: '/'
           });
 
@@ -582,49 +562,73 @@ app.get('/api/auth/google/callback',
     })(req, res, next);
   }
 );
-app.post('/api/auth/logout', (req, res) => {
+app.post('/api/auth/logout', async (req, res) => {
   if (!req.session) {
     console.error('Session middleware not initialized');
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Session system not available',
       code: 'SESSION_ERROR'
     });
   }
 
-  // Clear cookies first
-  res.clearCookie('auth_token', {
-    domain: '.spatialforce.co.zw'|| 'localhost',
-    path: '/',
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production'
-  });
+  try {
+    const refreshToken = req.cookies?.refresh_token;
 
-  res.clearCookie('spatialforce.sid', {
-    domain: process.env.COOKIE_DOMAIN || 'localhost',
-    path: '/',
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production'
-  });
-
-  // Handle session destruction safely
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Session destruction error:', err);
-      return res.status(500).json({ 
-        error: 'Could not destroy session',
-        code: 'SESSION_DESTROY_FAILED'
-      });
+    if (refreshToken) {
+      // Remove this refresh token from DB
+      await pool.query(
+        'DELETE FROM refresh_tokens WHERE token = $1',
+        [refreshToken]
+      );
     }
-    
-    // Clear user context
-    req.user = null;
-    
-    res.json({ 
-      success: true,
-      message: 'Logged out successfully'
+
+    // Clear cookies
+    res.clearCookie('auth_token', {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none'
     });
-  });
+
+    res.clearCookie('refresh_token', {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none'
+    });
+
+    res.clearCookie('spatialforce.sid', {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none'
+    });
+
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Session destruction error:', err);
+        return res.status(500).json({
+          error: 'Could not destroy session',
+          code: 'SESSION_DESTROY_FAILED'
+        });
+      }
+
+      req.user = null;
+
+      return res.json({
+        success: true,
+        message: 'Logged out successfully'
+      });
+    });
+  } catch (err) {
+    console.error('Logout error:', err);
+    return res.status(500).json({
+      error: 'Logout failed',
+      code: 'LOGOUT_ERROR'
+    });
+  }
 });
+
 
 
 // Add this session verification middleware BEFORE your routes
@@ -635,21 +639,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Add session regeneration middleware after successful login
-app.use((req, res, next) => {
-  const originalSend = res.send;
-  
-  res.send = function (body) {
-    if (req.session && req.path === '/api/auth/login' && res.statusCode === 200) {
-      req.session.regenerate((err) => {
-        if (err) console.error('Session regeneration error:', err);
-      });
-    }
-    originalSend.call(this, body);
-  };
-  
-  next();
-});
+
 // Add this to store the error message in session
 app.use((req, res, next) => {
   if (req.path === '/api/auth/google/callback' && req.query.error) {
@@ -714,7 +704,7 @@ app.post('/api/auth/login', async (req, res) => {
         provider: user.auth_provider
       });
     }
-9
+
     if (user.login_attempts >= 5 && Date.now() - user.last_login < 900000) {
       return res.status(429).json({
         success: false,
@@ -780,9 +770,8 @@ app.post('/api/auth/login', async (req, res) => {
       res.cookie('auth_token', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: 'none',
         maxAge: 604800000, // 7 days
-        domain: process.env.COOKIE_DOMAIN || 'localhost',
         path: '/'
       });
 
@@ -850,10 +839,7 @@ const sessionRateLimiter = rateLimit({
       code: 'RATE_LIMIT_EXCEEDED'
     });
   },
-  skip: (req) => {
-    // Skip rate limiting for authenticated users
-    return req.isAuthenticated && req.isAuthenticated();
-  }
+skip: (req) => req.method === 'OPTIONS' || (req.isAuthenticated && req.isAuthenticated())
 });
 // Apply to login routes
 const authLimiter = rateLimit({
@@ -902,8 +888,7 @@ app.get('/api/auth/session',
       }
 
       if (isAuthenticated) {
-        // Refresh session expiration
-        req.session.touch();
+    
         
         return res.json({
           authenticated: true,
@@ -960,7 +945,7 @@ app.use((req, res, next) => {
 
 
 // In your server routes (e.g., authRoutes.ts)
-app.post('api/auth/refresh', async (req, res) => {
+app.post('/api/auth/refresh', async (req, res) => {
 
   try {
     const refreshToken = req.cookies?.refresh_token;
@@ -1017,7 +1002,7 @@ app.post('api/auth/refresh', async (req, res) => {
     res.cookie('auth_token', newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'none',
       maxAge: 15 * 60 * 1000, // 15 minutes
       path: '/'
     });
@@ -1025,7 +1010,7 @@ app.post('api/auth/refresh', async (req, res) => {
     res.cookie('refresh_token', newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       path: '/'
     });
@@ -1046,13 +1031,7 @@ app.post('api/auth/refresh', async (req, res) => {
   }
 });
 
-// Add this middleware right after session setup
-app.use((req, res, next) => {
-  req.session.save((err) => {
-    if (err) console.error('Session save error:', err);
-    next();
-  });
-});
+
 
 
 app.post('/api/validate-token', (req, res) => {
@@ -1353,11 +1332,7 @@ app.post('/api/resend-code', async (req, res) => {
 
     // Send email
     try {
-      await transporter.sendMail({
-        from: {
-          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-        },
+      await sendMail({
         to: normalizedEmail,
         subject: 'Your New Activation Code',
         html: `
@@ -1449,7 +1424,7 @@ app.post('/api/signup', async (req, res) => {
 
   try {
     // Destructure and normalize input
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, password, confirmPassword,recaptchaToken } = req.body;
     const normalizedEmail = email ? email.toLowerCase().trim() : '';
 
     // Update masked values
@@ -1462,7 +1437,50 @@ app.post('/api/signup', async (req, res) => {
       userAgent: req.get('User-Agent'),
       ...maskedBody
     });
+    try {
+      if (!recaptchaToken) {
+        return res.status(400).json({
+          success: false,
+          error: 'reCAPTCHA validation failed',
+          code: 'RECAPTCHA_MISSING'
+        });
+      }
 
+      const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
+      const params = new URLSearchParams();
+      params.append('secret', process.env.RECAPTCHA_SECRET_KEY);
+      params.append('response', recaptchaToken);
+
+      const recaptchaRes = await fetch(verifyUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      });
+
+      const recaptchaData = await recaptchaRes.json();
+
+      if (!recaptchaData.success) {
+        console.warn(`[Signup ${requestId}] reCAPTCHA failed`, {
+          ...maskedBody,
+          recaptchaErrors: recaptchaData['error-codes']
+        });
+        return res.status(400).json({
+          success: false,
+          error: 'reCAPTCHA verification failed',
+          code: 'RECAPTCHA_FAILED'
+        });
+      }
+    } catch (recaptchaError) {
+      console.error(`[Signup ${requestId}] reCAPTCHA error`, {
+        error: recaptchaError.message,
+        ...maskedBody
+      });
+      return res.status(500).json({
+        success: false,
+        error: 'reCAPTCHA service error',
+        code: 'RECAPTCHA_SERVICE_ERROR'
+      });
+    }
     // Validation phase
     const validationErrors = [];
     
@@ -1564,15 +1582,8 @@ app.post('/api/signup', async (req, res) => {
       ]
     );
     console.log('Attempting to send to:', normalizedEmail);
-    if (normalizedEmail === 'kudzanaichakavarika67@gmail.com') {
-      throw new Error('TEST: Would have sent to admin email instead of user');
-    }
     try {
-      await transporter.sendMail({
-        from: {
-          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-        },
+      await sendMail({
         to: normalizedEmail, 
         subject: 'Account Activation Required',
         html: `
@@ -1607,13 +1618,9 @@ app.post('/api/signup', async (req, res) => {
       });
       console.log('Activation email sent to:', normalizedEmail); // Add this for debugging
     } catch (error) {
-      console.error('Error sending activation email:', {
-        intendedRecipient: normalizedEmail,
-        error: error.message
-      });
-      throw error;
-    }
- 
+  console.error('Activation email failed (continuing):', error.message);
+  // do NOT throw – user can hit "resend code"
+}
 
     await client.query('COMMIT');
 
@@ -1707,11 +1714,7 @@ app.post('/api/forgot-password', async (req, res) => {
     if (rows.length === 0) {
       return res.status(500).json({ error: 'Failed to generate reset code' });
     }
-    await transporter.sendMail({
-      from:{
-         name: process.env.Mail_FROM_NAME || 'Spatial Force',
-         address: process.env.MAIL_FROM || 'no-reply@spatialcorce.co.zw'
-        },
+    await sendMail({
       to: email,
       subject: 'Password Reset Code',
       html: `
@@ -1724,7 +1727,7 @@ app.post('/api/forgot-password', async (req, res) => {
           ${resetCode}
         </div>
         <p>This code will expire in 15 minutes. Please enter it in the password reset form to proceed with resetting your password.</p>
-        <p>If you have any issues or did not request a password reset, please contact our support team at <a href="mailto:support@example.com">support@example.com</a>.</p>
+        <p>If you have any issues or did not request a password reset, please contact us at <a href="gis@spatialforce.co.zw">gis@spatialforce</a>.</p>
         <p>Thank you for your attention.</p>
         <p>Best regards,<br>The Support Team</p>
       </div>
@@ -1880,12 +1883,8 @@ app.post('/api/resend-reset-code', async (req, res) => {
       [newCode, newExpiry, user.id]
     );
 
-    // Send email
-    await transporter.sendMail({
-      from: {
-        name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-        address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-      },
+    const normalizedEmail = email.toString().toLowerCase().trim();
+    await sendMail({
       to: normalizedEmail,
       subject: 'New Password Reset Code',
       html: `
@@ -2297,42 +2296,6 @@ const bookingEmailTemplate = (data) => `
   </div>
 `;
 
-const inquiryEmailTemplate = (data) => `
-  <div style="font-family: Arial, sans-serif; padding: 25px; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px;">
-    <div style="text-align: center; margin-bottom: 25px;">
-      <h1 style="color: #2b6cb0; margin: 0;">Inquiry Received!</h1>
-      <p style="color: #4a5568; margin-top: 10px;">
-        Thank you for contacting us, ${data.name}! We'll respond shortly.
-      </p>
-    </div>
-
-    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-      <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">Your Inquiry Details</h3>
-      
-      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 15px;">
-        <span style="color: #718096;">Inquiry Type:</span>
-        <span style="color: #2d3748;">${data.inquiry_type}</span>
-        <span style="color: #718096;">Name:</span>
-        <span style="color: #2d3748;">${data.name}</span>
-        <span style="color: #718096;">Email:</span>
-        <span style="color: #2d3748;">${data.email}</span>
-        ${data.organization ? `
-        <span style="color: #718096;">Organization:</span>
-        <span style="color: #2d3748;">${data.organization}</span>
-        ` : ''}
-      </div>
-    </div>
-
-    <div style="background: #ffffff; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-      <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">Your Message</h3>
-      <div style="background: #f8fafc; padding: 15px; border-radius: 6px;">
-        <div style="white-space: pre-wrap; line-height: 1.6;">
-          ${data.message}
-        </div>
-      </div>
-    </div>
-  </div>
-`;
 
 
 app.post('/api/bookings', validateBooking, async (req, res) => {
@@ -2362,12 +2325,8 @@ app.post('/api/bookings', validateBooking, async (req, res) => {
     );
 
     // Client Confirmation Email
-    await transporter.sendMail({
-      from: {
-        name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-        address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-      },
-      to: process.env.ADMIN_EMAIL,
+    await sendMail({
+      to: email,
       subject: `Booking Confirmation: ${service}`,
       html: bookingEmailTemplate({ 
         name, 
@@ -2383,11 +2342,7 @@ app.post('/api/bookings', validateBooking, async (req, res) => {
 
     // Admin Notification
     if (process.env.ADMIN_EMAIL) {
-      await transporter.sendMail({
-        from: {
-          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-        },
+      await sendMail({
         to: process.env.ADMIN_EMAIL,
         subject: `NEW BOOKING: ${service} by ${name}`,
         html: `
@@ -2428,20 +2383,26 @@ app.post('/api/bookings', validateBooking, async (req, res) => {
 // Inquiry Routes
 // ====================
 
-// Validate Inquiry Middleware
+// ====================
+// Inquiry API (copy–paste ready)
+// ====================
+
+// 1) Validation middleware (simple and strict)
 const validateInquiry = (req, res, next) => {
-  const requiredFields = ['name', 'email', 'message', 'inquiry_type'];
+  const required = ['name', 'email', 'message', 'inquiry_type'];
   const errors = [];
   const received = {};
 
-  requiredFields.forEach(field => {
+  required.forEach((field) => {
     received[field] = req.body[field] || '';
-    if (!req.body[field]?.trim()) {
+    if (!req.body[field] || !String(req.body[field]).trim()) {
       errors.push(`${field} is required`);
     }
   });
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(req.body.email?.trim())) {
+  const email = String(req.body.email || '').trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
     errors.push('Invalid email format');
   }
 
@@ -2456,60 +2417,99 @@ const validateInquiry = (req, res, next) => {
   next();
 };
 
+// 2) Email template for the client confirmation
+const inquiryEmailTemplate = (data) => `
+  <div style="font-family: Arial, sans-serif; padding: 25px; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #2b6cb0; margin: 0;">Inquiry Received!</h1>
+      <p style="color: #4a5568; margin-top: 10px;">
+        Thank you for contacting us, ${data.name}! We'll respond shortly.
+      </p>
+    </div>
+
+    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+      <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">Your Inquiry Details</h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 15px;">
+        <span style="color: #718096;">Inquiry Type:</span>
+        <span style="color: #2d3748;">${data.inquiry_type}</span>
+        <span style="color: #718096;">Name:</span>
+        <span style="color: #2d3748;">${data.name}</span>
+        <span style="color: #718096;">Email:</span>
+        <span style="color: #2d3748;">${data.email}</span>
+        ${data.organization ? `
+        <span style="color: #718096;">Organization:</span>
+        <span style="color: #2d3748;">${data.organization}</span>` : ''}
+      </div>
+    </div>
+
+    <div style="background: #ffffff; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+      <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">Your Message</h3>
+      <div style="background: #f8fafc; padding: 15px; border-radius: 6px;">
+        <div style="white-space: pre-wrap; line-height: 1.6;">
+          ${data.message}
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+// 3) POST /api/inquiries (DB insert + single JSON response + fire-and-forget emails)
 app.post('/api/inquiries', validateInquiry, async (req, res) => {
   try {
-    const { name, email, organization, message, inquiry_type } = req.body;
+    const name = String(req.body.name).trim();
+    const email = String(req.body.email).trim().toLowerCase();
+    const organization = req.body.organization ? String(req.body.organization).trim() : null;
+    const message = String(req.body.message).trim();
+    const inquiry_type = String(req.body.inquiry_type).trim();
 
-    const { rows } = await pool.query(
-      `INSERT INTO inquiries (
-        name, email, organization, message, inquiry_type
-      ) VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, created_at`,
-      [
-        name.trim(),
-        email.trim(),
-        organization?.trim() || null,
-        message.trim(),
-        inquiry_type.trim()
-      ]
+    const result = await pool.query(
+      `INSERT INTO inquiries (name, email, organization, message, inquiry_type)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, created_at`,
+      [name, email, organization, message, inquiry_type]
     );
 
-    // Client Confirmation
-    await transporter.sendMail({
-      from: `"Spatial Force " <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: `Inquiry Received: ${inquiry_type}`,
-      html: inquiryEmailTemplate(req.body)
-    });
+    const inquiryId = result.rows[0].id;
 
-    // Admin Notification
-    if (process.env.ADMIN_EMAIL) {
-      await transporter.sendMail({
-        from: {
-          name: process.env.MAIL_FROM_NAME || 'Spatial Force',
-          address: process.env.MAIL_FROM || 'no-reply@spatialforce.co.zw'
-        },
-        to: process.env.ADMIN_EMAIL,
-        subject: `NEW INQUIRY: ${inquiry_type} from ${name}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; padding: 20px;">
-            <h2 style="color: #2b6cb0;">New Inquiry Alert</h2>
-            <p>Details:</p>
-            <ul>
-              <li><strong>From:</strong> ${name} (${email})</li>
-              <li><strong>Type:</strong> ${inquiry_type}</li>
-              ${organization ? `<li><strong>Organization:</strong> ${organization}</li>` : ''}
-              <li><strong>Message:</strong> ${message}</li>
-            </ul>
-          </div>
-        `
-      });
-    }
-
+    // Respond once (success)
     res.status(201).json({
       success: true,
       message: 'Inquiry submitted successfully',
-      inquiryId: rows[0].id
+      inquiryId
+    });
+
+    // Fire-and-forget emails (don’t block the response)
+    setImmediate(() => {
+      // Client confirmation
+      sendMail({
+        to: email,
+        subject: 'We received your inquiry',
+        html: inquiryEmailTemplate({ name, email, organization, message, inquiry_type })
+      }).catch((err) => console.error('Inquiry mail (client) failed:', err));
+
+      // Admin notification
+      if (process.env.ADMIN_EMAIL) {
+        const adminHtml = `
+          <div style="font-family: Arial, sans-serif; padding: 16px;">
+            <h2>New Inquiry</h2>
+            <ul>
+              <li><strong>Type:</strong> ${inquiry_type}</li>
+              <li><strong>Name:</strong> ${name}</li>
+              <li><strong>Email:</strong> ${email}</li>
+              ${organization ? `<li><strong>Organization:</strong> ${organization}</li>` : ''}
+              <li><strong>ID:</strong> ${inquiryId}</li>
+            </ul>
+            <h3>Message</h3>
+            <pre style="white-space: pre-wrap; line-height: 1.5; background:#f8fafc; padding:12px; border-radius:6px;">${message}</pre>
+          </div>
+        `;
+        sendMail({
+          to: process.env.ADMIN_EMAIL,
+          subject: `New Inquiry: ${inquiry_type} by ${name}`,
+          html: adminHtml
+        }).catch((err) => console.error('Inquiry mail (admin) failed:', err));
+      }
     });
   } catch (error) {
     console.error('Inquiry error:', error);
@@ -2535,8 +2535,7 @@ app.use((req, res, next) => {
 
 app.get('/api/test-email', async (req, res) => {
   try {
-    await transporter.sendMail({
-      from: `Test <${process.env.EMAIL_USER}>`,
+    await sendMail({
       to: process.env.ADMIN_EMAIL,
       subject: 'Email Test',
       text: 'This is a test email from SpatialForce'
@@ -2567,13 +2566,7 @@ app.get('/api/health', async (req, res) => {
   try {
     await pool.query('SELECT NOW()');
     healthCheck.services.database = 'healthy';
-    
-    if (process.env.EMAIL_USER) {
-      await transporter.verify();
-      healthCheck.services.email = 'authenticated';
-    } else {
-      healthCheck.services.email = 'disabled';
-    }
+    healthCheck.services.email = process.env.EMAIL_USER ? 'configured' : 'disabled';
     
     res.json(healthCheck);
   } catch (error) {
@@ -2584,63 +2577,15 @@ app.get('/api/health', async (req, res) => {
 });
 
 
-
-
-
-// Trust first proxy if behind load balancer
-app.set('trust proxy', 1);
-
-// Cookie parser middleware
-app.use(cookieParser());
-
-// Secure cookie settings middleware
-app.use((req, res, next) => {
-  res.cookie('test-cookie', 'value', {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    httpOnly: true
-  });
-  next();
-});
-app.use((req, res, next) => {
-  req.session.save((err) => {
-    if (err) console.error('Session save error:', err);
-    next();
-  });
-});
-app.use((req, res, next) => {
-  const start = Date.now();
-  res.on('finish', () => {
-    console.log({
-      method: req.method,
-      path: req.path,
-      status: res.statusCode,
-      duration: `${Date.now() - start}ms`,
-      user: req.user?.id || 'guest'
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    const start = Date.now();
+    res.on('finish', () => {
+     console.log(`${req.method} ${req.path} ${res.statusCode} ${Date.now() - start}ms`);
     });
-  });
-  next();
-});
-
-app.use((err, req, res, next) => {
-  console.error('Server Error:', {
-    message: err.message,
-    stack: err.stack,
-    query: req.query,
-    body: req.body
-  });
-  res.status(500).json({ error: 'Internal server error' });
-});
-
-app.use((err, req, res, next) => {
-  console.error('Server Error:', err);
-  res.status(500).json({
-    success: false,
-    error: process.env.NODE_ENV === 'production' 
-      ? 'Internal server error' 
-      : err.message
-  });
-});
+    next();
+  })
+}
 
 app.use((err, req, res, next) => {
   if (req.path.startsWith('/api')) {

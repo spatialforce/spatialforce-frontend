@@ -85,27 +85,63 @@ const WebMaps = () => {
             </div>
           </div>
 
-          {/* Map Card 3 */}
-          <div className="sf-webmaps-card">
-            <div className="sf-webmaps-card-header sf-webmaps-purple-gradient">
-              <svg className="sf-webmaps-card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="sf-webmaps-card-body">
-              <h3 className="sf-webmaps-card-title">Coming Soon: Real-time Traffic</h3>
-              <p className="sf-webmaps-card-description">
-                Dynamic traffic flow visualization for major Zimbabwean cities with congestion alerts and
-                 route planning.
-              </p>
-              <span className="sf-webmaps-card-notify">
-                Notify Me
-                <svg className="sf-webmaps-notify-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-              </span>
-            </div>
-          </div>
+       {/* Air Quality Webmap Card */}
+<div className="sf-webmaps-card">
+  <div className="sf-webmaps-card-header sf-webmaps-purple-gradient">
+    {/* Air quality / pollution icon – cloud + wavy air lines */}
+    <svg
+      className="sf-webmaps-card-icon"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Cloud */}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M7 18h9a4 4 0 000-8 5 5 0 00-9.584-2A3.5 3.5 0 007 18z"
+      />
+      {/* Air / pollution lines */}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 9.5c1.2-1 2.5-1 3.7 0M4 13.5c1.2-1 2.5-1 3.7 0"
+      />
+    </svg>
+  </div>
+
+  <div className="sf-webmaps-card-body">
+    <h3 className="sf-webmaps-card-title">Explore Air Pollution</h3>
+    <p className="sf-webmaps-card-description">
+  Explore gas concentration patterns contributing to air pollution in Bulawayo.
+</p>
+
+
+    {/* Link with arrow (no bell) */}
+    <a href="/air-quality" className="sf-webmaps-card-link">
+      See Air Quality
+      <svg
+        className="sf-webmaps-link-arrow"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Same arrow as your COVID card */}
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
+      </svg>
+    </a>
+  </div>
+</div>
+
         </div>
       </section>
 

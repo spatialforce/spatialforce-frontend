@@ -1,0 +1,1042 @@
+
+
+   .no2-page {
+    padding: calc(var(--nav-h, 72px) + 1rem) 1.5rem 2rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 0;
+    background: #0b1120;
+  }
+
+  .no2-layout {
+    display: flex;
+    gap: 1.5rem;
+    align-items: stretch;
+    position: relative;
+    z-index: 0;
+  }
+  
+
+  .no2-layout.no2-layout-expanded .no2-map-column {
+    display: none;
+  }
+  
+  .no2-layout.no2-layout-expanded .no2-sidebar {
+    max-height: none;
+    width: 100%;
+  }
+  
+  .no2-map-column {
+    flex: 2.2;
+    position: relative;
+    min-height: 480px;
+    z-index: 1; /* base layer for map + legend */
+  }
+  
+
+  .no2-map-shell {
+    position: relative;
+  }
+
+  .no2-map.leaflet-container {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+    position: relative !important;
+    z-index: 1; /* below our overlays like legend & buttons */
+  }
+  
+  /* Make sure panes don't jump above our custom UI */
+  .no2-map .leaflet-pane {
+    z-index: 0;
+  }
+  
+  /* Default leaflet controls sit above tiles but below our overlays */
+  .no2-map .leaflet-control-container {
+    z-index: 2;
+  }
+  
+  
+  .no2-map .leaflet-control-layers {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    font-size: 0.75rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.55);
+  }
+  
+  .no2-map .leaflet-control-layers-expanded {
+    padding: 0.35rem 0.5rem;
+  }
+  
+  .no2-map .leaflet-control-layers-list {
+    margin: 0.1rem 0;
+  }
+  
+  .no2-map .leaflet-control-layers-base label,
+  .no2-map .leaflet-control-layers-overlays label {
+    font-size: 0.78rem;
+    padding: 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  /* Force radios/checkboxes smaller */
+  .no2-map .leaflet-control-layers-selector {
+    width: 11px;
+    height: 11px;
+    transform: scale(0.7);
+    transform-origin: center;
+    margin-right: 0.15rem;
+    cursor: pointer;
+    accent-color: #22c55e; /* green accent */
+  }
+  
+  /* ===========================
+     Ward polygon stroke styling
+     =========================== */
+  
+  .ward-polygon {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .navbar-spacer{
+    display: none;
+  }
+  
+  .no2-gas-switcher {
+    position: absolute;
+    left: 80px; /* desktop: pushed right so it doesn't sit on top of zoom */
+    top: 14px;
+    z-index: 10;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* pill icon – hidden by default (desktop only uses full panel) */
+  .no2-gas-switcher-pill {
+    display: none;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    background: rgba(15, 23, 42, 0.96);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.9);
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.85);
+  }
+  
+  .no2-gas-pill-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    border: 2px solid #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+  }
+  
+  .no2-gas-pill-label {
+    font-weight: 600;
+  }
+  
+  /* panel with gas buttons – desktop: always visible */
+  .no2-gas-switcher-panel {
+    padding: 0.5rem 0.7rem;
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    min-width: 180px;
+  }
+  
+  .no2-gas-switcher-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  
+  .no2-gas-switcher-buttons {
+    display: flex;
+    gap: 0.3rem;
+  }
+  
+  .no2-gas-button {
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 0.18rem 0.55rem;
+    font-size: 0.72rem;
+    font-family: inherit;
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.8);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease,
+      transform 0.1s ease, color 0.15s ease;
+  }
+  
+  .no2-gas-button:hover {
+    background: rgba(30, 64, 175, 0.9);
+    border-color: rgba(129, 140, 248, 0.95);
+    transform: translateY(-1px);
+  }
+  
+  .no2-gas-button.active {
+    background: rgba(22, 163, 74, 0.95);
+    border-color: rgba(34, 197, 94, 0.95);
+    color: #f9fafb;
+  }
+  
+  .no2-gas-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+  }
+  
+  /* ===========================
+     Legend overlay on the map
+     (desktop)
+     =========================== */
+  
+  .no2-legend {
+    position: absolute;
+    left: 16px;
+    bottom: 50px; /* slightly lowered from 150px */
+    padding: 0.75rem 1rem;
+    background: rgba(15, 23, 42, 0.92);
+    color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    max-width: 260px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    z-index: 10; /* above map + controls */
+  }
+  
+  .no2-legend h2 {
+    font-size: 0.9rem;
+    margin: 0 0 0.25rem;
+    font-weight: 600;
+  }
+  
+  .no2-legend-sub {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .no2-legend-sub span:first-child {
+    text-align: left;
+  }
+  
+  .no2-legend-sub span:last-child {
+    text-align: right; /* "Bright = higher" far right */
+  }
+  
+  .no2-legend-gradient {
+    height: 10px;
+    border-radius: 999px;
+    margin-bottom: 0.35rem;
+  }
+  
+  .no2-legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    opacity: 0.9;
+  }
+  
+  .no2-legend-labels span:first-child {
+    text-align: left;
+  }
+  
+  .no2-legend-labels span:last-child {
+    text-align: right;
+  }
+  
+  /* ===========================
+     Wind plume toggle (desktop)
+     =========================== */
+  
+  .no2-plume-toggle {
+    position: absolute;
+    right: 16px;
+    bottom: 40px;
+    z-index: 11;
+  }
+  
+  .no2-plume-toggle button {
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.85);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.85);
+    transition: background 0.15s ease, border-color 0.15s ease,
+      transform 0.1s ease;
+  }
+  
+  .no2-plume-toggle button:hover {
+    background: rgba(15, 23, 42, 0.96);
+    transform: translateY(-1px);
+  }
+  
+  .no2-plume-toggle button.active {
+    border-color: rgba(34, 211, 238, 0.9);
+  }
+  
+  .no2-plume-toggle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.9);
+  }
+  
+  /* ===========================
+     Plume animation (top 5 wards)
+     =========================== */
+  
+  .no2-plume-path {
+    stroke: #22d3ee; /* bright cyan */
+    stroke-linecap: round;
+    stroke-dasharray: 8 12;
+    animation: no2-plume-move 3s linear infinite;
+    filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.9));
+  }
+  
+  @keyframes no2-plume-move {
+    from {
+      stroke-dashoffset: 32; /* makes dashes move ward → WNW */
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  .no2-plume-origin {
+    stroke: #22d3ee;
+    fill: #22d3ee;
+    animation: no2-plume-pulse 2.2s ease-out infinite;
+  }
+  
+  @keyframes no2-plume-pulse {
+    0% {
+      opacity: 1;
+      r: 4;
+    }
+    100% {
+      opacity: 0;
+      r: 8;
+    }
+  }
+  
+  /* ===========================
+     RIGHT: Dashboard sidebar
+     =========================== */
+  
+  .no2-sidebar {
+    flex: 1;
+    background: #020617; /* near-black slate */
+    color: #e5e7eb;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.9);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    position: relative;
+    z-index: 20; /* above any map weirdness */
+  }
+  
+  /* Scrollbar styling (desktop) */
+  .no2-sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .no2-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .no2-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(51, 65, 85, 0.9);
+    border-radius: 999px;
+  }
+  
+  /* Sidebar header */
+  
+  .no2-sidebar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  .no2-sidebar-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .no2-sidebar-header h1 {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+  
+  .no2-current-gas {
+    margin: 2px 0 0;
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+  
+  .no2-sidebar-header p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #9ca3af;
+  }
+  
+  /* Expand dashboard toggle button */
+  .no2-expand-toggle {
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+    font-family: inherit;
+    background: rgba(15, 23, 42, 0.95);
+    color: #e5e7eb;
+    border: 1px solid rgba(148, 163, 184, 0.85);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease,
+      transform 0.1s ease;
+  }
+  
+  .no2-expand-toggle:hover {
+    background: rgba(22, 163, 74, 0.9);
+    border-color: rgba(22, 163, 74, 0.95);
+    transform: translateY(-1px);
+  }
+  
+  /* ===========================
+     Ward search / jump-to-ward
+     =========================== */
+  
+  .no2-ward-search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .no2-ward-search-label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  .no2-ward-select {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    outline: none;
+  }
+  
+  .no2-ward-select:focus {
+    border-color: rgba(129, 140, 248, 0.95);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6);
+  }
+  
+  /* ===========================
+     Stats section
+     =========================== */
+  
+  .no2-stats h2,
+  .no2-method h2,
+  .no2-hotspots h2,
+  .no2-selected-ward h2,
+  .no2-wind h2,
+  .no2-climate h2 {
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+  }
+  
+  .no2-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .no2-stat-card {
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+  }
+  
+  .no2-stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-bottom: 0.15rem;
+  }
+  
+  .no2-stat-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+  
+  /* ===========================
+     Selected ward details
+     =========================== */
+  
+  .no2-selected-ward h2 {
+    margin-top: 0.25rem;
+  }
+  
+  .no2-selected-name {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  
+  .no2-selected-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .no2-selected-grid > div {
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 10px;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+  }
+  
+  .no2-selected-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-bottom: 0.1rem;
+  }
+  
+  .no2-selected-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+  
+  /* ===========================
+     Hotspots / Exposure priority
+     =========================== */
+  
+  .no2-hotspots {
+    margin-top: 0.25rem;
+  }
+  
+  .no2-hotspots-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .no2-hotspots h2 {
+    margin: 0;
+  }
+  
+  .no2-hotspots-note {
+    margin: 0.3rem 0 0.4rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  .no2-hotspot-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  
+  .no2-hotspot-item {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(75, 85, 99, 0.8);
+    transition: background 0.15s ease, transform 0.15s ease,
+      border-color 0.15s ease;
+    cursor: pointer;
+  }
+  
+  .no2-hotspot-item:hover {
+    background: rgba(30, 64, 175, 0.75);
+    transform: translateY(-1px);
+    border-color: rgba(129, 140, 248, 0.9);
+  }
+  
+  .no2-hotspot-item.active {
+    background: rgba(234, 88, 12, 0.85);
+    border-color: rgba(248, 250, 252, 0.9);
+  }
+  
+  .no2-hotspot-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .no2-hotspot-name {
+    font-weight: 600;
+  }
+  
+  .no2-hotspot-cat {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 250, 252, 0.5);
+  }
+  
+  .no2-hotspot-mean {
+    font-size: 0.75rem;
+    margin-top: 0.15rem;
+    color: #cbd5f5;
+  }
+  
+  /* Mode toggle for gas vs exposure */
+  .no2-mode-toggle {
+    display: inline-flex;
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 999px;
+    border: 1px solid rgba(75, 85, 99, 0.9);
+    padding: 1px;
+  }
+  
+  .no2-mode-toggle button {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 0.7rem;
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  
+  .no2-mode-toggle button.active {
+    background: rgba(37, 99, 235, 0.9);
+    color: #e5e7eb;
+  }
+  
+  /* ===========================
+     Climate & environment section
+     =========================== */
+  
+  .no2-climate p {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #e5e7eb;
+  }
+  
+  .no2-climate ul {
+    margin: 0 0 0.25rem 1rem;
+    padding: 0;
+    font-size: 0.8rem;
+    color: #e5e7eb;
+  }
+  
+  .no2-climate li {
+    margin-bottom: 0.15rem;
+  }
+  
+  /* ===========================
+     Methodology text
+     =========================== */
+  
+  .no2-method p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #9ca3af;
+  }
+  
+  /* ===========================
+     Wind context section
+     =========================== */
+  
+  .no2-wind-main {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
+    color: #e5e7eb;
+  }
+  
+  .no2-wind-list {
+    margin: 0 0 0.4rem 1rem;
+    padding: 0;
+    font-size: 0.8rem;
+    color: #e5e7eb;
+  }
+  
+  .no2-wind-list li {
+    margin-bottom: 0.15rem;
+  }
+  
+  .no2-wind-note {
+    margin: 0 0 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #9ca3af;
+  }
+  
+  .no2-wind-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    font-size: 0.75rem;
+  }
+  
+  .no2-wind-arrow-body {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  
+  .no2-wind-arrow-line {
+    display: inline-block;
+    width: 42px;
+    height: 2px;
+    background: linear-gradient(to right, #22c55e, #eab308);
+    border-radius: 999px;
+  }
+  
+  .no2-wind-arrow-head {
+    font-size: 0.8rem;
+  }
+  
+  .no2-wind-arrow-label {
+    font-size: 0.7rem;
+    color: #e5e7eb;
+  }
+  
+  /* ===========================
+     Footer badge
+     =========================== */
+  
+  .no2-sidebar-footer {
+    margin-top: 0.25rem;
+  }
+  
+  .no2-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #9ca3af;
+  }
+
+  .no2-ozone-note {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #6b7280;
+  }
+  
+  
+  .no2-ozone-list {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #4b5563;
+  
+  }
+  
+  .no2-ozone-list li + li {
+    margin-top: 4px;
+  }
+  
+  /* Tablets / small laptops */
+  @media (max-width: 1024px) {
+    .no2-page {
+      padding: calc(var(--nav-h, 72px) + 0.9rem) 1rem 1.5rem;
+    }
+  
+    .no2-layout {
+      gap: 1rem;
+    }
+  
+    .no2-map-column {
+      min-height: 420px;
+    }
+  
+    .no2-map.leaflet-container {
+      min-height: 420px;
+    }
+  
+    .no2-sidebar {
+      max-height: none;
+    }
+  
+    .no2-stat-grid,
+    .no2-selected-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .no2-legend {
+      left: 12px;
+      bottom: 120px; /* slightly lowered from 140px */
+    }
+  
+    .no2-plume-toggle {
+      right: 12px;
+      bottom: 120px; /* slightly lowered from 140px */
+    }
+  }
+  
+  /* Phones / narrow screens */
+  @media (max-width: 768px) {
+    .no2-layout {
+      flex-direction: column;
+    }
+  
+    /* when expanded, make sure header isn't hiding under navbar */
+    .no2-layout.no2-layout-expanded .no2-sidebar {
+      margin-top: 0.75rem;
+    }
+  
+    .no2-map-column {
+      min-height: 380px;
+    }
+  
+    .no2-map.leaflet-container {
+      min-height: 380px;
+    }
+  
+    .no2-sidebar {
+      max-height: none;
+      padding: 1rem 1.05rem 1.25rem;
+      border-radius: 0; /* no radius on mobile to match map edge */
+      box-shadow: none;
+    }
+  
+    .no2-sidebar-header-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .no2-expand-toggle {
+      align-self: flex-start;
+    }
+  
+    .no2-stat-grid,
+    .no2-selected-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    /* gas switcher icon: on top of the webmap, bottom centre */
+    .no2-gas-switcher {
+      left: 50%;
+      top: auto;
+      bottom: 60px; /* moved up from 16px so clearly on the basemap */
+      transform: translateX(-50%);
+      align-items: center;
+    }
+  
+    .no2-gas-switcher-pill {
+      display: inline-flex;
+    }
+  
+    .no2-gas-switcher-panel {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 200px;
+      max-width: 260px;
+      display: none;
+    }
+  
+    .no2-gas-switcher-panel.open {
+      display: block;
+    }
+  
+    .no2-gas-switcher-buttons {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .no2-gas-button {
+      padding: 0.16rem 0.5rem;
+      font-size: 0.68rem;
+    }
+  
+    /* On mobile, place legend & plume control BELOW the map (not floating on tiles) */
+    .no2-legend,
+    .no2-plume-toggle {
+      position: static;
+      margin-top: 0.5rem;
+      box-shadow: 0 12px 22px rgba(15, 23, 42, 0.85);
+    }
+  
+    .no2-legend {
+      max-width: none;
+    }
+  
+    /* Centre the plume button horizontally under the map */
+    .no2-plume-toggle {
+      display: flex;
+      justify-content: center;
+    }
+  
+    /* completely hide attribution on mobile */
+    .no2-map .leaflet-control-attribution {
+      display: none !important;
+    }
+  
+    /* shrink the scale control on mobile */
+    .no2-map .leaflet-control-scale-line {
+      font-size: 0.6rem;
+      padding: 0 2px;
+      border-width: 1px;
+    }
+  }
+  
+  /* Very small phones */
+  @media (max-width: 480px) {
+    .no2-page {
+      padding: calc(var(--nav-h, 72px) + 0.6rem) 0.5rem 1rem;
+    }
+  
+    .no2-map-column {
+      min-height: 340px;
+    }
+  
+    .no2-map.leaflet-container {
+      min-height: 340px;
+    }
+  
+    .no2-sidebar-header h1 {
+      font-size: 1.1rem;
+    }
+  
+    .no2-sidebar-header p,
+    .no2-climate p,
+    .no2-method p,
+    .no2-wind-main,
+    .no2-wind-note {
+      font-size: 0.78rem;
+    }
+  
+    .no2-gas-switcher {
+      bottom: 180px; /* slightly up, still on map bottom */
+    }
+  }
+  
+
+  .no2-ozone-note {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #6b7280;
+  }
+  
+  /* Read more block */
+  .no2-readmore {
+    margin-top: 14px;
+    border-top: 1px solid rgba(148, 163, 184, 0.35);
+    padding-top: 10px;
+  }
+  
+  .no2-readmore-toggle {
+    width: 100%;
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: #f9fafb;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .no2-readmore-toggle:hover {
+    background: #f3f4f6;
+  }
+  
+  .no2-readmore-open .no2-readmore-toggle {
+    background: #e5f3ef;
+    border-color: #16a34a;
+  }
+  
+  .no2-readmore-body {
+    margin-top: 10px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+  
+  .no2-readmore-body h2 {
+    font-size: 12px;
+    margin: 8px 0 4px;
+  }
+  
+  .no2-readmore-body p {
+    margin: 4px 0 6px;
+  }
+  
+  .no2-readmore-footer {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #6b7280;
+  }
+  

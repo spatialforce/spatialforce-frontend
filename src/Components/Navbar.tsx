@@ -1,357 +1,597 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { HiOutlineBars3, HiChevronDown, HiXMark } from 'react-icons/hi2';
 import { useAuth } from './AuthContext';
-import { HiOutlineBars3, HiChevronDown, HiChevronUp } from 'react-icons/hi2';
-import { Avatar } from '@mui/material';
-import UserAvatar from './UserAvatar';
 import './Nav.css';
-
-
 
 interface NavbarProps {
   onSignupClick: () => void;
   onLoginClick: () => void;
 }
 
-const getAvatarColor = (email: string): string => {
-  if (!email) return '#3a7068';
-  let hash = 0;
-  for (let i = 0; i < email.length; i++) {
-    hash = email.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const colors = [
-    '#3a7068', '#2a5550', '#f44336', '#2196f3', 
-    '#9c27b0', '#ff9800', '#009688'
-  ];
-  return colors[Math.abs(hash) % colors.length];
-};
-
-const Navbar = ({ onSignupClick, onLoginClick }: NavbarProps) => {
+const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileGeoDropdownOpen, setMobileGeoDropdownOpen] = useState(false);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const [showLoginNotice, setShowLoginNotice] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
   const [geoDropdownOpen, setGeoDropdownOpen] = useState(false);
-  const geoDropdownRef = useRef<HTMLDivElement>(null);
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [industriesDropdownOpen, setIndustriesDropdownOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
 
-  const handleBookNow = () => {
-    isAuthenticated ? navigate('/bookings') : setShowLoginNotice(true);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const geoDropdownRef = useRef<HTMLLIElement | null>(null);
+  const servicesDropdownRef = useRef<HTMLLIElement | null>(null);
+  const industriesDropdownRef = useRef<HTMLLIElement | null>(null);
+  const resourcesDropdownRef = useRef<HTMLLIElement | null>(null);
+  const accountMenuRef = useRef<HTMLDivElement | null>(null);
 
-  };
-  const Navlogo = "/images/Navlogo.png";
+  const Navlogo = '/images/Navlogo.png';
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!mobileMenuOpen) return;
-      
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target as Node) &&
-        !(event.target as Element).closest('.mobile-menu-button')
-      ) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const navLinks = [
+  const coreLinks = [
     { path: '/', label: 'Home' },
-    { path: '/services2', label: 'Services' },
     { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' }
+    { path: '/contact', label: 'Contact' },
   ];
 
-  const toggleMenu = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setMobileMenuOpen(prev => !prev);
-  };
+  const geoLinks = [
+    { path: '/web-applications', label: 'Web Applications' },
+    { path: '/smartcitysolutions', label: 'Smart City Solutions' },
+    { path: '/gis-forest-resources-zimbabwe', label: 'Zimbabwe Gazzetted Forests' },
+    { path: '/Artificial-Intelligence', label: 'AI in GIS' },
+    { path: '/articles-and-projects', label: 'GIS in Zimbabwe' },
+  ];
 
-  const toggleMobileGeoDropdown = (e: React.MouseEvent) => {
+  const servicesSubLinks = [
+    { path: '/services2', label: 'Services Overview' },
+    { path: '/default', label: 'Spatial Consulting' },
+    { path: '/default', label: 'Capacity Building & Training' },
+    { path: '/default', label: 'Data Preparation & Cleaning' },
+    { path: '/default', label: 'Interactive Dashboards' },
+  ];
+
+  const industriesLinks = [
+    { path: '/default', label: 'Local Government' },
+    { path: '/default', label: 'Urban Planning' },
+    { path: '/default', label: 'Agriculture & Food Systems' },
+    { path: '/default', label: 'Disaster Risk & Early Warning' },
+    { path: '/default', label: 'Forestry & Wildlife' },
+  ];
+
+  const resourcesLinks = [
+    { path: '/default', label: 'Resources Overview' },
+    { path: '/default', label: 'Guides' },
+    { path: '/default', label: 'Tutorials' },
+    { path: '/default', label: 'Case Studies' },
+    { path: '/default', label: 'FAQs' },
+  ];
+
+  const avatarSrc =
+    user?.avatar ||
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=spatialforce&backgroundColor=b6e3f4,ffffff&radius=50';
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const isServicesActive =
+    location.pathname.startsWith('/services') ||
+    isActive('/services2') ||
+    servicesSubLinks.some((s) => isActive(s.path));
+
+  const isGeoActive =
+    location.pathname.startsWith('/geo-solutions') ||
+    geoLinks.some((g) => isActive(g.path));
+
+  const isIndustriesActive = location.pathname.startsWith('/industries');
+
+  const isResourcesActive =
+    location.pathname.startsWith('/resources') ||
+    location.pathname.startsWith('/guides') ||
+    location.pathname.startsWith('/tutorials') ||
+    location.pathname.startsWith('/case-studies') ||
+    location.pathname.startsWith('/faqs');
+
+  // Close stuff on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setGeoDropdownOpen(false);
+    setServicesDropdownOpen(false);
+    setIndustriesDropdownOpen(false);
+    setResourcesDropdownOpen(false);
+    setAccountOpen(false);
+  }, [location.pathname]);
+
+  // Click outside to close
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      const t = e.target as Node;
+
+      if (geoDropdownOpen && geoDropdownRef.current && !geoDropdownRef.current.contains(t)) {
+        setGeoDropdownOpen(false);
+      }
+      if (servicesDropdownOpen && servicesDropdownRef.current && !servicesDropdownRef.current.contains(t)) {
+        setServicesDropdownOpen(false);
+      }
+      if (industriesDropdownOpen && industriesDropdownRef.current && !industriesDropdownRef.current.contains(t)) {
+        setIndustriesDropdownOpen(false);
+      }
+      if (resourcesDropdownOpen && resourcesDropdownRef.current && !resourcesDropdownRef.current.contains(t)) {
+        setResourcesDropdownOpen(false);
+      }
+      if (accountOpen && accountMenuRef.current && !accountMenuRef.current.contains(t)) {
+        setAccountOpen(false);
+      }
+      if (mobileMenuOpen && mobileMenuRef.current && !mobileMenuRef.current.contains(t)) {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [
+    geoDropdownOpen,
+    servicesDropdownOpen,
+    industriesDropdownOpen,
+    resourcesDropdownOpen,
+    accountOpen,
+    mobileMenuOpen,
+  ]);
+
+  const toggleMobile = (e: React.MouseEvent) => {
     e.stopPropagation();
-    e.preventDefault();
-    setMobileGeoDropdownOpen(prev => !prev);
+    setMobileMenuOpen((v) => !v);
   };
 
   return (
-    <nav className="navbar" aria-label="Main navigation">
-      {showLoginNotice && (
-        <div className="login-notice-popup">
-          <div className="login-notice-content">
-            <p>Please log in to make bookings</p>
-            <div className="login-notice-buttons">
-              <button onClick={() => { 
-                setShowLoginNotice(false); 
-                onLoginClick(); 
-              }}>
-                Login
-              </button>
-              <button onClick={() => setShowLoginNotice(false)}>
-                Cancel
-              </button>
-            </div>
+    <nav className="sf-nav" aria-label="Main navigation">
+      <div className="sf-nav__outer">
+        <div className="sf-nav__wrap">
+          {/* LEFT: Logo */}
+          <div className="sf-nav__left">
+            <Link to="/" className="sf-nav__logo" aria-label="Spatial Force Home">
+              <img src={Navlogo} alt="Spatial Force logo" width={120} height={120} loading="eager" />
+            </Link>
           </div>
-        </div>
-      )}
-    <div className="navbar-container">
-  <Link to="/" className="navbarlogo" aria-label="Spatial Force Home">
-    <img 
-      src={Navlogo} 
-      alt="Spatial Force logo" 
-      className="navbar-logo-img" 
-      width="120"
-      height="120"
-      loading="eager"
-    />
-  </Link>
 
-
-
-
-        <div className="desktop-nav">
-          <ul className="nav-links">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <Link
-                  to={link.path}
-                  className={`nav-link ${
-                    location.pathname === link.path ? 'active' : ''
-                  }`}
-                >
-                  {link.label}
+          {/* CENTER: desktop links */}
+          <div className="sf-nav__center">
+            <ul className="sf-nav__links">
+              {/* Home */}
+              <li className="sf-nav__item">
+                <Link to="/" className={`sf-link ${isActive('/') ? 'is-active' : ''}`}>
+                  Home
                 </Link>
               </li>
-            ))}
-            
-            <li className="dropdown-container">
-              <div
-                className="dropdown"
-                ref={geoDropdownRef}
-                onMouseEnter={() => {
-                  if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-                  setGeoDropdownOpen(true);
-                }}
-                onMouseLeave={() => {
-                  closeTimeoutRef.current = setTimeout(() => {
-                    setGeoDropdownOpen(false);
-                  }, 200);
-                }}
+
+              {/* Services */}
+              <li
+                ref={servicesDropdownRef}
+                className={`sf-nav__item sf-nav__item--has-dropdown ${
+                  servicesDropdownOpen ? 'is-open' : ''
+                }`}
               >
-                <button 
-                  className="nav-link dropdown-toggle" 
-                  aria-expanded={geoDropdownOpen}
-                >
-                  Geo-Solutions {geoDropdownOpen ? '▲' : '▼'}
-                </button>
-                <div className={`dropdown-menu ${geoDropdownOpen ? 'show' : ''}`}>
-                  <Link to="/web-applications" className="dropdown-item">
-                    Web Applications
+                <div className={`sf-link-group ${isServicesActive ? 'is-active' : ''}`}>
+                  <Link
+                    to="/services2"
+                    className={`sf-link ${isServicesActive ? 'is-active' : ''}`}
+                  >
+                    Services
                   </Link>
-                  <Link to="/smartcitysolutions" className="dropdown-item">
-                    Smart City Solutions
-                  </Link>
-                  <Link to="/gis-forest-resources-zimbabwe" className="dropdown-item">
-                    Zimbabwe Gazzetted Forests
-                  </Link>
-                  <Link to="/Artificial-Intelligence" className="dropdown-item">
-                    AI in GIS 
-                  </Link>
-                  <Link to="/articles-and-projects" className="dropdown-item">
-                    GIS in Zimbabwe 
-                  </Link>
+                  <button
+                    type="button"
+                    className="sf-link__chev-btn"
+                    aria-label="Toggle services menu"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setServicesDropdownOpen((v) => !v);
+                      setGeoDropdownOpen(false);
+                      setIndustriesDropdownOpen(false);
+                      setResourcesDropdownOpen(false);
+                    }}
+                  >
+                    <HiChevronDown />
+                  </button>
                 </div>
-              </div>
-            </li>
-          </ul>
-
-          <div className="nav-actions">
-            {isAuthenticated ? (
-              <>
-                <button
-                  className="primary-button"
-                  onClick={() => navigate('/bookings')}
-                >
-                  Book Now
-                </button>
-                <UserAvatar onSignupClick={onSignupClick} />
-              </>
-            ) : (
-              <>
-                <button className="secondary-button" onClick={onLoginClick}>
-                  Login
-                </button>
-                <button className="primary-button" onClick={onSignupClick}>
-                  Sign Up
-                </button>
-                <button
-                  className="primary-button"
-                  onClick={handleBookNow}
-                >
-                  Book Now
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-
-        <button
-          className="mobile-menu-button"
-          onClick={toggleMenu}
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileMenuOpen}
-        >
-          <HiOutlineBars3 size={24} />
-        </button>
-
-        {mobileMenuOpen && (
-          <div 
-            className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`} 
-            ref={mobileMenuRef}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {isAuthenticated && (
-              <div className="mobile-user-info">
-                <Avatar
-                  className="mobile-user-avatar"
-                  src={user?.avatar}
-                  sx={{ 
-                    bgcolor: getAvatarColor(user?.email || ''),
-                    width: 40,
-                    height: 40
-                  }}
-                >
-                  {user?.firstName?.charAt(0).toUpperCase() || 
-                  user?.email?.charAt(0).toUpperCase()}
-                </Avatar>
-                <div className="mobile-user-details">
-                  <div className="mobile-user-name">
-                    {user?.firstName || (user?.email ? user.email.split('@')[0] : '')}
-                  </div>
-                  {user?.email && (
-                    <div className="mobile-user-email">
-                      {user.email}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            <ul>
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className={`mobile-nav-link ${
-                      location.pathname === link.path ? 'active' : ''
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              
-              <li className="mobile-dropdown-item">
-  <div 
-    className="mobile-dropdown-header"
-    onClick={toggleMobileGeoDropdown}
-    style={{ textAlign: 'center' }} // Ensure center alignment
-  >
-    <span style={{ flex: 1 }}>Geo-Solutions</span> 
-    {mobileGeoDropdownOpen ? 
-      <HiChevronUp className={mobileGeoDropdownOpen ? "rotate" : ""} /> : 
-      <HiChevronDown className={mobileGeoDropdownOpen ? "rotate" : ""} />
-    }
-  </div>
-  <div className={`mobile-dropdown-content ${mobileGeoDropdownOpen ? "open" : ""}`}>
-                  <Link
-                    to="/web-applications"
-                    className="mobile-nav-link sub-item"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Web Applications
-                  </Link>
-                  <Link
-                    to="/smartcitysolutions"
-                    className="mobile-nav-link sub-item"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Smart City Solutions
-                  </Link>
-                  <Link
-                    to="/gis-forest-resources-zimbabwe"
-                    className="mobile-nav-link sub-item"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Zimbabwe Gazzetted Forests
-                  </Link>
-                  <Link
-                    to="/Artificial-Intelligence"
-                    className="mobile-nav-link sub-item"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    AI in GIS
-                  </Link>
-                  <Link
-                    to="/articles-and-projects"
-                    className="mobile-nav-link sub-item"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    GIS in Zimbabwe
-                  </Link>
+                <div className={`sf-dropdown ${servicesDropdownOpen ? 'open' : ''}`}>
+                  {servicesSubLinks.map((s) => (
+                    <Link
+                      key={s.path}
+                      to={s.path}
+                      className="sf-dropdown__link"
+                      onClick={() => setServicesDropdownOpen(false)}
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
                 </div>
               </li>
-            </ul>
 
-            <div className="mobile-actions">
-              {isAuthenticated ? (
-                <>
+              {/* Geo-Solutions */}
+              <li
+                ref={geoDropdownRef}
+                className={`sf-nav__item sf-nav__item--has-dropdown ${
+                  geoDropdownOpen ? 'is-open' : ''
+                }`}
+              >
+                <div className={`sf-link-group ${isGeoActive ? 'is-active' : ''}`}>
+                  <Link
+                    to="/geo-solutions"
+                    className={`sf-link ${isGeoActive ? 'is-active' : ''}`}
+                  >
+                    Geo-Solutions
+                  </Link>
                   <button
-                    className="mobile-primary-button"
-                    onClick={() => {
-                      navigate('/bookings');
-                      setMobileMenuOpen(false);
+                    type="button"
+                    className="sf-link__chev-btn"
+                    aria-label="Toggle geo-solutions menu"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setGeoDropdownOpen((v) => !v);
+                      setServicesDropdownOpen(false);
+                      setIndustriesDropdownOpen(false);
+                      setResourcesDropdownOpen(false);
                     }}
                   >
-                    Book Now
+                    <HiChevronDown />
                   </button>
+                </div>
+                <div className={`sf-dropdown ${geoDropdownOpen ? 'open' : ''}`}>
+                  {geoLinks.map((g) => (
+                    <Link
+                      key={g.path}
+                      to={g.path}
+                      className="sf-dropdown__link"
+                      onClick={() => setGeoDropdownOpen(false)}
+                    >
+                      {g.label}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+
+              {/* Industries */}
+              <li
+                ref={industriesDropdownRef}
+                className={`sf-nav__item sf-nav__item--has-dropdown ${
+                  industriesDropdownOpen ? 'is-open' : ''
+                }`}
+              >
+                <div className={`sf-link-group ${isIndustriesActive ? 'is-active' : ''}`}>
+                  <Link
+                    to="/default"
+                    className={`sf-link ${isIndustriesActive ? 'is-active' : ''}`}
+                  >
+                    Industries
+                  </Link>
                   <button
-                    className="mobile-logout-button"
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                      navigate('/');
+                    type="button"
+                    className="sf-link__chev-btn"
+                    aria-label="Toggle industries menu"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIndustriesDropdownOpen((v) => !v);
+                      setServicesDropdownOpen(false);
+                      setGeoDropdownOpen(false);
+                      setResourcesDropdownOpen(false);
                     }}
                   >
-                    Logout
+                    <HiChevronDown />
                   </button>
-                </>
-              ) : (
+                </div>
+                <div className={`sf-dropdown ${industriesDropdownOpen ? 'open' : ''}`}>
+                  {industriesLinks.map((ind) => (
+                    <Link
+                      key={ind.path}
+                      to={ind.path}
+                      className="sf-dropdown__link"
+                      onClick={() => setIndustriesDropdownOpen(false)}
+                    >
+                      {ind.label}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+
+              {/* Resources */}
+              <li
+                ref={resourcesDropdownRef}
+                className={`sf-nav__item sf-nav__item--has-dropdown ${
+                  resourcesDropdownOpen ? 'is-open' : ''
+                }`}
+              >
+                <div className={`sf-link-group ${isResourcesActive ? 'is-active' : ''}`}>
+                  <Link
+                    to="/default"
+                    className={`sf-link ${isResourcesActive ? 'is-active' : ''}`}
+                  >
+                    Resources
+                  </Link>
+                  <button
+                    type="button"
+                    className="sf-link__chev-btn"
+                    aria-label="Toggle resources menu"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setResourcesDropdownOpen((v) => !v);
+                      setServicesDropdownOpen(false);
+                      setGeoDropdownOpen(false);
+                      setIndustriesDropdownOpen(false);
+                    }}
+                  >
+                    <HiChevronDown />
+                  </button>
+                </div>
+                <div className={`sf-dropdown ${resourcesDropdownOpen ? 'open' : ''}`}>
+                  {resourcesLinks.map((r) => (
+                    <Link
+                      key={r.path}
+                      to={r.path}
+                      className="sf-dropdown__link"
+                      onClick={() => setResourcesDropdownOpen(false)}
+                    >
+                      {r.label}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+
+              {/* About */}
+              <li className="sf-nav__item">
+                <Link
+                  to="/about"
+                  className={`sf-link ${isActive('/about') ? 'is-active' : ''}`}
+                >
+                  About
+                </Link>
+              </li>
+
+              {/* Contact */}
+              <li className="sf-nav__item">
+                <Link
+                  to="/contact"
+                  className={`sf-link ${isActive('/contact') ? 'is-active' : ''}`}
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* RIGHT: desktop avatar + mobile burger */}
+          <div className="sf-nav__right">
+            <div className="sf-desktop-only">
+              <button
+                className="sf-avatar-btn"
+                aria-label="Account menu"
+                onClick={() => setAccountOpen((v) => !v)}
+              >
+                <img className="sf-avatar-img" src={avatarSrc} alt="Account" />
+              </button>
+
+              {/* Account dropdown */}
+              <div
+                ref={accountMenuRef}
+                className={`sf-account ${accountOpen ? 'open' : ''}`}
+                role="menu"
+                aria-label="Account menu"
+              >
+                {!isAuthenticated ? (
+                  <>
+                    <div className="sf-account__header">
+                      <div className="sf-account__title">Account</div>
+                      <div className="sf-account__subtitle">
+                        Sign in to manage bookings and access personalised GIS support.
+                      </div>
+                    </div>
+
+                    <div className="sf-account__btn-row">
+                      <button
+                        className="sf-account__btn sf-account__btn--primary"
+                        onClick={() => {
+                          setAccountOpen(false);
+                          onSignupClick();
+                        }}
+                      >
+                        Sign Up
+                      </button>
+                      <button
+                        className="sf-account__btn"
+                        onClick={() => {
+                          setAccountOpen(false);
+                          onLoginClick();
+                        }}
+                      >
+                        Login
+                      </button>
+                    </div>
+
+                    <div className="sf-account__note">
+                      No spam. Just focused GIS and remote sensing collaboration.
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="sf-account__header">
+                      <div className="sf-account__title">
+                        {user?.firstName || user?.email?.split('@')[0] || 'Account'}
+                      </div>
+                      {user?.email && (
+                        <div className="sf-account__subtitle sf-account__subtitle--small">
+                          {user.email}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="sf-account__list">
+                      <button
+                        className="sf-account__item sf-account__item--link"
+                        onClick={() => {
+                          setAccountOpen(false);
+                          navigate('/bookings');
+                        }}
+                      >
+                        View bookings
+                      </button>
+                      <button
+                        className="sf-account__item sf-account__item--link"
+                        onClick={() => {
+                          setAccountOpen(false);
+                          navigate('/account');
+                        }}
+                      >
+                        Profile & settings
+                      </button>
+                    </div>
+
+                    <button
+                      className="sf-account__item sf-account__item--danger"
+                      onClick={() => {
+                        setAccountOpen(false);
+                        logout();
+                        navigate('/');
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile burger (only on small screens) */}
+            <button
+              className="sf-burger"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              onClick={toggleMobile}
+            >
+              {mobileMenuOpen ? <HiXMark /> : <HiOutlineBars3 />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div className={`sf-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="sf-drawer__overlay" onClick={() => setMobileMenuOpen(false)} />
+        <div className="sf-drawer__panel" ref={mobileMenuRef} role="dialog" aria-modal="true">
+          <div className="sf-drawer__content">
+            <nav className="sf-drawer__nav">
+              {/* Main */}
+              <div className="sf-drawer__section">
+                <h3 className="sf-drawer__title">Main</h3>
+                <ul className="sf-drawer__list">
+                  {coreLinks.map((link) => (
+                    <li key={link.path} className="sf-drawer__item">
+                      <Link
+                        to={link.path}
+                        className={`sf-drawer__link ${
+                          isActive(link.path) ? 'is-active' : ''
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Geo-Solutions */}
+              <div className="sf-drawer__section">
+                <h3 className="sf-drawer__title">Geo-Solutions</h3>
+                <ul className="sf-drawer__list">
+                  <li className="sf-drawer__item">
+                    <Link
+                      to="/geo-solutions"
+                      className={`sf-drawer__link ${
+                        isActive('/geo-solutions') ? 'is-active' : ''
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Overview
+                    </Link>
+                  </li>
+                  {geoLinks.map((g) => (
+                    <li key={g.path} className="sf-drawer__item">
+                      <Link
+                        to={g.path}
+                        className="sf-drawer__sublink"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {g.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Services */}
+              <div className="sf-drawer__section">
+                <h3 className="sf-drawer__title">Services</h3>
+                <ul className="sf-drawer__list">
+                  {servicesSubLinks.map((s) => (
+                    <li key={s.path} className="sf-drawer__item">
+                      <Link
+                        to={s.path}
+                        className="sf-drawer__link"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {s.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Industries */}
+              <div className="sf-drawer__section">
+                <h3 className="sf-drawer__title">Industries</h3>
+                <ul className="sf-drawer__list">
+                  {industriesLinks.map((ind) => (
+                    <li key={ind.path} className="sf-drawer__item">
+                      <Link
+                        to={ind.path}
+                        className="sf-drawer__link"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {ind.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Resources */}
+              <div className="sf-drawer__section">
+                <h3 className="sf-drawer__title">Resources</h3>
+                <ul className="sf-drawer__list">
+                  {resourcesLinks.map((r) => (
+                    <li key={r.path} className="sf-drawer__item">
+                      <Link
+                        to={r.path}
+                        className="sf-drawer__link"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {r.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </nav>
+
+            {/* Account actions */}
+            <div className="sf-drawer__account">
+              {!isAuthenticated ? (
                 <>
-                  <button 
-                    className="mobile-secondary-button"
+                  <button
+                    className="sf-drawer__action"
                     onClick={() => {
                       onLoginClick();
                       setMobileMenuOpen(false);
@@ -359,8 +599,8 @@ const Navbar = ({ onSignupClick, onLoginClick }: NavbarProps) => {
                   >
                     Login
                   </button>
-                  <button 
-                    className="mobile-primary-button"
+                  <button
+                    className="sf-drawer__action sf-drawer__action--solid"
                     onClick={() => {
                       onSignupClick();
                       setMobileMenuOpen(false);
@@ -369,10 +609,47 @@ const Navbar = ({ onSignupClick, onLoginClick }: NavbarProps) => {
                     Sign Up
                   </button>
                 </>
+              ) : (
+                <>
+                  <div className="sf-drawer__who">
+                    {user?.firstName || user?.email?.split('@')[0] || 'User'}
+                    {user?.email && (
+                      <small className="sf-drawer__email">{user.email}</small>
+                    )}
+                  </div>
+                  <button
+                    className="sf-drawer__action"
+                    onClick={() => {
+                      navigate('/account');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Profile
+                  </button>
+                  <button
+                    className="sf-drawer__action"
+                    onClick={() => {
+                      navigate('/bookings');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Bookings
+                  </button>
+                  <button
+                    className="sf-drawer__action sf-drawer__action--danger"
+                    onClick={() => {
+                      logout();
+                      navigate('/');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
               )}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );

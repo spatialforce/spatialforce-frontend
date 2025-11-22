@@ -5,7 +5,6 @@ import { AuthProvider } from './AuthContext';
 import { CartProvider } from './CartContext';
 import Cookies from 'js-cookie';
 import Navbar from './Navbar';
-import CookieConsent from './Cookies';
 import Services2 from './services2';
 import ProtectedRoute from './ProtectedRoute';
 import './App.css';
@@ -25,7 +24,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import GisZimbabwe from './GIS-applications';
 import generateSitemap from '../utils/generateSitemap';
 import { Analytics } from "@vercel/analytics/react";
-import GlobalLoader from './GlobalLoader';  // ✅ new global loader
+import GlobalLoader from './GlobalLoader';  
+import Airquality from './AirQuality'
+import UnderConstruction from './underconstruction';
+import CookieConsent from "./CookieConsent";
 
 library.add(fas);
 
@@ -51,6 +53,7 @@ const CovidMap = lazy(() => import('./covid19map'));
 const Webapplications = lazy(() => import('./Webmaps'));
 const Firetracker = lazy(() => import('./Fire-tracker'));
 const NotFound = lazy(() => import('./NotFound'));
+const GeoSolutions = lazy(() => import('./Geo-solutions'));
 
 interface LocationState {
   from?: string;
@@ -99,13 +102,11 @@ const App: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [showLoginWelcome, setShowLoginWelcome] = useState(false);
   const [loginWelcomeData, setLoginWelcomeData] = useState({
-  email: '',
-  method: 'email' as 'email' | 'google'
-});
+    email: '',
+    method: 'email' as 'email' | 'google'
+  });
 
   const [showConsent, setShowConsent] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false);
   const [email, setEmail] = useState('');
   const [loginMessage, setLoginMessage] = useState<string>('');
   const [authError, setAuthError] = useState<string | null>(null);
@@ -145,28 +146,13 @@ const App: React.FC = () => {
       if (errorParam === 'wrong_provider') message = `Please login using ${providerName}.`;
 
       setAuthError(message);
-      setShowLoginModal(true);
       setEmail(emailParam || '');
-      navigate(location.pathname, { replace: true });
+      navigate('/login', { replace: true });
     }
   }, [location, navigate]);
 
   // ✅ Keep session alive
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data } = await axios.get(`${API_BASE_URL}/auth/session`, { withCredentials: true });
-        if (data.authenticated) {
-          document.cookie = `auth_token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
-        }
-      } catch {
-        // ignore network fails
-      }
-    };
-    checkSession();
-    const interval = setInterval(checkSession, 300000);
-    return () => clearInterval(interval);
-  }, []);
+
 
   // ✅ Welcome popup after activation
   useEffect(() => {
@@ -193,9 +179,8 @@ const App: React.FC = () => {
   ].includes(location.pathname) && !location.pathname.startsWith('/contact/');
 
   const closeAllModals = () => {
-    setShowLoginModal(false);
-    setShowSignupModal(false);
     setAuthError(null);
+    navigate('/', { replace: true });
   };
 
   return (
@@ -212,12 +197,18 @@ const App: React.FC = () => {
           content="GIS services, geospatial solutions, mapping, spatial analysis, remote sensing, environmental monitoring"
         />
       </Helmet>
+      <CookieConsent />
+
 
       {showNavbar && (
-        <Navbar
-          onLoginClick={() => setShowLoginModal(true)}
-          onSignupClick={() => setShowSignupModal(true)}
-        />
+        <>
+          <Navbar
+            onLoginClick={() => navigate('/login')}
+            onSignupClick={() => navigate('/signup')}
+          />
+          {/* Spacer so content never hides under the fixed navbar */}
+          <div className="navbar-spacer" />
+        </>
       )}
 
       {/* ✅ Fullscreen loader when pages lazy-load */}
@@ -237,64 +228,7 @@ const App: React.FC = () => {
 
         <Cart />
 
-        {showConsent && (
-          <CookieConsent
-            onAccept={() => {
-              Cookies.set('cookieConsent', 'accepted', { expires: 30 });
-              setShowConsent(false);
-            }}
-          />
-        )}
-
-        {/* ✅ Signup Modal */}
-        {showSignupModal && (
-          <div className="modal-backdrop">
-            <Signup
-              onClose={() => setShowSignupModal(false)}
-              onLoginClick={() => {
-                setShowSignupModal(false);
-                setShowLoginModal(true);
-              }}
-              onSuccess={(email) => {
-                navigate(`/activate?email=${encodeURIComponent(email)}`, {
-                  state: {
-                    message: 'Thank you for signing up! Check your email for activation code.',
-                    from: location.pathname
-                  },
-                  replace: true
-                });
-              }}
-            />
-          </div>
-        )}
-
-        {/* ✅ Login Modal */}
-        {showLoginModal && (
-  <div className="modal-backdrop">
-    <Login
-      setShowLoginModal={setShowLoginModal}
-      setShowLoginWelcome={setShowLoginWelcome}
-      setLoginWelcomeData={setLoginWelcomeData}
-      onClose={closeAllModals}
-      onSignupClick={() => {
-        setShowLoginModal(false);
-        setShowSignupModal(true);
-      }}
-      onForgotPasswordClick={() => {
-        setShowLoginModal(false);
-        navigate('/forgot-password');
-      }}
-      initialError={authError}
-      initialMessage={loginMessage}
-      initialEmail={email}
-      onSuccessfulLogin={closeAllModals}
-      email={email}
-      method="email"
-    />
-  </div>
-)}
-
-
+       
         {/* ✅ Main Routes */}
         <div className="app-content">
           <Suspense fallback={<GlobalLoader message="Loading page..." />}>
@@ -321,6 +255,9 @@ const App: React.FC = () => {
               <Route path="/Bulawayo-webmap-showcase" element={<Healthmap />} />
               <Route path="/web-applications" element={<Webapplications />} />
               <Route path="/fire-tracker" element={<Firetracker />} />
+              <Route path="/geo-solutions" element={<GeoSolutions />} />
+              <Route path="/air-quality" element={<Airquality />} />
+              <Route path="/default" element={<UnderConstruction />} />
               <Route
                 path="/Covid19-tracker"
                 element={
@@ -332,7 +269,7 @@ const App: React.FC = () => {
               <Route path="/forgot-password" element={<ForgotPasswordWrapper />} />
               <Route
                 path="/reviews"
-                element={<ReviewSystem onLoginClick={() => setShowLoginModal(true)} />}
+                element={<ReviewSystem onLoginClick={() => navigate('/login')} />}
               />
               <Route
                 path="/activate"
@@ -353,6 +290,31 @@ const App: React.FC = () => {
                 }
               />
               <Route path="/oauth-success" element={<OAuthSuccess />} />
+
+              {/* ✅ New login page route */}
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    setShowLoginModal={() => {}}
+                    setShowLoginWelcome={setShowLoginWelcome}
+                    setLoginWelcomeData={setLoginWelcomeData}
+                    onClose={closeAllModals}
+                    onSignupClick={() => navigate('/signup')}
+                    onForgotPasswordClick={() => navigate('/forgot-password')}
+                    initialError={authError}
+                    initialMessage={loginMessage}
+                    initialEmail={email}
+                    onSuccessfulLogin={closeAllModals}
+                    email={email}
+                    method="email"
+                  />
+                }
+              />
+
+              {/* ✅ New signup page route */}
+              <Route path="/signup" element={<Signup />} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

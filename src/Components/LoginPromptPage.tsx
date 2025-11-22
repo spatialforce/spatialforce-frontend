@@ -8,11 +8,11 @@ const LoginPromptPage = () => {
   const navigate = useNavigate();
 
   const handleOpenLogin = () => {
-    navigate('/', { state: { showLoginModal: true } });
+    navigate('/login', { state: { showLoginModal: true } });
   };
 
   const handleOpenSignup = () => {
-    navigate('/', { state: { showSignupModal: true } });
+    navigate('/signup', { state: { showSignupModal: true } });
   };
 
   return (

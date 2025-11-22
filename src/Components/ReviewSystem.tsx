@@ -23,7 +23,7 @@ interface Review {
 }
 
 const ReviewSystem: React.FC<TestimonialsProps> = ({ onLoginClick }) => {
-  const { user, isAuthenticated, refreshToken, token } = useAuth();
+  const { user, isAuthenticated, refreshToken } = useAuth();
   const [userRating, setUserRating] = useState(0);
   const [userComment, setUserComment] = useState('');
   const [submittedReviews, setSubmittedReviews] = useState<Review[]>([]);
@@ -62,8 +62,8 @@ const fetchReviews = async (signal?: AbortSignal) => {
   try {
     const response = await fetch(`${API_BASE_URL}/reviews`, {
       signal,
+      credentials: 'include', // optional but safe
       headers: {
-        'Authorization': `Bearer ${token}`,
         'X-Requested-With': 'XMLHttpRequest'
       }
     });
@@ -116,12 +116,9 @@ const toggleLike = async (reviewId: number) => {
 
     const response = await fetch(endpoint, {
       method,
-      credentials: 'include',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      credentials: 'include'
     });
-
+    
     if (!response.ok) throw new Error('Failed to update like');
 
     const updatedData = await response.json();
@@ -171,18 +168,19 @@ const toggleLike = async (reviewId: number) => {
   .split('; ')
   .find(row => row.startsWith('auth_token='))
   ?.split('=')[1];
-      const response = await fetch(`${API_BASE_URL}/reviews`, {
-        method: 'POST',
-        credentials: 'include', // Important for cookies
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Use the token from AuthContext
-        },
-        body: JSON.stringify({
-          rating: userRating,
-          comment: userComment.trim()
-        })
-      });
+  const response = await fetch(`${API_BASE_URL}/reviews`, {
+    method: 'POST',
+    credentials: 'include', // send HttpOnly cookie
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify({
+      rating: userRating,
+      comment: userComment.trim()
+    })
+  });
+  
   
       if (!response.ok) {
         const errorData = await response.json();
@@ -212,12 +210,9 @@ const toggleLike = async (reviewId: number) => {
     try {
       const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}`, {
         method: 'DELETE',
-        credentials: 'include',
-        headers: {
-          
-          'Authorization': `Bearer ${token}`
-        }
+        credentials: 'include'
       });
+      
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -254,15 +249,14 @@ const toggleLike = async (reviewId: number) => {
         method: 'PUT',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json', // Add this header
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           rating: editedRating,
           comment: editedComment.trim()
         })
       });
-  
+      
       if (!response.ok) {
         const errorData = await response.json();
         if (errorData.code === 'TOKEN_EXPIRED') {

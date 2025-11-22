@@ -1,25 +1,20 @@
-
+// Signup.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import './Signup.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import axios from 'axios';
 import { API_BASE_URL } from './config';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { RECAPTCHA_SITE_KEY } from "./config";
 
-interface SignupProps {
-  onClose: () => void;
-  onLoginClick: () => void;
-  onSuccess: (email: string) => void;
-}
 
 interface PasswordValidation {
   minLength: boolean;
   hasUpperCase: boolean;
   hasLowerCase: boolean;
   hasNumber: boolean;
-  errors?: string[]; // Add errors to the interface
+  errors?: string[];
 }
 
 interface PasswordValidationResult {
@@ -28,10 +23,11 @@ interface PasswordValidationResult {
   requirements: PasswordValidation;
 }
 
-const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => {
+
+
+const Signup: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login, checkSession } = useAuth();
   const formRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
@@ -54,6 +50,8 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
     hasNumber: false,
     errors: []
   });
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
   const googleLogo = "/images/google-logo.svg";
 
   // OAuth callback handling
@@ -61,15 +59,16 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
     const error = searchParams.get('error');
     const message = searchParams.get('message');
     const provider = searchParams.get('provider');
-    const solution = searchParams.get('solution');
-    
+
     if (error) {
       setError(message || 'Authentication failed');
       navigate(window.location.pathname, { replace: true });
     }
     if (error === 'existing_account') {
       setError(`Account already exists with ${provider} - please login instead`);
-      const timer = setTimeout(() => onLoginClick(), 3000);
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [searchParams, navigate]);
@@ -98,14 +97,13 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
       hasLowerCase: /[a-z]/.test(password),
       hasNumber: /[0-9]/.test(password),
     };
-  
+
     const errors: string[] = [];
     if (!requirements.minLength) errors.push('at least 8 characters');
     if (!requirements.hasUpperCase) errors.push('one uppercase letter');
     if (!requirements.hasLowerCase) errors.push('one lowercase letter');
     if (!requirements.hasNumber) errors.push('one number');
 
-  
     return {
       isValid: errors.length === 0,
       errors,
@@ -113,30 +111,43 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
     };
   };
 
+  const handleRecaptchaChange = (value: string | null) => {
+    setRecaptchaToken(value);
+    if (value && error === 'Please confirm you are not a robot') {
+      setError(null);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
-  
+
     if (!agreeToTerms) {
       setError('You must agree to the Terms and Conditions');
       setIsLoading(false);
       return;
     }
-  
+
+    if (!recaptchaToken) {
+      setError('Please confirm you are not a robot');
+      setIsLoading(false);
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);
       return;
     }
-  
+
     const passwordValidationResult = validatePassword(formData.password);
     if (!passwordValidationResult.isValid) {
       setError(`Password must contain: ${passwordValidationResult.errors.join(', ')}`);
       setIsLoading(false);
       return;
     }
-  
+
     try {
       const response = await fetch(`${API_BASE_URL}/signup`, {
         method: 'POST',
@@ -145,10 +156,14 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
           'Accept': 'application/json',
           'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken,   // 🔹 send the token to backend
+        }),
         credentials: 'include'
       });
-  
+      
+
       if (!response.ok) {
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -158,12 +173,17 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
         const errorData = await response.json();
         throw new Error(errorData.error || 'Registration failed');
       }
-  
-      const encodedEmail = encodeURIComponent(formData.email);
+
       const email = formData.email;
-      onClose();
-      onSuccess(email);
-  
+
+      navigate(`/activate?email=${encodeURIComponent(email)}`, {
+        state: {
+          message: 'Thank you for signing up! Check your email for activation code.',
+          from: '/signup'
+        },
+        replace: true
+      });
+
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Registration failed');
     } finally {
@@ -171,44 +191,30 @@ const Signup: React.FC<SignupProps> = ({ onClose, onLoginClick, onSuccess }) => 
     }
   };
 
+  const handleSocialLogin = (provider: 'google' | 'github') => {
+    const state = crypto.randomUUID();
+    sessionStorage.setItem('oauthState', state);
+    setError(null);
+    sessionStorage.setItem('preAuthPath', window.location.pathname);
+    window.location.href = `${API_BASE_URL}/auth/${provider}?signup=true`;
+  };
 
-const handleSocialLogin = (provider: 'google' | 'github') => {
-  const state = crypto.randomUUID();
-  sessionStorage.setItem('oauthState', state);
-  setError(null);
-  sessionStorage.setItem('preAuthPath', window.location.pathname);
-  //window.location.href = `${API_BASE_URL}/auth/google`;
-  window.location.href = `${API_BASE_URL}/auth/${provider}?signup=true`;;
-};
-
-  // Password toggle - unchanged
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  // Close handler - unchanged
-  const handleClose = () => {
-    onClose();
-    onLoginClick();
+  const goToLogin = () => {
+    navigate('/login', { replace: true });
   };
 
-  // JSX - unchanged except removed isSignedUp conditional
   return (
-    <div className="signup-modal">
+    <div className="signup-page">
       <div className="signup-content" ref={formRef}>
-        <button className="close-button" onClick={handleClose} aria-label="Close">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" fill="currentColor" />
-          </svg>
-        </button>
-
         <form 
           onSubmit={handleSubmit} 
           className="signup-form"
           id="signup-form"
         > 
-         
           <h2>Create Your Account</h2>
           {error && <div className="error-message">{error}</div>}
 
@@ -298,7 +304,6 @@ const handleSocialLogin = (provider: 'google' | 'github') => {
               </button>
             </div>
 
-       
             <div className="form-group password-input-wrapper">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -311,8 +316,6 @@ const handleSocialLogin = (provider: 'google' | 'github') => {
                 required
                 disabled={isLoading}
               />
-
-
               <button
                 type="button"
                 className="password-toggle"
@@ -321,20 +324,18 @@ const handleSocialLogin = (provider: 'google' | 'github') => {
               >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
-
-             
             </div>
-            {showPasswordRequirements && passwordValidation.errors && passwordValidation.errors.length > 0 && (
-        <div className="password-errors">
-          <p>Password must contain:</p>
-          <ul>
-            {passwordValidation.errors.map((error: string, index: number) => (
-              <li key={index} className="invalid">{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
+            {showPasswordRequirements && passwordValidation.errors && passwordValidation.errors.length > 0 && (
+              <div className="password-errors">
+                <p>Password must contain:</p>
+                <ul>
+                  {passwordValidation.errors.map((error: string, index: number) => (
+                    <li key={index} className="invalid">{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="terms-checkbox">
@@ -350,6 +351,16 @@ const handleSocialLogin = (provider: 'google' | 'github') => {
             </label>
           </div>
 
+          {/* reCAPTCHA */}
+          <div className="recaptcha-wrapper">
+            <ReCAPTCHA
+              sitekey={RECAPTCHA_SITE_KEY}
+              onChange={handleRecaptchaChange}
+              name="recaptchaToken"
+              id="recaptchaToken"
+            />
+          </div>
+
           <button 
             type="submit" 
             className="login-button" 
@@ -362,9 +373,18 @@ const handleSocialLogin = (provider: 'google' | 'github') => {
           <div className="terms-link">
             <p>
               <span className='terms-link-paragraph'>Already have an account?{' '}</span>
-              <button type="button" className="text-link" onClick={onLoginClick}>
+              <button type="button" className="text-link" onClick={goToLogin}>
                 Log in
               </button>
+            </p>
+          </div>
+
+          {/* Legal footer */}
+          <div className="signup-legal-footer">
+            <p>© 2025 Spatial Force. All Rights Reserved.</p>
+            <p>
+              <a href="/privacy" className="legal-link">Privacy Policy</a>
+              <span className="legal-separator"> • </span>
             </p>
           </div>
         </form>

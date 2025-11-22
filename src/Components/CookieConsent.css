@@ -1,0 +1,55 @@
+.sf-cookie-banner {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  max-width: 380px;
+  background: #ffffff;
+  padding: 16px 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border-radius: 12px;
+  z-index: 9999;
+  font-family: Inter, Arial, sans-serif;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.sf-cookie-text h4 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: #1a2e2a;
+}
+
+.sf-cookie-text p {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.sf-cookie-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sf-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.sf-btn.decline {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.sf-btn.accept {
+  background: #23574d;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

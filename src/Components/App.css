@@ -8,40 +8,46 @@
   --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
-
-html, body, #root {
+/* Allow normal vertical scrolling */
+html,
+body,
+#root {
+  height: 100%;
   margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family:sans-serif !important;
-  
 }
 
-
-
+/* Main app wrapper */
 .app-container {
+  min-height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-  top:0 !important;
+
 }
 
+/* Spacer under fixed navbar – tweak height until perfect */
+.navbar-spacer {
+  display: none;/* try 110–120px depending on your navbar height */
+}
+
+/* Where your routes render */
+.app-content {
+  flex: 1;
+  box-sizing: border-box;
+  margin-top: 0;
+  overflow-x: hidden;
+}
+
+/* Optional: make anchor jumps respect navbar height */
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 110px;
 }
-
 
 @media (max-width: 768px) {
   html {
-    scroll-padding-top: 60px;
-    
+    scroll-padding-top: 70px;
   }
-  .navbar{
-    height: 70px;
+
+  .navbar-spacer {
+    display: none;
   }
- 
 }

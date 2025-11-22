@@ -13,7 +13,6 @@
     display: grid;
     gap: 1.25rem;
     padding: 2rem 1.25rem;
-    border-radius: 1rem;
     background:
       radial-gradient(1200px 800px at 20% -10%, rgba(91,224,196,0.05), transparent),
       radial-gradient(1200px 800px at 110% 120%, rgba(63,176,137,0.06), transparent),

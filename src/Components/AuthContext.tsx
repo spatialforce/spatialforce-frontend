@@ -1,6 +1,5 @@
 import React from 'react';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import { API_BASE_URL } from './config';
 
@@ -18,7 +17,7 @@ interface AuthContextType {
   user: User | null;
   accounts: User[];
   isAuthenticated: boolean;
-  login: (userData: User, token: string) => Promise<void>;
+  login: (userData: User, token?: string | null) => Promise<void>;
   logout: () => Promise<void>;
   addAccount: (userData: User, token: string) => void;
   removeAccount: (email: string) => void;
@@ -54,10 +53,12 @@ const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout>();
 useEffect(() => {
   const resetTimer = () => {
     if (inactivityTimer) clearTimeout(inactivityTimer);
-    setInactivityTimer(setTimeout(() => {
+    const timer = setTimeout(() => {
       if (user) logout();
-    }, 3600000)); // 1 hour inactivity timeout
+    }, 3600000);
+    setInactivityTimer(timer);
   };
+  
 
   window.addEventListener('mousemove', resetTimer);
   window.addEventListener('keypress', resetTimer);
@@ -97,17 +98,13 @@ useEffect(() => {
 
       if (response.data.authenticated) {
         const sessionUser = response.data.user;
-        const token = Cookies.get('auth_token');
-        
+      
         setUser(sessionUser);
-        setCurrentToken(token || null);
-        
-        // Update accounts if not already present
-        setAccounts(prev => {
-          const exists = prev.some(acc => acc.email === sessionUser.email);
-          return exists ? prev : [...prev, sessionUser];
-        });
+      } else {
+        setUser(null);
+        setCurrentToken(null);
       }
+      
     } catch (error) {
       console.error('Session check error:', error);
       setError('Session verification failed');
@@ -117,7 +114,7 @@ useEffect(() => {
 useEffect(() => {
   const handleStorage = async (event: StorageEvent) => {
     if (event.key === 'sessionSync') {
-      const { data } = await axios.get(`${API_BASE_URL}auth/session`);
+      const { data } = await axios.get(`${API_BASE_URL}/auth/session`);
       setUser(data.authenticated ? data.user : null);
     }
   };
@@ -131,178 +128,93 @@ const syncSession = () => {
   localStorage.setItem('sessionSync', Date.now().toString());
 };
   
-  const login = async (userData: User, token: string) => {
-    try {
-      setLoading(true);
-      
-      // Update accounts list
-      setAccounts(prev => {
-        const updatedAccounts = prev.filter(acc => acc.email !== userData.email);
-        const newAccounts = [...updatedAccounts, userData];
-        localStorage.setItem('accounts', JSON.stringify(newAccounts));
-        return newAccounts;
-      });
-  
-      // Update cookie settings - critical changes here
-      // In login function
-Cookies.set('auth_token', token, {
-  secure: true, // Always true in production
-  sameSite: 'strict',
-  path: '/',
-  domain: '.spatialforce.co.zw', // Use your actual domain
-  httpOnly: true, // Must be set by server
-  expires: new Date(Date.now() + 86400000) // 1 day
-});
-  
-      // Update state
-      setUser(userData);
-      setCurrentToken(token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  };
-  const logout = async () => {
-    try {
-      setLoading(true);
-      await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
-        withCredentials: true
-      });
+const login = async (userData: User, token?: string | null) => {
+  try {
+    setLoading(true);
 
-      // Clear auth state
-      Cookies.remove('auth_token');
-      setUser(null);
-      setCurrentToken(null);
-      delete axios.defaults.headers.common['Authorization'];
-    } catch (err) {
-      console.error('Logout error:', err);
-      setError('Logout failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-
-
-  const addAccount = (userData: User, token: string) => {
     setAccounts(prev => {
-      const newAccounts = [...prev, userData];
+      const updatedAccounts = prev.filter(acc => acc.email !== userData.email);
+      const newAccounts = [...updatedAccounts, userData];
       localStorage.setItem('accounts', JSON.stringify(newAccounts));
       return newAccounts;
     });
 
-    Cookies.set(`auth_token_${userData.email}`, token, {
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      expires: 7
+    setUser(userData);
+    setCurrentToken(token || null); // purely for UI if you need it
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Login failed');
+    throw err;
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+  
+const logout = async () => {
+  try {
+    setLoading(true);
+    await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
+      withCredentials: true
+    });
+    setUser(null);
+    setCurrentToken(null);
+    delete axios.defaults.headers.common['Authorization'];
+  } catch (err) {
+    console.error('Logout error:', err);
+    setError('Logout failed');
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
+  const addAccount = (userData: User) => {
+    setAccounts(prev => {
+      const updated = prev.filter(acc => acc.email !== userData.email);
+      const newAccounts = [...updated, userData];
+      localStorage.setItem('accounts', JSON.stringify(newAccounts));
+      return newAccounts;
     });
   };
-
+  
   const removeAccount = (email: string) => {
     setAccounts(prev => {
       const newAccounts = prev.filter(acc => acc.email !== email);
       localStorage.setItem('accounts', JSON.stringify(newAccounts));
       return newAccounts;
     });
-    Cookies.remove(`auth_token_${email}`);
   };
+  
+  // For now, just a stub – real “switch” needs a dedicated backend flow
+  const switchAccount = async (email: string) => {
+    setError('Account switching is not yet supported with cookie-only auth');
+  };
+  
 
-// In AuthContext.tsx - Enhanced switchAccount function
-const switchAccount = async (email: string) => {
+
+
+const refreshToken = async (): Promise<boolean> => {
   try {
-    setLoading(true);
-    console.log('Attempting to switch to account:', email);
-    
-    const token = Cookies.get(`auth_token_${email}`);
-    console.log('Stored token for account:', token ? 'exists' : 'missing');
+    const response = await axios.post(
+      `${API_BASE_URL}/auth/refresh`,
+      {},
+      { withCredentials: true }
+    );
 
-    if (!token) {
-      throw new Error('No session found for this account');
+    if (response.data.success) {
+      // Server updated HttpOnly cookies; nothing to store on client
+      return true;
     }
-
-    // Verify token with backend
-    console.log('Verifying token with backend...');
-    const verificationResponse = await axios.get(`${API_BASE_URL}/auth/verify-token`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params: { _: Date.now() } // Cache busting
-    });
-    console.log('Verification response:', verificationResponse.data);
-
-    if (verificationResponse.data.valid) {
-      console.log('Token valid. Updating session...');
-      
-      // Set the new active token
-      Cookies.set('auth_token', token, {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        expires: 7,
-        domain: window.location.hostname,
-        path: '/'
-      });
-
-      // Force headers update
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      console.log('Axios headers updated with new token');
-
-      // Refresh session data
-      console.log('Refreshing session data...');
-      const sessionResponse = await axios.get(`${API_BASE_URL}/auth/session`, {
-        withCredentials: true,
-        params: { _: Date.now() } // Cache busting
-      });
-      console.log('Session response:', sessionResponse.data);
-
-      if (sessionResponse.data.authenticated) {
-        console.log('Session updated successfully');
-        const newUser = sessionResponse.data.user;
-        setUser(newUser);
-        setCurrentToken(token);
-        
-        // Update accounts list
-        setAccounts(prev => {
-          const exists = prev.some(acc => acc.email === newUser.email);
-          return exists ? prev : [...prev, newUser];
-        });
-      } else {
-        throw new Error('Session refresh failed');
-      }
-    } else {
-      throw new Error('Invalid session token');
-    }
+    return false;
   } catch (error) {
-    console.error('Account switch error:', error);
-    setError(`Switch failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    // Don't remove account on error - just log
-  } finally {
-    setLoading(false);
-    console.log('Account switch process completed');
+    console.error('Refresh token failed:', error);
+    logout();
+    return false;
   }
 };
 
-
-
-  const refreshToken = async (): Promise<boolean> => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, {
-        withCredentials: true
-      });
-      
-      if (response.data.success) {
-        const newToken = response.data.token;
-        setCurrentToken(newToken);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error('Refresh token failed:', error);
-      logout(); // Optional: force logout if refresh fails
-      return false;
-    }
-  };
 
   const clearError = () => setError(null);
 

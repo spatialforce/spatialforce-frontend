@@ -67,22 +67,185 @@ p, li, h1, h2, h3, h4, h5, h6, a, button, span, div {
   padding-inline: var(--pad-x);
 }
 
-/* ---------- Header ---------- */
-.services-header{
-  padding-top: calc(var(--nav-h) + 20px);
-  padding-bottom: .6rem;
-  text-align: center;
+/* ---------- Top hero / intro for services page ---------- */
+
+.services-header {
+ 
+  padding-bottom: 1.8rem;
 }
-.services-main-title{
+
+.services-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+  gap: clamp(1.4rem, 3vw, 2rem);
+  align-items: flex-start;
+}
+
+/* LEFT SIDE */
+
+.services-hero-text {
+  text-align: left;
+}
+
+.services-eyebrow {
+  margin: 0 0 0.4rem 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.services-main-title {
   font-size: var(--h1) !important;
-  margin: 0 0 var(--gap-sm) 0;
+  margin: 0 0 0.6rem 0;
   color: var(--sf-teal-900);
 }
-.services-intro-text,
-.services-header p{
-  margin: .25rem 0;
-  color: var(--para) !important;
-  line-height: 1.68;
+
+.services-lead {
+  margin: 0 0 0.85rem 0;
+  color: var(--para);
+  line-height: 1.7;
+  max-width: 42rem;
+}
+
+.services-pill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.9rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.services-pill-list li {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #f4faf9;
+  border: 1px solid #ddebea;
+  color: var(--para);
+}
+
+.services-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.services-meta-pill {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px dashed #d7e4e2;
+  color: var(--muted);
+}
+
+/* RIGHT SIDE PANEL */
+
+.services-hero-panel {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, #f9fcfb, #f3f8f7);
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.panel-label {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.panel-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.panel-tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #d8e7e4;
+  font-size: 0.88rem;
+  color: var(--sf-teal-900);
+}
+
+.panel-tool-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  color: var(--sf-teal-600);
+}
+
+.services-highlight-box {
+  border-radius: var(--r-md);
+  border: 1px dashed #cfe2df;
+  background: rgba(221, 239, 236, 0.4);
+  padding: 0.7rem 0.75rem;
+}
+
+.services-highlight-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--para);
+}
+
+/* ---------- Mobile layout for top section ---------- */
+@media  (max-width: 480px){
+  .services-header {
+   
+    padding-bottom: 1.2rem;
+  }
+
+  .services-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .services-hero-text {
+    text-align: left;
+  }
+
+  .services-lead {
+    max-width: 100%;
+  }
+
+  .services-hero-panel {
+    margin-top: 0.4rem;
+  }
+
+  
+}
+@media (max-width: 760px) {
+  .services-header {
+   
+    padding-bottom: 1.2rem;
+  }
+
+  .services-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .services-hero-text {
+    text-align: left;
+  }
+
+  .services-lead {
+    max-width: 100%;
+  }
+
+  .services-hero-panel {
+    margin-top: 0.4rem;
+  }
 }
 
 /* ---------- Section Heading ---------- */
@@ -507,11 +670,7 @@ p, li, h1, h2, h3, h4, h5, h6, a, button, span, div {
 @media (prefers-reduced-motion: reduce){
   *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-/* =========================================
-   MOBILE FIX — Closing CTA white patch/clip
-   /* ======================================================
-   FULL MOBILE STYLES — WHOLE PAGE (≤ 760px)
-   ====================================================== */
+
 @media (max-width:760px){
 
   /* ---------- Global safety + gutters ---------- */
@@ -711,5 +870,12 @@ p, li, h1, h2, h3, h4, h5, h6, a, button, span, div {
 
 /* Ultra-small (≤ 380px): extra top padding under fixed navs if needed */
 @media (max-width:380px){
-  .services-header { padding-top: calc(var(--nav-h) + 32px); }
+  
+.services-main-title {
+  font-size: 20px !important;
+  margin: 0 0 0.9rem 0;
+  color: rgb(25, 25, 25);
+  margin-top: 40px;
+}
+
 }

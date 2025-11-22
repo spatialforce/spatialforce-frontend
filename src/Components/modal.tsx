@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from './CartContext';
-import './modal.css';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./modal.css";
 
-const Modal: React.FC<{
+type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   image?: string;
@@ -11,24 +10,37 @@ const Modal: React.FC<{
   name: string;
   description: string;
   id: string;
-}> = ({ isOpen, onClose, image, details, name, description, id }) => {
-  const { addToCart, toggleCart } = useCart();
+};
+
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  image,
+  details,
+  name,
+  description,
+  id,
+}) => {
   const navigate = useNavigate();
 
+  // Lock scroll + ESC close
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') onClose();
-      };
-      document.addEventListener('keydown', handleEscape);
-      return () => {
-        document.body.style.overflow = '';
-        document.removeEventListener('keydown', handleEscape);
-      };
-    }
+    if (!isOpen) return;
+
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, [isOpen, onClose]);
 
+  // Page title
   useEffect(() => {
     if (isOpen) {
       document.title = `Spatial Force - ${name}`;
@@ -37,125 +49,136 @@ const Modal: React.FC<{
 
   const handleBookNow = () => {
     onClose();
-    navigate('/bookings', {
+    navigate("/bookings", {
       state: {
         serviceDetails: {
           id,
           name,
           description,
           image,
-          duration: details.duration
-        }
-      }
+          duration: details?.duration,
+        },
+      },
     });
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose} style={{ zIndex: 1001 }}>
+    <div className="sf-modal-overlay" onClick={onClose} style={{ zIndex: 1001 }}>
       <div
-        className="modal-content"
+        className="sf-modal-dialog"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
-        <button
-          className="close-button"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          &times;
-        </button>
+        {/* Header */}
+        <header className="sf-modal-header">
+          <h2 className="sf-modal-title">{name}</h2>
+          <button
+            className="sf-modal-close"
+            onClick={onClose}
+            aria-label="Close dialog"
+          >
+            &times;
+          </button>
+        </header>
 
-        <h2>{name}</h2>
+        {/* Body */}
+        <div className="sf-modal-body">
+          {image && (
+            <img
+              src={image}
+              alt={name}
+              className="sf-modal-image"
+              loading="lazy"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+          )}
 
-        {image && (
-          <img
-            src={image}
-            alt={name}
-            className="modal-image"
-            loading="lazy"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-        )}
+          {description && (
+            <p className="sf-modal-description">{description}</p>
+          )}
 
-        <p>{description}</p>
+          <section className="sf-modal-section">
+            <h3 className="sf-modal-section-title">
+              {details?.cta || "Service Details"}
+            </h3>
 
-        <div className="details-section">
-          <h3>{details.cta || "Service Details"}</h3>
-          
-          <div className="detail-item">
-            <strong>Duration:</strong>
-            <p>{details.duration || "Duration not available."}</p>
-          </div>
-          
-          <div className="detail-item">
-            <strong>Target Audience:</strong>
-            <p>{details.targetAudience || "No target audience specified."}</p>
-          </div>
-          
-          <div className="detail-item">
-            <strong>Related Services:</strong>
-            <ul>
-              {details.relatedServices?.length > 0 ? (
-                details.relatedServices.map((service: string, index: number) => (
-                  <li key={index}>{service}</li>
-                ))
-              ) : (
-                <li>None</li>
-              )}
-            </ul>
-          </div>
+            <div className="sf-modal-detail-group">
+              <div className="sf-modal-detail-item">
+                <span className="sf-modal-detail-label">Duration</span>
+                <span className="sf-modal-detail-value">
+                  {details?.duration || "Duration not available."}
+                </span>
+              </div>
 
-          <div className="faq-section">
-            <h4>FAQs</h4>
-            {details.faqs?.length > 0 ? (
-              details.faqs.map((faq: any, index: number) => (
-                <div key={index} className="faq-item">
-                  <strong>{faq.question}</strong>
-                  <p>{faq.answer}</p>
-                </div>
-              ))
-            ) : (
-              <p>No FAQs available.</p>
-            )}
-          </div>
+              <div className="sf-modal-detail-item">
+                <span className="sf-modal-detail-label">Target Audience</span>
+                <span className="sf-modal-detail-value">
+                  {details?.targetAudience || "No target audience specified."}
+                </span>
+              </div>
 
-          <div className="cta-section">
-            <div className="cta-content">
-              <p className="cta-text">Ready to request this service?</p>
-              <div className="cta-animation">
-                <svg
-                  className="animated-arrow"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path fill="var(--primary)" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 12v-6h-2v6h-3l4 5 4-5h-3z"/>
-                </svg>
-                <button 
-                  className="book-now-button"
-                  onClick={handleBookNow}
-                >
-                  Book Now
-                  <svg
-                    className="arrow-icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="var(--light)" d="M21 12l-7.121 7.121-1.414-1.414 4.467-4.467h-14.032v-2h14.032l-4.467-4.467 1.414-1.414z"/>
-                  </svg>
-                </button>
+              <div className="sf-modal-detail-item">
+                <span className="sf-modal-detail-label">Related Services</span>
+                <ul className="sf-modal-related-list">
+                  {details?.relatedServices?.length ? (
+                    details.relatedServices.map(
+                      (service: string, index: number) => (
+                        <li key={index}>{service}</li>
+                      )
+                    )
+                  ) : (
+                    <li>None</li>
+                  )}
+                </ul>
               </div>
             </div>
-          </div>
+          </section>
+
+          <section className="sf-modal-section">
+            <h3 className="sf-modal-section-title">FAQs</h3>
+            {details?.faqs?.length ? (
+              <div className="sf-modal-faq-list">
+                {details.faqs.map((faq: any, index: number) => (
+                  <div key={index} className="sf-modal-faq-item">
+                    <p className="sf-modal-faq-q">{faq.question}</p>
+                    <p className="sf-modal-faq-a">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="sf-modal-empty">No FAQs available.</p>
+            )}
+          </section>
         </div>
+
+        {/* Footer CTA – ALWAYS at the bottom, not overlapping anything */}
+        <footer className="sf-modal-footer">
+          <div className="sf-modal-cta-card">
+            <p className="sf-modal-cta-text">
+              Ready to request this service?
+            </p>
+            <button className="sf-modal-book-btn" onClick={handleBookNow}>
+              <span>Book Now</span>
+              <svg
+                className="sf-modal-book-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M21 12l-7.121 7.121-1.414-1.414 4.467-4.467H3v-2h13.932l-4.467-4.467 1.414-1.414z"
+                />
+              </svg>
+            </button>
+          </div>
+        </footer>
       </div>
     </div>
   );

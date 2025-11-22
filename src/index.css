@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* your globals can go here */
+html, body, #root { height: 100%; }

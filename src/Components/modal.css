@@ -1,202 +1,268 @@
-/* modal.css */
 :root {
-  --primary: #23574d;
-  --secondary: #4a9c91;
-  --accent: #4a9c91;
-  --dark: #1a2e2a;
-  --light: #f8fbfa;
-  --text: #405753;
-  --text-light: #6b8c86;
+  --sf-modal-bg: #ffffff;
+  --sf-modal-overlay: rgba(15, 23, 42, 0.45);
+  --sf-modal-border: #e4e8ec;
+  --sf-modal-radius-lg: 18px;
+  --sf-modal-radius-md: 12px;
+  --sf-modal-shadow: 0 18px 45px rgba(15, 23, 42, 0.32);
+
+  --sf-modal-title: #111827;
+  --sf-modal-text: #374151;
+  --sf-modal-muted: #6b7280;
+
+  --sf-modal-accent: #1f9e8f;
+  --sf-modal-accent-soft: #e6f6f3;
 }
 
-.modal-overlay {
+/* Overlay */
+.sf-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(26, 46, 42, 0.95);
+  inset: 0;
+  background: var(--sf-modal-overlay);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: var(--light);
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 800px;
-  width: 90%;
-  box-shadow: 0 8px 30px rgba(26, 46, 42, 0.2);
-  overflow-y: auto;
-  max-height: 90vh;
-  position: relative;
-}
-
-.close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--dark);
-  padding: 5px;
-  transition: color 0.3s ease;
-}
-
-.close-button:hover {
-  color: var(--secondary);
-}
-
-.modal-content h2 {
-  margin: 0 0 15px;
-  font-size: 1.8em;
-  color: var(--dark);
-  padding-right: 30px;
-}
-
-.modal-image {
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  border-radius: 4px;
-  margin: 1rem 0;
-  border: 2px solid var(--secondary);
-}
-
-.details-section {
-  margin: 1.5rem 0;
-}
-
-.detail-item {
-  margin: 1.2rem 0;
-  padding: 1rem;
-  background: rgba(74, 156, 145, 0.08);
-  border-radius: 6px;
-  border-left: 4px solid var(--secondary);
-}
-
-.detail-item strong {
-  color: var(--dark);
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1.1em;
-}
-
-.faq-section {
-  margin: 2rem 0;
-}
-
-.faq-item {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: var(--light);
-  border: 1px solid rgba(74, 156, 145, 0.15);
-  border-radius: 6px;
-}
-
-/* CTA Section */
-.cta-section {
-  margin-top: 2rem;
+  justify-content: center;
   padding: 1.5rem;
-  background: rgba(35, 87, 77, 0.05);
-  border-radius: 12px;
-  position: relative;
 }
 
-.cta-text {
-  font-size: 1.2rem;
-  color: var(--dark);
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-weight: 600;
-}
-
-.cta-animation {
+/* Dialog */
+.sf-modal-dialog {
+  background: var(--sf-modal-bg);
+  border-radius: var(--sf-modal-radius-lg);
+  box-shadow: var(--sf-modal-shadow);
+  max-width: 820px;
+  width: 100%;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  overflow: hidden;
 }
 
-.book-now-button {
+/* Header */
+.sf-modal-header {
+  position: relative;
+  padding: 1.25rem 1.75rem 0.75rem;
+  border-bottom: 1px solid var(--sf-modal-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--sf-modal-title);
+  text-align: center;
+}
+
+.sf-modal-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.95rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-modal-close:hover {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+/* Body */
+.sf-modal-body {
+  padding: 1.25rem 1.75rem 1.5rem;
+  overflow-y: auto;
+}
+
+.sf-modal-image {
+  width: 100%;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.sf-modal-description {
+  margin: 0 0 1.3rem 0;
+  color: var(--sf-modal-text);
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Sections */
+.sf-modal-section {
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--sf-modal-border);
+}
+
+.sf-modal-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.sf-modal-section-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--sf-modal-title);
+  text-align: center;
+}
+
+/* Detail block */
+.sf-modal-detail-group {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.sf-modal-detail-item {
+  text-align: center;
+}
+
+.sf-modal-detail-label {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sf-modal-muted);
+  margin-bottom: 0.25rem;
+}
+
+.sf-modal-detail-value {
+  font-size: 0.9rem;
+  color: var(--sf-modal-text);
+}
+
+/* Related list */
+.sf-modal-related-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sf-modal-related-list li {
+  font-size: 0.9rem;
+  color: var(--sf-modal-text);
+}
+
+/* FAQs */
+.sf-modal-faq-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.sf-modal-faq-item {
+  padding: 0.65rem 0.6rem;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.sf-modal-faq-q {
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  color: var(--sf-modal-title);
+  font-size: 0.9rem;
+}
+
+.sf-modal-faq-a {
+  margin: 0;
+  color: var(--sf-modal-text);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.sf-modal-empty {
+  margin: 0;
+  color: var(--sf-modal-muted);
+  font-size: 0.88rem;
+}
+
+/* Footer CTA – this is where “Ready to request…” + Book Now live */
+.sf-modal-footer {
+  border-top: 1px solid var(--sf-modal-border);
+  padding: 0.9rem 1.75rem 1.3rem;
+}
+
+.sf-modal-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  background: var(--sf-modal-accent-soft);
+  border-radius: var(--sf-modal-radius-md);
+  padding: 0.75rem 0.9rem;
+}
+
+.sf-modal-cta-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--sf-modal-text);
+}
+
+/* Book button */
+.sf-modal-book-btn {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 1rem 2rem;
-  background: var(--primary);
-  color: var(--light);
-  border-radius: 6px;
-  text-decoration: none;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: none;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  border: 2px solid var(--primary);
+  cursor: pointer;
+  background: var(--sf-modal-accent);
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
 }
 
-.book-now-button:hover {
-  background: var(--dark);
-  border-color: var(--dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(35, 87, 77, 0.2);
+.sf-modal-book-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
-.animated-arrow {
-  animation: bounce 1.5s infinite;
-  width: 48px;
-  height: 48px;
+.sf-modal-book-icon {
+  flex-shrink: 0;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.arrow-icon {
-  transition: transform 0.3s ease;
-}
-
-.book-now-button:hover .arrow-icon {
-  transform: translateX(4px);
-}
-
-
+/* Responsive */
 @media (max-width: 768px) {
-  .modal-content {
-    padding: 1.5rem;
-  }
-
-  .modal-image {
-    max-height: 300px;
-  }
-
-  .cta-text {
-    font-size: 1.1rem;
-  }
-
-  .book-now-button {
+  .sf-modal-dialog {
+    max-width: 100%;
     width: 100%;
+    max-height: 92vh;
+  }
+
+  .sf-modal-body {
+    padding-inline: 1.1rem;
+  }
+
+  .sf-modal-footer {
+    padding-inline: 1.1rem;
+  }
+
+  .sf-modal-cta-card {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .sf-modal-book-btn {
     justify-content: center;
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .modal-content {
-    padding: 1rem;
-  }
-
-  .modal-content h2 {
-    font-size: 1.4rem;
-  }
-
-  .detail-item {
-    padding: 0.8rem;
-  }
-
-  .animated-arrow {
-    width: 36px;
-    height: 36px;
+  .sf-modal-header {
+    padding-inline: 1.1rem;
   }
 }
