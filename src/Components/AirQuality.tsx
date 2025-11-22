@@ -62,13 +62,12 @@ const GAS_CONFIG = {
     key: "O3",
     label: "O₃",
     longName: "Ozone (O₃)",
-    tilePath: "/tiles/Ozone/{z}/{x}/{y}.png", // your Ozone tiles folder
+    tilePath: "/tiles/Ozone/{z}/{x}/{y}.png",
     legendTitle: "Ozone (O₃)",
     legendSub: {
       left: "Darker = lower",
       right: "Brighter = higher ",
     },
-    // Turbo-ish ramp – no name in UI, just colours
     gradient:
       "linear-gradient(to right, #2d0b59, #2644b4, #1aa38f, #a5db36, #fce623)",
     dotColor: "#f97316",
@@ -95,7 +94,6 @@ type GasKey = keyof typeof GAS_CONFIG;
 
 const AirQuality: React.FC = () => {
   // Per-gas data (geojson, stats, hotspots)
-  // NO2, CH4, CO have ward stats; O3 is tile-only context
   const [gasData, setGasData] = useState<{
     NO2: any | null;
     CH4: any | null;
@@ -149,6 +147,15 @@ const AirQuality: React.FC = () => {
 
   const mapRef = useRef<L.Map | null>(null);
 
+  // Keep track of individual ward layers for bringToFront / direct popups
+  const wardLayersRef = useRef<{ [fid: string]: L.Layer }>({});
+
+  // Keep track of the last opened ward popup (location + HTML)
+  const lastPopupRef = useRef<{
+    latlng: L.LatLngExpression;
+    html: string;
+  } | null>(null);
+
   // Bulawayo centre
   const bulawayoCenter: [number, number] = [-20.11, 28.55];
 
@@ -163,9 +170,9 @@ const AirQuality: React.FC = () => {
     if (typeof window !== "undefined") {
       const width = window.innerWidth;
       if (width <= 768) {
-        setInitialZoom(10); // mobile: zoomed out a bit
+        setInitialZoom(10);
       } else {
-        setInitialZoom(11); // desktop/tablet default
+        setInitialZoom(11);
       }
     }
   }, []);
@@ -440,7 +447,18 @@ const AirQuality: React.FC = () => {
     `;
   };
 
-  // Central helper used for hotspot clicks + dropdown
+  // Helper: bring selected ward to front so highlight sits above neighbours
+  const bringWardToFront = (
+    fid: string | number | null | undefined
+  ): void => {
+    if (fid === null || fid === undefined) return;
+    const layer = wardLayersRef.current[String(fid)];
+    if (layer && (layer as any).bringToFront) {
+      (layer as any).bringToFront();
+    }
+  };
+
+  // Central helper used for hotspot clicks + dropdown, and as fallback
   const openFeaturePopup = (
     feature: any,
     gasKey: GasKey,
@@ -459,7 +477,6 @@ const AirQuality: React.FC = () => {
       mapRef.current.fitBounds(bounds, { padding: [40, 40] });
     }
 
-    // For ozone we don't open ward popups because there are no ward stats
     if (gasKey === "O3") return;
 
     const html = buildWardPopupHtml(feature, gasKey, catField);
@@ -467,6 +484,7 @@ const AirQuality: React.FC = () => {
       .setLatLng(center)
       .setContent(html);
 
+    lastPopupRef.current = { latlng: center, html };
     popup.openOn(mapRef.current);
   };
 
@@ -477,15 +495,22 @@ const AirQuality: React.FC = () => {
     gasKey: GasKey,
     catField: string
   ) => {
+    const props = feature.properties || {};
+    const fid = props.fid;
+
+    if (fid !== null && fid !== undefined) {
+      wardLayersRef.current[String(fid)] = layer;
+    }
+
     layer.on("click", () => {
-      // Ozone: highlight only, no exposure popup
       if (gasKey === "O3") {
-        const props = feature.properties || {};
-        const fid = props.fid;
-        setSelectedWardId(fid);
+        const propsInner = feature.properties || {};
+        const fidInner = propsInner.fid;
+        setSelectedWardId(fidInner);
         const leafletLayer: any = layer as any;
         if (leafletLayer.bringToFront) leafletLayer.bringToFront();
         if (mapRef.current) mapRef.current.closePopup();
+        lastPopupRef.current = null;
         return;
       }
 
@@ -500,6 +525,16 @@ const AirQuality: React.FC = () => {
       }
 
       const html = buildWardPopupHtml(feature, gasKey, catField);
+
+      let center: L.LatLng;
+      if (leafletLayer && leafletLayer.getBounds) {
+        center = leafletLayer.getBounds().getCenter();
+      } else {
+        const tmp = L.geoJSON(feature);
+        center = tmp.getBounds().getCenter();
+      }
+      lastPopupRef.current = { latlng: center, html };
+
       leafletLayer.bindPopup(html).openPopup();
     });
   };
@@ -541,6 +576,8 @@ const AirQuality: React.FC = () => {
   };
 
   // When clicking a hotspot in the sidebar (NO2, CH4, CO only)
+  // 🔥 NEW: use the actual Leaflet layer click, so it behaves
+  // EXACTLY like manual ward clicking (highlight + popup).
   const handleHotspotClick = (
     hotspot: any,
     gasKey: GasKey,
@@ -548,13 +585,39 @@ const AirQuality: React.FC = () => {
   ) => {
     if (!hotspot || !hotspot.feature) return;
     if (gasKey === "O3") return;
-
     const feature = hotspot.feature;
+    const props = feature.properties || {};
+    const fid = props.fid;
+    if (fid === null || fid === undefined) return;
+
+    const fidStr = String(fid);
+
+    // keep dropdown in sync
+    setSelectedWardOptionId(fidStr);
+
+    const layer = wardLayersRef.current[fidStr] as any;
+
+    // If we have the live layer, fire its click handler.
+    if (layer) {
+      // zoom to ward bounds first
+      if (mapRef.current && layer.getBounds) {
+        const bounds = layer.getBounds();
+        if (bounds && bounds.isValid()) {
+          mapRef.current.fitBounds(bounds, { padding: [40, 40] });
+        }
+      }
+
+      if (layer.fire) {
+        layer.fire("click");
+        return; // manual click logic will handle highlight + popup + state
+      }
+    }
+
+    // Fallback (if for some reason we don't have the layer reference)
     const sel = buildSelectedWardState(feature, gasKey, catField);
     setSelectedWard(sel);
     setSelectedWardId(sel.id);
-    setSelectedWardOptionId(String(sel.id ?? ""));
-
+    bringWardToFront(sel.id);
     openFeaturePopup(feature, gasKey, catField, true);
   };
 
@@ -593,7 +656,37 @@ const AirQuality: React.FC = () => {
     setSelectedWard(sel);
     setSelectedWardId(sel.id);
 
-    openFeaturePopup(feature, selectedGas, activeGasData.catField, true);
+    bringWardToFront(sel.id);
+
+    if (mapRef.current) {
+      const tmpLayer = L.geoJSON(feature);
+      const bounds = tmpLayer.getBounds();
+      if (bounds.isValid()) {
+        mapRef.current.fitBounds(bounds, { padding: [40, 40] });
+      }
+    }
+
+    const layer = wardLayersRef.current[String(sel.id)];
+    const html = buildWardPopupHtml(
+      feature,
+      selectedGas,
+      activeGasData.catField
+    );
+
+    let center: L.LatLng;
+    if (layer && (layer as any).getBounds) {
+      center = (layer as any).getBounds().getCenter();
+    } else {
+      const tmp = L.geoJSON(feature);
+      center = tmp.getBounds().getCenter();
+    }
+    lastPopupRef.current = { latlng: center, html };
+
+    if (layer && (layer as any).bindPopup) {
+      (layer as any).bindPopup(html).openPopup();
+    } else {
+      openFeaturePopup(feature, selectedGas, activeGasData.catField, false);
+    }
   };
 
   // When gas layer visibility changes: if we hide gas, clear selection + popup
@@ -603,11 +696,12 @@ const AirQuality: React.FC = () => {
       setSelectedWard(null);
       setSelectedWardId(null);
       setSelectedWardOptionId("");
+      lastPopupRef.current = null;
       mapRef.current.closePopup();
     }
   }, [gasVisible]);
 
-  // When gas changes: AUTO "REFRESH" MAP + CLEAR POPUP/HIGHLIGHT
+  // When gas changes: refresh map + clear popup/highlight
   useEffect(() => {
     if (firstGasRenderRef.current) {
       firstGasRenderRef.current = false;
@@ -619,6 +713,7 @@ const AirQuality: React.FC = () => {
     setSelectedWardOptionId("");
     setGasVisible(true);
     setGasSwitcherExpanded(false);
+    lastPopupRef.current = null;
 
     if (mapRef.current) {
       mapRef.current.closePopup();
@@ -627,14 +722,16 @@ const AirQuality: React.FC = () => {
     setMapKey((k) => k + 1);
   }, [selectedGas]);
 
-  // When expand/collapse dashboard: fix map size & close popup squashing
+  // When expand/collapse dashboard: just resize the map,
+  // DO NOT remount or you lose the popup + highlight.
   useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.closePopup();
-      setTimeout(() => {
-        mapRef.current && mapRef.current.invalidateSize();
-      }, 250);
-    }
+    if (!mapRef.current) return;
+
+    setTimeout(() => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+    }, 250);
   }, [sidebarExpanded]);
 
   // Helper to build a simple plume segment from ward centroid (top 5 by mean)
@@ -644,7 +741,6 @@ const AirQuality: React.FC = () => {
     const center = layer.getBounds().getCenter();
     const start: [number, number] = [center.lat, center.lng];
 
-    // Offset towards WNW (up & left on map)
     const latOffset = 0.18;
     const lngOffset = -0.18;
     const end: [number, number] = [
@@ -698,6 +794,7 @@ const AirQuality: React.FC = () => {
                     setSelectedWard(null);
                     setSelectedWardId(null);
                     setSelectedWardOptionId("");
+                    lastPopupRef.current = null;
                     map.closePopup();
                   }
                 });
@@ -726,8 +823,7 @@ const AirQuality: React.FC = () => {
                   />
                 </BaseLayer>
 
-                {/* Wards boundary – for NO2, CH4, CO use that gas geojson.
-                    For O3 use NO2 wards just as boundary context. */}
+                {/* Wards boundary */}
                 {activeGasData?.geojson && !isOzone && (
                   <Overlay checked name="Wards boundary">
                     <GeoJSON
@@ -827,9 +923,8 @@ const AirQuality: React.FC = () => {
               <ScaleControl position="bottomleft" />
             </MapContainer>
 
-            {/* Gas switcher – desktop panel + mobile icon/panel */}
+            {/* Gas switcher */}
             <div className="no2-gas-switcher">
-              {/* Mobile icon (hidden on desktop via CSS) */}
               <button
                 type="button"
                 className="no2-gas-switcher-pill"
@@ -841,7 +936,6 @@ const AirQuality: React.FC = () => {
                 </span>
               </button>
 
-              {/* Panel with buttons */}
               <div
                 className={
                   "no2-gas-switcher-panel" +
@@ -870,7 +964,7 @@ const AirQuality: React.FC = () => {
               </div>
             </div>
 
-            {/* Gas legend – updates per gas */}
+            {/* Gas legend */}
             <div className="no2-legend">
               <h2>{currentGasConfig.legendTitle}</h2>
               <p className="no2-legend-sub">
@@ -974,9 +1068,8 @@ const AirQuality: React.FC = () => {
                 <h2>Ozone context</h2>
                 <p className="no2-ozone-note">
                   O₃ is shown as a total column from Sentinel-5P. It forms in
-                  the atmosphere from other gases and is used here as
-                  a background chemistry  not
-                  as a ward exposure metric.
+                  the atmosphere from other gases and is used here as a
+                  background chemistry not as a ward exposure metric.
                 </p>
               </>
             ) : (
