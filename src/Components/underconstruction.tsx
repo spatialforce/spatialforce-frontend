@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './UnderConstruction.css';
+import './underconstruction.css';
 
 interface UnderConstructionProps {
   sectionLabel?: string; // e.g. "Services", "Resources", "Industries"
