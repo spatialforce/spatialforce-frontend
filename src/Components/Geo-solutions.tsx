@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import "./Geo-solutions.css";
 import { Helmet } from 'react-helmet-async';
+
 type FAQ = { q: string; a: string };
 
 const faqs: FAQ[] = [
@@ -51,27 +52,14 @@ const GeoSolutions: React.FC = () => {
 
   return (
     <main className="gs3-page" role="main">
-      {/* SEO helpers, visually hidden */}
       <Helmet>
-      <section className="gs3-seo" aria-hidden="true">
-        <link
-          rel="canonical"
-          href="https://www.spatialforce.co.zw/geo-solutions"
-        />
-        <meta
-          name="description"
-          content="Geo solutions from Spatial Force: clear GIS and Remote Sensing support, web maps and simple dashboards to understand location-based information."
-        />
-        <meta
-          name="keywords"
-          content="geo solutions, GIS, Remote Sensing, web maps, dashboards, spatial analysis, Spatial Force"
-        />
+        <link rel="canonical" href="https://www.spatialforce.co.zw/geo-solutions" />
+        <meta name="description" content="Geo solutions from Spatial Force: clear GIS and Remote Sensing support, web maps and simple dashboards to understand location-based information." />
+        <meta name="keywords" content="geo solutions, GIS, Remote Sensing, web maps, dashboards, spatial analysis, Spatial Force" />
         <meta name="author" content="Spatial Force" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#23574d" />
-       
-      </section>
       </Helmet>
 
       {/* HERO */}
@@ -83,26 +71,17 @@ const GeoSolutions: React.FC = () => {
               Geo solutions explained in clear language.
             </h1>
             <p className="gs3-hero-lede">
-<<<<<<< HEAD
-              We aim to provide any spatial data 
-              support services aiming to solve real world problems. We craft solutions based on the complexity and 
-              special needs for each challenge by making 
-              simple flows and tools that stay light enough for normal
-              connections.
-=======
-            Our mission is to tackle complex challenges with the power of spatial data.
-            We offer a complete range of support services to make this possible.
-            Since no two problems are the same, we do not offer one-size-fits-all answers.
-            Instead, we carefully design each solution to fit the complexity and details of your situation
->>>>>>> f08f762dd41f04c5ad6c1e2dc2f36b4bf8abf46f
+              We provide spatial data services to solve real-world problems. 
+              Our approach is to understand each unique challenge and craft 
+              the right tools to address it effectively.
             </p>
 
-          <ul class="gs3-hero-points">
-    <li>Solve location puzzles with intuitive maps that simplify complexity</li>
-    <li>Pinpoint critical insights with dashboards designed for quick decisions</li>
-    <li>Navigate projects confidently with guided, ongoing analytical support</li>
-    <li>Address your exact situation with custom-built spatial solutions</li>
-</ul>
+            <ul className="gs3-hero-points">
+              <li>Solve location puzzles with intuitive maps that simplify complexity</li>
+              <li>Pinpoint critical insights with dashboards designed for quick decisions</li>
+              <li>Navigate projects confidently with guided, ongoing analytical support</li>
+              <li>Address your exact situation with custom-built spatial solutions</li>
+            </ul>
 
             <div className="gs3-hero-tags" aria-hidden="true">
               <span>GIS</span>
@@ -212,7 +191,7 @@ const GeoSolutions: React.FC = () => {
           <header className="gs3-section-head">
             <h2 className="gs3-h2">Geo visuals at a glance</h2>
             <p className="gs3-section-lede">
-             We craft any form of  geospatial data support and handling tools to make data interpretation easy for you.
+              We craft any form of geospatial data support and handling tools to make data interpretation easy for you.
             </p>
           </header>
 
@@ -330,10 +309,9 @@ const GeoSolutions: React.FC = () => {
           <header className="gs3-section-head">
             <h2 className="gs3-h2">How a small engagement might run</h2>
             <p className="gs3-section-lede">
-             Our mission is to tackle complex challenges with the power of spatial data.
-            We offer a complete range of support services to make this possible.
-Since no two problems are the same, we do not offer one-size-fits-all answers.
-Instead, we carefully design each solution to fit the complexity and details of your situation.
+              We solve real-world problems with tailored spatial data solutions. 
+              Our approach is to understand each unique challenge and craft the 
+              right tools to address it effectively.
             </p>
           </header>
 
@@ -451,12 +429,6 @@ Instead, we carefully design each solution to fit the complexity and details of 
               <label htmlFor="msg">Message</label>
               <textarea id="msg" name="message" rows={5} />
             </div>
-            <div className="gs3-form-note">
-<<<<<<< HEAD
-
-=======
->>>>>>> f08f762dd41f04c5ad6c1e2dc2f36b4bf8abf46f
-            </div>
             <button className="gs3-submit" type="submit">
               Send message
             </button>
@@ -470,10 +442,6 @@ Instead, we carefully design each solution to fit the complexity and details of 
           <div className="gs3-footer-brand">Spatial Force · Geo solutions</div>
           <div className="gs3-footer-copy">
             © {year} Spatial Force.
-<<<<<<< HEAD
-           
-=======
->>>>>>> f08f762dd41f04c5ad6c1e2dc2f36b4bf8abf46f
           </div>
         </div>
       </footer>
