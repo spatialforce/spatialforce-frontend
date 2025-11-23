@@ -15,16 +15,21 @@
     position: relative;
     z-index: 0;
   }
-  
+  /* When expanded, keep the map alive behind, just put the sidebar on top */
+.no2-layout.no2-layout-expanded .no2-map-column {
+  z-index: 0; /* map stays rendered but sits underneath */
+}
 
-  .no2-layout.no2-layout-expanded .no2-map-column {
-    display: none;
-  }
-  
-  .no2-layout.no2-layout-expanded .no2-sidebar {
-    max-height: none;
-    width: 100%;
-  }
+.no2-layout.no2-layout-expanded .no2-sidebar {
+  position: absolute;
+  inset: 0;              /* top:0; right:0; bottom:0; left:0 */
+  margin: 0;
+  width: 100%;
+  max-height: none;
+  border-radius: 0;
+  z-index: 30;           /* above map, legend, gas switcher */
+}
+
   
   .no2-map-column {
     flex: 2.2;
@@ -802,6 +807,22 @@
   .no2-ozone-list li + li {
     margin-top: 4px;
   }
+
+  /* Fix Leaflet popup width so it doesn't get squeezed when layout changes */
+.no2-map .leaflet-popup-content-wrapper {
+  max-width: 240px !important;  /* match the L.popup({ maxWidth: 240 }) */
+  min-width: 190px;             /* stops it becoming a skinny slice */
+}
+
+.no2-map .leaflet-popup-content {
+  white-space: normal;
+}
+
+/* Make sure Leaflet popups always sit above ward highlights */
+.no2-map .leaflet-popup-pane {
+  z-index: 1000 !important;
+}
+
   
   /* Tablets / small laptops */
   @media (max-width: 1024px) {
