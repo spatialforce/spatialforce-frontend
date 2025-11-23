@@ -11,8 +11,6 @@ import {
   faLightbulb,
   faChartLine,
   faCloud,
-  faShieldAlt,
-  faGlobe,
   faSeedling,
   faCity,
   faTint,
