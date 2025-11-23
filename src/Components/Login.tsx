@@ -47,36 +47,38 @@ const Login: React.FC<LoginProps> = ({
 
   const googleLogo = "/images/google-logo.svg";
 
+  const from = (location.state as any)?.from?.pathname || '/';
+
   // Handle auth_error / activation params on the URL, as a page
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const errorParam = params.get('auth_error');
-    const providerParam = params.get('provider');
+    const providerParamLocal = params.get('provider');
     const emailParam = params.get('email');
     const activationSuccess = params.get('activationSuccess');
     const activationError = params.get('activationError');
-  
+
     if (errorParam === 'existing_account') {
-      setError(`Account already exists with ${providerParam}. Please login instead.`);
+      setError(`Account already exists with ${providerParamLocal}. Please login instead.`);
       setErrorType('EXISTING_ACCOUNT');
       if (emailParam) setEmail(emailParam);
       navigate(location.pathname, { replace: true });
       return;
     }
-  
+
     if (errorParam === 'existing_account_diff_provider') {
-      const providerDisplay = providerParam === 'email'
+      const providerDisplay = providerParamLocal === 'email'
         ? 'email/password'
-        : providerParam?.replace(/_/g, ' ') || 'another method';
+        : providerParamLocal?.replace(/_/g, ' ') || 'another method';
       setError(`This account was created with ${providerDisplay}. Please use that method.`);
       setErrorType('AUTH_PROVIDER_MISMATCH');
       if (emailParam) setEmail(emailParam);
       navigate(location.pathname, { replace: true });
       return;
     }
-  
+
     if (errorParam === 'google_account_not_found') {
-      const isEmailAccount = providerParam === 'email';
+      const isEmailAccount = providerParamLocal === 'email';
       setError(
         isEmailAccount
           ? 'This account uses email/password. Please sign in with your credentials.'
@@ -87,28 +89,27 @@ const Login: React.FC<LoginProps> = ({
       navigate(location.pathname, { replace: true });
       return;
     }
-  
+
     if (activationSuccess) {
       setError('Account successfully activated! Please sign in.');
       setErrorType('ACTIVATION_SUCCESS');
       navigate(location.pathname, { replace: true });
       return;
     }
-  
+
     if (activationError) {
       setError(`Account activation failed: ${activationError}`);
       setErrorType('ACTIVATION_ERROR');
       navigate(location.pathname, { replace: true });
       return;
     }
-  
+
     if (errorParam) {
       setError('Authentication service unavailable. Please try again.');
       setErrorType('GENERIC_ERROR');
       navigate(location.pathname, { replace: true });
     }
   }, [location.search, location.pathname, navigate]);
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,28 +143,28 @@ const Login: React.FC<LoginProps> = ({
         }
 
         let errorMessage = 'Login failed. Please try again.';
-        let errorType = 'GENERIC_ERROR';
+        let errorTypeLocal = 'GENERIC_ERROR';
 
         if (data.code === 'INVALID_CREDENTIALS') {
           errorMessage = 'Invalid email or password';
-          errorType = 'INVALID_CREDENTIALS';
+          errorTypeLocal = 'INVALID_CREDENTIALS';
         } else if (data.code === 'ACCOUNT_INACTIVE') {
           errorMessage = 'Account not activated. Please check your email.';
-          errorType = 'ACCOUNT_INACTIVE';
+          errorTypeLocal = 'ACCOUNT_INACTIVE';
         } else if (data.error) {
           errorMessage = data.error;
         }
 
         setError(errorMessage);
-        setErrorType(errorType);
+        setErrorType(errorTypeLocal);
         throw new Error(errorMessage);
       }
 
-    
       if (!data.user) {
         throw new Error('Authentication failed. Please try again.');
       }
-      
+
+      // Keep mapping as you had it, so nothing else breaks
       await login(
         {
           id: data.user.id,
@@ -176,37 +177,31 @@ const Login: React.FC<LoginProps> = ({
         },
         '' // token not needed anymore
       );
-      
-      // no Cookies.set('auth_token', ...) here
-      // server has already set the HttpOnly cookie
-      navigate(`/welcome?email=${encodeURIComponent(data.user.email)}&method=email`);
-      
-      if (onSuccessfulLogin) {
-        onSuccessfulLogin();
-      }
-      
-      // As a page: just go to welcome screen
-      navigate(`/welcome?email=${encodeURIComponent(data.user.email)}&method=email`);
 
       if (onSuccessfulLogin) {
         onSuccessfulLogin();
       }
+
+      // ✅ Smart redirect:
+      // - If user came from a protected page, go back there
+      // - Else, go to "/"
+      navigate(from, { replace: true });
 
     } catch (err) {
       let errorMessage = 'Login failed. Please try again.';
-      let errorType = 'GENERIC_ERROR';
+      let errorTypeLocal = 'GENERIC_ERROR';
 
       if (err instanceof Error) {
         errorMessage = err.message;
 
         if (err.message.includes('invalid') || err.message.includes('credentials')) {
           errorMessage = 'Invalid email or password';
-          errorType = 'INVALID_CREDENTIALS';
+          errorTypeLocal = 'INVALID_CREDENTIALS';
         }
       }
 
       setError(errorMessage);
-      setErrorType(errorType);
+      setErrorType(errorTypeLocal);
 
     } finally {
       setIsLoading(false);
@@ -232,7 +227,6 @@ const Login: React.FC<LoginProps> = ({
         credentials: 'include',
         body: JSON.stringify({ email }),
       });
-      
 
       const data = await response.json();
       

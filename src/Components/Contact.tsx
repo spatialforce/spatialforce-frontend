@@ -4,13 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import './Contact.css';
 import Footer from './Footer';
 import ContactSchema from './ContactSchema';
-import { Link } from 'react-router-dom';
 
 const Contact = () => {
-  // ✅ CORRECT: Define image URLs that actually exist
-  const featuredImage = "/images/contact-spatial-force-featured.jpg";
-  const founderPhoto = "/images/kudzanai-chakavarika-profile.jpg";
-  const companyLogo = "/images/spatial-force-logo.png";
+
 
   return (
     <>
@@ -69,7 +65,7 @@ const Contact = () => {
               communication and are eager to provide the support you need to ensure your success.
             </p>
             <div className="sf1-cta-buttons">
-              <a href="mailto:info@spatialforce.co.zw" className="sf1-cta-button" aria-label="Email Us">
+              <a href="mailto:gis@spatialforce.co.zw" className="sf1-cta-button" aria-label="Email Us">
                 <FaEnvelope className="cta-icon" aria-hidden="true" />
                 Email Us
               </a>
@@ -94,7 +90,7 @@ const Contact = () => {
             <div className="contact-info">
               <div className="info-item">
                 <FaEnvelope className="info-icon" aria-label="Email Icon" />
-                <p>Email: <a href="mailto:info@spatialforce.co.zw">info@spatialforce.co.zw</a></p>
+                <p>Email: <a href="mailto:gis@spatialforce.co.zw">info@spatialforce.co.zw</a></p>
               </div>
               <div className="info-item">
                 <FaPhone className="info-icon" aria-label="Phone Icon" />
@@ -237,7 +233,7 @@ const Contact = () => {
              free consultation with us to discuss your project needs and explore how we can assist you.
           </p>
           <div className="consultation-buttons">
-            <a href="mailto:no-reply@spatialforce.co.zw" className="cta-button" aria-label="Email for Consultation">
+            <a href="mailto:gis@spatialforce.co.zw" className="cta-button" aria-label="Email for Consultation">
               <FaEnvelope className="cta-icon" aria-hidden="true" />
               Email for Consultation
             </a>

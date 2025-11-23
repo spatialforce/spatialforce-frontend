@@ -68,9 +68,17 @@ const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
     { path: '/default', label: 'FAQs' },
   ];
 
+  // Default avatar image (face) when not logged in
   const avatarSrc =
     user?.avatar ||
     'https://api.dicebear.com/7.x/avataaars/svg?seed=spatialforce&backgroundColor=b6e3f4,ffffff&radius=50';
+
+  // ✅ Initial letter avatar when logged in (e.g. "K")
+  const userInitial =
+    (user?.firstName && user.firstName.trim().charAt(0).toUpperCase()) ||
+    (user?.lastName && user.lastName.trim().charAt(0).toUpperCase()) ||
+    (user?.email && user.email.trim().charAt(0).toUpperCase()) ||
+    null;
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -370,7 +378,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
                 aria-label="Account menu"
                 onClick={() => setAccountOpen((v) => !v)}
               >
-                <img className="sf-avatar-img" src={avatarSrc} alt="Account" />
+                {/* ✅ Switch between face avatar and letter avatar */}
+                {isAuthenticated && userInitial ? (
+                  <div className="sf-avatar-initial">
+                    {userInitial}
+                  </div>
+                ) : (
+                  <img className="sf-avatar-img" src={avatarSrc} alt="Account" />
+                )}
               </button>
 
               {/* Account dropdown */}
@@ -410,9 +425,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
                       </button>
                     </div>
 
-                    <div className="sf-account__note">
-                      No spam. Just focused GIS and remote sensing collaboration.
-                    </div>
+                    <div className="sf-account__note"></div>
                   </>
                 ) : (
                   <>
@@ -435,16 +448,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
                           navigate('/bookings');
                         }}
                       >
-                        View bookings
-                      </button>
-                      <button
-                        className="sf-account__item sf-account__item--link"
-                        onClick={() => {
-                          setAccountOpen(false);
-                          navigate('/account');
-                        }}
-                      >
-                        Profile & settings
+                        Bookings
                       </button>
                     </div>
 
@@ -453,7 +457,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSignupClick, onLoginClick }) => {
                       onClick={() => {
                         setAccountOpen(false);
                         logout();
-                        navigate('/');
                       }}
                     >
                       Logout

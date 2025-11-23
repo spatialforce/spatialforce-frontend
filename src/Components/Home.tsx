@@ -43,12 +43,46 @@ const Home = () => {
   return (
     <div className="spatial-home">
       <Helmet>
-        <title>Spatial Force | Geospatial Intelligence & GIS Solutions</title>
-        <meta
-          name="description"
-          content="Professional geospatial services including custom map design, spatial analysis, and GIS application development. Transform location data into decisions."
-        />
-      </Helmet>
+  <title>Spatial Force | Geospatial Intelligence & GIS Solutions</title>
+
+  <meta
+    name="description"
+    content="Professional geospatial services including map design, spatial analysis, air quality dashboards, health facility mapping, GIS application development and decision-support tools for Zimbabwe and Africa."
+  />
+
+  <meta
+    name="keywords"
+    content="Spatial Force, GIS Zimbabwe, GIS Bulawayo, geospatial intelligence, mapping services, spatial analysis, Leaflet maps, GIS consulting, web GIS"
+  />
+
+  <link rel="canonical" href="https://spatialforce.co.zw/" />
+
+  {/* Open Graph (for Facebook & LinkedIn) */}
+  <meta property="og:title" content="Spatial Force | Geospatial Intelligence & GIS Solutions" />
+  <meta
+    property="og:description"
+    content="Transforming location data into decisions through GIS, spatial analysis, custom maps, web applications and geospatial intelligence."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://spatialforce.co.zw/" />
+  <meta
+    property="og:image"
+    content="https://spatialforce.co.zw/images/hero7.png"
+  />
+
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Spatial Force | Geospatial Intelligence" />
+  <meta
+    name="twitter:description"
+    content="GIS solutions, mapping, web applications and spatial intelligence for Zimbabwe and beyond."
+  />
+  <meta
+    name="twitter:image"
+    content="https://spatialforce.co.zw/images/hero7.png"
+  />
+</Helmet>
+
 
       <section className="spatial-hero-container">
         {/* ✅ Single animated background image */}

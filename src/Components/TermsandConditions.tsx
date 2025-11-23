@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./TermsAndConditions.css";
+import { Helmet } from "react-helmet-async"; 
 
 const TermsAndConditions: React.FC = () => {
   useEffect(() => {
@@ -13,6 +14,32 @@ const TermsAndConditions: React.FC = () => {
 
   return (
     <div className="legal-container">
+          <Helmet>
+      <title>Terms and Conditions | Spatial Force</title>
+      <meta
+        name="description"
+        content="Read the Terms and Conditions for using Spatial Force geospatial services, web applications, and GIS solutions in Zimbabwe and beyond."
+      />
+      <link rel="canonical" href="https://spatialforce.co.zw/terms" />
+
+      {/* Open Graph */}
+      <meta property="og:title" content="Terms and Conditions | Spatial Force" />
+      <meta
+        property="og:description"
+        content="Legal terms governing the use of Spatial Force geospatial platforms, tools and mapping services."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://spatialforce.co.zw/terms" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Terms and Conditions | Spatial Force" />
+      <meta
+        name="twitter:description"
+        content="Understand the terms that apply when you use Spatial Force GIS and mapping services."
+      />
+     
+    </Helmet>
       <div className="legal-shell">
         {/* Header */}
         <header className="legal-header">

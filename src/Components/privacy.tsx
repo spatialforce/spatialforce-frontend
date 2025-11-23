@@ -2,14 +2,40 @@ import { useEffect } from 'react';
 import './privacy.css';
 import { Link } from 'react-router-dom';
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const PrivacyPolicy = () => {
-  useEffect(() => {
-    document.title = 'Privacy Policy | Spatial Force - Geospatial Solutions';
-  }, []);
 
   return (
     <div className="vercel-style-container">
+
+<Helmet>
+  <title>Privacy Policy | Spatial Force – Data Protection & User Rights</title>
+
+  <meta 
+    name="description" 
+    content="Read the official Privacy Policy for Spatial Force. Learn how we collect, use, store, and protect your personal information in compliance with GDPR, CCPA, and Zimbabwe’s Data Protection Act." 
+  />
+
+  <meta 
+    name="keywords" 
+    content="Privacy Policy Spatial Force, data protection Zimbabwe, GDPR compliance Zimbabwe, CCPA, GIS privacy, data security, user rights" 
+  />
+
+  <link rel="canonical" href="https://spatialforce.co.zw/privacy" />
+
+  {/* Open Graph */}
+  <meta property="og:title" content="Privacy Policy | Spatial Force" />
+  <meta property="og:description" content="Learn how Spatial Force protects your privacy, handles your data responsibly, and ensures compliance with GDPR, CCPA, and Zimbabwe laws." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://spatialforce.co.zw/privacy" />
+
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Privacy Policy | Spatial Force" />
+  <meta name="twitter:description" content="Understand how Spatial Force protects your personal data with GDPR, CCPA, and Zimbabwe Data Protection compliance." />
+</Helmet>
+
       <div className="legal-header">
         <h1>Privacy Policy</h1>
         <p className="last-updated">Last Updated: 12-06-2024</p>

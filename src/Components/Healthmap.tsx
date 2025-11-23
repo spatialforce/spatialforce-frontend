@@ -3,6 +3,7 @@ import './Healthmap.css';
 import L, { LatLng, Marker, MarkerOptions } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
+import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faSearch,
@@ -636,6 +637,47 @@ Object.values(baseLayersRef.current).forEach(addTileErrorHandling);
   }, [mapRef.current]);
   return (
     <div className="health-map-container">
+      <Helmet>
+      <title>Bulawayo Health Facilities Map | Hospitals & Clinics | SpatialForce</title>
+      <meta
+        name="description"
+        content="Interactive health facility map for Bulawayo showing hospitals and clinics with routing, search and ward overlays to help residents find nearby care."
+      />
+      <meta
+        name="keywords"
+        content="Bulawayo health map, hospitals Bulawayo, clinics Bulawayo, health facilities map Zimbabwe, SpatialForce"
+      />
+      <link
+        rel="canonical"
+        href="https://spatialforce.co.zw/health-map"
+      />
+
+      {/* Open Graph */}
+      <meta property="og:title" content="Bulawayo Health Facilities Map | SpatialForce" />
+      <meta
+        property="og:description"
+        content="Find hospitals and clinics in Bulawayo, search by facility or ward and get driving directions on an interactive map."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://spatialforce.co.zw/health-map" />
+      <meta
+        property="og:image"
+        content="https://spatialforce.co.zw/images/health-map-bulawayo-featured.jpg"
+      />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Bulawayo Health Facilities Map | SpatialForce" />
+      <meta
+        name="twitter:description"
+        content="Interactive map of hospitals and clinics in Bulawayo with routing and search."
+      />
+      <meta
+        name="twitter:image"
+        content="https://spatialforce.co.zw/images/health-map-bulawayo-featured.jpg"
+      />
+    </Helmet>
+
       <div id="map" ref={mapContainerRef}></div>
       
       {/* Theme toggle button */}

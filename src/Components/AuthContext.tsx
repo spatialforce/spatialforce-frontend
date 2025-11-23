@@ -1,5 +1,10 @@
-import React from 'react';
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode
+} from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from './config';
 
@@ -9,7 +14,7 @@ interface User {
   firstName: string;
   lastName: string;
   isActive: boolean;
-  token: string | null; 
+  token: string | null;
   authProvider?: 'google' | 'github' | 'email';
 }
 
@@ -27,7 +32,7 @@ interface AuthContextType {
   clearError: () => void;
   checkSession: () => Promise<void>;
   token: string | null;
-  refreshToken: () => Promise<boolean>; 
+  refreshToken: () => Promise<boolean>;
   getCSRFToken: () => Promise<string>;
 }
 
@@ -47,28 +52,76 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [currentToken, setCurrentToken] = useState<string | null>(null);
 
-// Add session timeout handling
-const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout>();
+  // Add session timeout handling
+  const [inactivityTimer, setInactivityTimer] = useState<number | undefined>();
 
-useEffect(() => {
-  const resetTimer = () => {
-    if (inactivityTimer) clearTimeout(inactivityTimer);
-    const timer = setTimeout(() => {
-      if (user) logout();
-    }, 3600000);
-    setInactivityTimer(timer);
-  };
-  
+  useEffect(() => {
+    const resetTimer = () => {
+      if (inactivityTimer) window.clearTimeout(inactivityTimer);
+      const timer = window.setTimeout(() => {
+        if (user) logout();
+      }, 3600000); // 1 hour
+      setInactivityTimer(timer);
+    };
 
-  window.addEventListener('mousemove', resetTimer);
-  window.addEventListener('keypress', resetTimer);
-  
-  return () => {
-    window.removeEventListener('mousemove', resetTimer);
-    window.removeEventListener('keypress', resetTimer);
-    if (inactivityTimer) clearTimeout(inactivityTimer);
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keypress', resetTimer);
+
+    return () => {
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keypress', resetTimer);
+      if (inactivityTimer) window.clearTimeout(inactivityTimer);
+    };
+  }, [user, inactivityTimer]);
+
+  // Broadcast session changes to other tabs
+  const syncSession = () => {
+    localStorage.setItem('sessionSync', Date.now().toString());
   };
-}, [user]);
+
+  const checkSession = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/auth/session`, {
+        withCredentials: true
+      });
+
+      if (response.data.authenticated && response.data.user) {
+        const apiUser = response.data.user;
+
+        const sessionUser: User = {
+          id: String(apiUser.id),
+          email: apiUser.email,
+          firstName: apiUser.firstName ?? apiUser.first_name ?? '',
+          lastName: apiUser.lastName ?? apiUser.last_name ?? '',
+          isActive:
+            apiUser.isActive ??
+            apiUser.is_active ??
+            true, // default true if not sent
+          token: null,
+          authProvider:
+            apiUser.authProvider ?? apiUser.auth_provider ?? 'email'
+        };
+
+        setUser(sessionUser);
+
+        // Optionally keep accounts list in sync with last logged-in user
+        setAccounts(prev => {
+          const updated = prev.filter(acc => acc.email !== sessionUser.email);
+          const newAccounts = [...updated, sessionUser];
+          localStorage.setItem('accounts', JSON.stringify(newAccounts));
+          return newAccounts;
+        });
+      } else {
+        setUser(null);
+        setCurrentToken(null);
+      }
+    } catch (error) {
+      console.error('Session check error:', error);
+      setError('Session verification failed');
+      setUser(null);
+      setCurrentToken(null);
+    }
+  };
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -88,88 +141,66 @@ useEffect(() => {
     initializeAuth();
   }, []);
 
- 
+  // Listen for storage events across tabs
+  useEffect(() => {
+    const handleStorage = async (event: StorageEvent) => {
+      if (event.key === 'sessionSync') {
+        await checkSession();
+      }
+    };
 
-  const checkSession = async () => {
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  const login = async (userData: User, token?: string | null) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/auth/session`, {
-        withCredentials: true
+      setLoading(true);
+
+      setAccounts(prev => {
+        const updatedAccounts = prev.filter(acc => acc.email !== userData.email);
+        const newAccounts = [...updatedAccounts, userData];
+        localStorage.setItem('accounts', JSON.stringify(newAccounts));
+        return newAccounts;
       });
 
-      if (response.data.authenticated) {
-        const sessionUser = response.data.user;
-      
-        setUser(sessionUser);
-      } else {
-        setUser(null);
-        setCurrentToken(null);
-      }
-      
-    } catch (error) {
-      console.error('Session check error:', error);
-      setError('Session verification failed');
-    }
-  };
-  // Listen for storage events across tabs
-useEffect(() => {
-  const handleStorage = async (event: StorageEvent) => {
-    if (event.key === 'sessionSync') {
-      const { data } = await axios.get(`${API_BASE_URL}/auth/session`);
-      setUser(data.authenticated ? data.user : null);
+      setUser(userData);
+      setCurrentToken(token || null); // purely for UI if needed
+
+      // Notify other tabs
+      syncSession();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  window.addEventListener('storage', handleStorage);
-  return () => window.removeEventListener('storage', handleStorage);
-}, []);
+  const logout = async () => {
+    try {
+      setLoading(true);
+      await axios.post(
+        `${API_BASE_URL}/auth/logout`,
+        {},
+        {
+          withCredentials: true
+        }
+      );
+      setUser(null);
+      setCurrentToken(null);
+      delete axios.defaults.headers.common['Authorization'];
 
-// Broadcast session changes
-const syncSession = () => {
-  localStorage.setItem('sessionSync', Date.now().toString());
-};
-  
-const login = async (userData: User, token?: string | null) => {
-  try {
-    setLoading(true);
+      // Notify other tabs
+      syncSession();
+    } catch (err) {
+      console.error('Logout error:', err);
+      setError('Logout failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    setAccounts(prev => {
-      const updatedAccounts = prev.filter(acc => acc.email !== userData.email);
-      const newAccounts = [...updatedAccounts, userData];
-      localStorage.setItem('accounts', JSON.stringify(newAccounts));
-      return newAccounts;
-    });
-
-    setUser(userData);
-    setCurrentToken(token || null); // purely for UI if you need it
-  } catch (err) {
-    setError(err instanceof Error ? err.message : 'Login failed');
-    throw err;
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-
-  
-const logout = async () => {
-  try {
-    setLoading(true);
-    await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
-      withCredentials: true
-    });
-    setUser(null);
-    setCurrentToken(null);
-    delete axios.defaults.headers.common['Authorization'];
-  } catch (err) {
-    console.error('Logout error:', err);
-    setError('Logout failed');
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
   const addAccount = (userData: User) => {
     setAccounts(prev => {
       const updated = prev.filter(acc => acc.email !== userData.email);
@@ -178,7 +209,7 @@ const logout = async () => {
       return newAccounts;
     });
   };
-  
+
   const removeAccount = (email: string) => {
     setAccounts(prev => {
       const newAccounts = prev.filter(acc => acc.email !== email);
@@ -186,57 +217,54 @@ const logout = async () => {
       return newAccounts;
     });
   };
-  
+
   // For now, just a stub – real “switch” needs a dedicated backend flow
-  const switchAccount = async (email: string) => {
+  const switchAccount = async (_email: string) => {
     setError('Account switching is not yet supported with cookie-only auth');
   };
-  
 
+  const refreshToken = async (): Promise<boolean> => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/refresh`,
+        {},
+        { withCredentials: true }
+      );
 
-
-const refreshToken = async (): Promise<boolean> => {
-  try {
-    const response = await axios.post(
-      `${API_BASE_URL}/auth/refresh`,
-      {},
-      { withCredentials: true }
-    );
-
-    if (response.data.success) {
-      // Server updated HttpOnly cookies; nothing to store on client
-      return true;
+      if (response.data.success) {
+        // Server updated HttpOnly cookies; nothing to store on client
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Refresh token failed:', error);
+      logout();
+      return false;
     }
-    return false;
-  } catch (error) {
-    console.error('Refresh token failed:', error);
-    logout();
-    return false;
-  }
-};
-
+  };
 
   const clearError = () => setError(null);
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      accounts,
-      refreshToken,
-      token: currentToken,
-      isAuthenticated: !!user,
-      login,
-      logout,
-      addAccount,
-      removeAccount,
-      switchAccount,
-      loading,
-      error,
-      clearError,
-      checkSession,
-      getCSRFToken
-     
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        accounts,
+        refreshToken,
+        token: currentToken,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        addAccount,
+        removeAccount,
+        switchAccount,
+        loading,
+        error,
+        clearError,
+        checkSession,
+        getCSRFToken
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -248,5 +276,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}
-
+};

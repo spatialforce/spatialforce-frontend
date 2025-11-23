@@ -250,6 +250,24 @@ body {
   object-fit: cover;
 }
 
+.sf-avatar-initial {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  /* Colours – you can tweak if you want */
+  background: var(--sf-green);
+  color: #ffffff;
+}
+
+
 /* account dropdown */
 .sf-account {
   position: absolute;

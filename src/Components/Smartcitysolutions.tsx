@@ -4,768 +4,828 @@ import { Link } from 'react-router-dom';
 import './SmartCitySolutions.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faHandshake, 
-  faLock, 
+import {
+  faHandshake,
+  faLock,
   faGlobeAfrica,
   faSyncAlt,
   faCity,
   faTree,
   faHome,
-  faRocket,
   faArrowRight,
-  faShieldAlt,
   faEnvelope,
-  faPhone
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 
-const SmartCitySolutions = () => {
+const SmartCitySolutions: React.FC = () => {
   const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "SpatialForce GIS Solutions",
-    "image": "https://spatialforce.co.zw/logo.png",
-    "description": "Professional GIS services for urban planning in Bulawayo, Harare and across Zimbabwe",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Bulawayo",
-      "addressRegion": "Matabeleland",
-      "addressCountry": "ZW"
-    }
-
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'SpatialForce GIS Solutions',
+    image: 'https://spatialforce.co.zw/logo.png',
+    description:
+      'Professional GIS services for urban planning in Bulawayo, Harare and across Zimbabwe',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Bulawayo',
+      addressRegion: 'Matabeleland',
+      addressCountry: 'ZW',
+    },
   };
-  const Opendata = "/images/Open-data.svg";
-  const GIS = "/images/GIS.svg";
-  const AI = "/images/AI.svg";
+
+  const Opendata = '/images/Open-data.svg';
+  const GIS = '/images/GIS.svg';
+  const AI = '/images/AI.svg';
 
   return (
-    <div className="smart-city-container">
+    <div className="sc-page">
       <Helmet>
-        <title>GIS Urban Planning Bulawayo | Climate Change Mapping Zimbabwe | SpatialForce</title>
-        <meta name="description" content="Professional GIS services in Bulawayo specializing in climate change analysis, health facility mapping and urban planning for Magwegwe, Njube and surrounding areas." />
-        <meta name="keywords" content="GIS Bulawayo, Urban Planning Zimbabwe, Climate Change Mapping, Magwegwe Njube analysis, Bulawayo City Council projects, SpatialForce Zimbabwe" />
+        <title>
+          GIS Urban Planning Bulawayo | Climate Change Mapping Zimbabwe | SpatialForce
+        </title>
+        <meta
+          name="description"
+          content="Professional GIS services in Bulawayo specializing in climate change analysis, health facility mapping and urban planning for Magwegwe, Njube and surrounding areas."
+        />
+        <meta
+          name="keywords"
+          content="GIS Bulawayo, Urban Planning Zimbabwe, Climate Change Mapping, Magwegwe Njube analysis, Bulawayo City Council projects, SpatialForce Zimbabwe"
+        />
         <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
         <link rel="preload" href="../assets/bulawayo.png" as="image" />
-
       </Helmet>
-  
-<section className="hero-section2">
-  <div className="geometric-pattern"></div>
-  <div className="hero-content">
-    <h1>Next-Generation Urban Management: Developing Smart GIS Strategies for Zimbabwe</h1>
-    <p className="highlighted-text">Advanced spatial analysis for sustainable city development</p>
-  
-  </div>
-</section>
-      <section className="content-section">
-        <h2>Core Urban Planning Services</h2>
-        
-        <div className="service-block">
-          <h3>Infrastructure Mapping & Analysis</h3>
-          <p>Our comprehensive spatial analysis services empower municipalities to visualize, assess
-             and optimize critical infrastructure components. 
-             By leveraging advanced GIS technologies and data analysis we facilitate efficient urban 
-             planning and enhance service delivery across various sectors ensuring that cities can meet the
-              evolving needs of their populations:</p>
-          <ul>
-            <li><strong>Water Distribution Networks:</strong> Our detailed analysis of water distribution systems 
-            involves mapping flow patterns, pressure zones and service areas.
-             We identify inefficiencies such as leaks and underperforming segments of the network. 
-             By utilizing real-time monitoring data we can recommend targeted maintenance and upgrades
-              leading to improved water quality and conservation efforts. This not only ensures reliable access
-               to clean water for all residents but also helps municipalities save costs associated with water loss.</li>
-            <li><strong>Transportation Systems:</strong> We provide in-depth mapping and analysis
-             of transportation infrastructure, including road networks, public transit routes
-              and pedestrian pathways. Our evaluations examine traffic patterns and peak usage times
-               allowing us to identify congestion points and areas lacking adequate access.
-                By offering insights into optimizing transit routes and enhancing multimodal connections
-                 we support the development of sustainable transportation solutions that reduce emissions and improve the overall mobility of residents.</li>
-            <li><strong>Public Facility Locations:</strong> Our services assist municipalities in 
-            strategically locating essential public facilities such as schools, healthcare centers
-             and recreational areas. We analyze demographic trends, population density and accessibility to
-              ensure that these services are equitably distributed. By engaging community stakeholders in
-               the planning process, we can identify specific local needs, fostering an inclusive approach that
-                enhances community well-being and support for essential services.</li>
-            <li><strong>Emergency Service Coverage:</strong> Our comprehensive assessments of emergency
-             service coverage involve mapping response times and analyzing the geographic distribution of
-              emergency facilities such as fire stations, hospitals, and police precincts. By identifying areas 
-              with inadequate coverage or long response times, we provide actionable recommendations for optimizing
-               resource allocation. This ensures that emergency services are positioned effectively to respond
-                swiftly to incidents, ultimately enhancing community safety and resilience in the face of potential
-                 crises.</li>
-          </ul>
-        </div>
 
-        <div className="service-block">
-          <h3>Land Use Planning & Zoning</h3>
-          <p>We specialize in delivering comprehensive, data-driven insights that
-             facilitate effective land use planning and zoning decisions. Our approach ensures that urban
-              development aligns with community needs, sustainability goals, and regulatory requirements.
-               Our services encompass the following key areas:</p>
-          <ul>
-            <li><strong>Urban Expansion Management:</strong> We analyze current growth patterns and
-             project future trends to assist municipalities in managing urban sprawl. 
-             By evaluating infrastructure capacity and land suitability, we identify strategic areas
-              for development. Our goal is to promote sustainable growth that minimizes environmental 
-              impact while meeting the housing and service demands of expanding populations. We engage
-               with community stakeholders to ensure that expansion reflects local priorities and enhances 
-               livability.</li>
-            <li><strong>Informal Settlement Analysis:</strong> Our team conducts in-depth assessments of
-             informal settlements, mapping their geographic distribution and understanding the socio-economic
-              challenges faced by residents. This analysis informs policymakers about the need for infrastructure
-               improvements service provision and integration strategies. By highlighting the unique
-                characteristics of these areas we support initiatives aimed at upgrading living conditions
-                 and facilitating access to essential services ensuring that all communities are included in
-                 urban planning efforts.</li>
-            <li><strong>Green Space Allocation:</strong> Recognizing the critical role of green spaces in urban
-             environments, we prioritize their allocation through careful analysis of population density and
-              accessibility. Our studies assess the availability of parks, recreational areas and natural 
-              landscapes helping municipalities create a balanced urban ecosystem. By 
-              integrating green spaces into land use planning, we enhance community health, promote biodiversity 
-              and provide residents with vital recreational opportunities, contributing to overall well-being and 
-              quality of life.</li>
-            <li><strong>Commercial/Residential Zoning:</strong> We provide expert analysis
-             to guide municipalities in defining appropriate zoning regulations that balance the
-              needs of residential and commercial developments. Our zoning assessments consider factors 
-              such as traffic patterns, community amenities, and economic viability. By recommending zoning
-               strategies that promote mixed-use developments, we help create vibrant neighborhoods that 
-               foster economic growth while maintaining the character and livability of residential areas. Our
-                insights support sustainable urban environments where diverse land uses coexist harmoniously.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section className="projects-section">
-        <h2>Recent Projects & Case Studies</h2>
-        
-        <div className="project-card">
-          <h3>Localized Climate Change Study in Bulawayo (2024)</h3>
-          <p>In 2024, we were awarded a microgrant from Bloomberg Philanthropies in collaboration with
-             the Bulawayo City Council to conduct a localized climate change study focused on the city of Bulawayo.
-              This project aimed to assess the city's carbon emissions specifically measuring concentrations
-             of nitrogen dioxide (NO₂), carbon monoxide (CO), and sulfur dioxide (SO₂) across various neighborhoods.</p>
-          <p>Through our comprehensive mapping initiative we identified and documented the carbon emissions
-             levels throughout the city. Our findings revealed that the most affected areas, particularly Magwegwe,
-              Mpopoma, Luveve and Njube exhibited elevated SO₂ levels. This pollution was largely attributed to
-               the sewer river that traverses these neighborhoods which not only contributes to environmental 
-               degradation but also poses significant health risks to local residents.</p>
-          <p>To further understand the impact of these emissions we conducted extensive surveys 
-            in the most affected areas to identify the primary sources of energy utilized by
-             residents. This research highlighted the reliance on fossil fuels and other 
-             non-renewable energy sources underscoring the urgent need for cleaner alternatives to mitigate 
-             carbon
-             emissions.</p>
-          <p>We extend our heartfelt gratitude to the National University of
-             Science and Technology (NUST), Bulawayo City Council (BCC) and Bloomberg Philanthropies 
-             for their invaluable support and collaboration, which were instrumental in the success of this project. Together, we are committed to addressing climate change challenges and promoting sustainable practices within our communities.</p>
-          <p>For more details regarding the results and outcomes of the study please feel free to <Link to="/contact">contact us</Link>.</p>
-          <div className="project-partners">
-            <h4>Partner Links:</h4>
-            <a href="http://www.nust.ac.zw" target="_blank" rel="noopener noreferrer">National University of Science and Technology (NUST)</a>
-            <a href="https://www.citybyo.co.zw/" target="_blank" rel="noopener noreferrer">Bulawayo City Council (BCC)</a>
-            <a href="https://www.bloomberg.org" target="_blank" rel="noopener noreferrer">Bloomberg Philanthropies</a>
-          </div>
-        </div>
-
-        <div className="project-card">
-          <h3>Mapping Bulawayo Health Facilities</h3>
-          <p>In our latest initiative, we developed an interactive web map to visualize health facilities 
-            throughout Bulawayo. This web map serves as a crucial tool for residents, allowing them to easily 
-            locate nearby health services and obtain directions from their current location to a selected
-             facility.</p>
-          <p>The mapping project enhances accessibility to healthcare by providing clear
-             visual representations of available resources, including clinics, hospitals and
-              specialized health centers. Users can navigate the map intuitively making informed
-              decisions about where to seek medical assistance based on proximity and available services.</p>
-          <p>By facilitating easier access to health facilities this initiative aims to improve health
-             outcomes for the community ensuring that residents can reach the care they need promptly and 
-             efficiently.</p>
-        </div>
-      </section>
-
-      <section className="methodology-section">
-        <h2>Technical Methodology</h2>
-        
-        <div className="methodology-block">
-          <h3>Data Collection</h3>
-          <p>We employ a comprehensive approach to data collection that combines field surveys satellite imagery
-             and open data sources to create precise and reliable basemaps. Our methodology ensures that the data
-              collected is both accurate and relevant for informed decision-making. Here’s how we achieve this:</p>
-          <ul>
-            <li><strong>Field Surveys:</strong> Our team conducts extensive field surveys to gather
-             firsthand data on land use infrastructure and environmental conditions. 
-             This ground-level information complements satellite data, allowing us to capture 
-             details that remote sensing may miss. By engaging with local communities during these surveys
-              we also gather valuable insights that enhance the accuracy of our data.</li>
-            <li><strong>Satellite Imagery:</strong> We utilize high-resolution satellite imagery
-             to monitor changes in land use and environmental conditions over time. This imagery 
-             provides a broad perspective enabling us to analyze urban expansion vegetation cover and
-             other critical factors. By integrating satellite data with ground-based observations 
-             we enhance the overall quality of our basemaps.</li>
-            <li><strong>Open Data Sources:</strong> We leverage a variety of open data sources including
-            government databases, demographic statistics and environmental reports. By incorporating this 
-            information, we enrich our basemaps with contextual data that informs urban planning and resource
-             management. Our commitment to using open data promotes transparency and accessibility in our projects.</li>
-            <li><strong>Data Integration:</strong> Our process involves integrating these diverse data
-             sources into cohesive basemaps that serve as foundational tools for analysis and planning. 
-             We utilize advanced GIS technologies to ensure that all data is accurately aligned and accessible
-              allowing stakeholders to visualize and interpret the information effectively.</li>
-          </ul>
-          <p>Through this multifaceted approach to data collection we ensure that our basemaps 
-            are not only accurate but also tailored to meet the specific needs of our clients and communities.</p>
-        </div>
-
-        <div className="methodology-block">
-          <h3>Spatial Analysis</h3>
-          <p>We utilize advanced GIS techniques to conduct comprehensive spatial analyses 
-            that inform urban planning and decision-making. Our methods include:</p>
-          <ul>
-            <li><strong>Network Analysis:</strong> This technique involves evaluating
-             transportation and utility networks to optimize routes and service delivery.
-             By analyzing connectivity and accessibility, we identify critical pathways that enhance
-              mobility and efficiency, ensuring that resources are allocated effectively to meet community needs.</li>
-            <li><strong>Density Mapping:</strong> We create density maps to visualize the distribution of
-             populations, resources, and land use. This analysis helps identify trends and patterns, allowing
-              planners to make informed decisions about where to focus development efforts, allocate services and
-               address potential issues such as overcrowding or underutilization of space.</li>
-            <li><strong>3D Modeling:</strong> Our 3D modeling capabilities provide a realistic representation
-             of urban environments, allowing stakeholders to visualize proposed developments and understand 
-             their impacts. This technique enhances presentations and community engagement by providing a
-              tangible view of how projects will fit within the existing landscape.</li>
-            <li><strong>Spatial Interpolation:</strong> We employ spatial interpolation techniques to 
-            estimate values at unsampled locations based on known data points. This is particularly 
-            useful for environmental assessments and resource management, providing insights into phenomena
-             such as pollution levels or resource availability across different areas.</li>
-            <li><strong>Geostatistical Analysis:</strong> Our geostatistical methods assess spatial 
-            relationships and correlations within data sets. This enables us to identify trends predict future
-             developments and assess risks associated with environmental and urban factors.</li>
-          </ul>
-          <p>By leveraging these advanced GIS techniques we provide
-             actionable insights that empower municipalities and organizations
-              to make data-driven decisions, ultimately leading to more sustainable 
-              and resilient urban environments.</p>
-        </div>
-
-        <div className="methodology-block">
-          <h3>Implementation Support</h3>
-          <p>We provide comprehensive implementation support to ensure that our clients
-             can effectively utilize the insights gained from our analyses. Our services include:</p>
-          <ul>
-            <li><strong>Practical Recommendations:</strong> Our team offers tailored 
-            recommendations based on thorough analyses. We focus on actionable strategies 
-            that align with your goals, whether it involves optimizing infrastructure enhancing service delivery
-             or improving resource allocation. These recommendations are designed to be feasible and impactful
-              ensuring that they can be readily implemented in the field.</li>
-            <li><strong>Interactive Web Maps:</strong> We develop interactive web maps
-             that allow decision-makers to visualize data in real time. These maps enable users to
-              explore spatial information intuitively facilitating better understanding and engagement 
-              with the data. Stakeholders can manipulate layers zoom in on specific areas and gain insights
-               that support informed decision-making.</li>
-            <li><strong>Training and Workshops:</strong> To maximize the effectiveness of our tools
-             we offer training sessions and workshops. These are designed to empower your team with the
-              skills needed to use our GIS solutions effectively, ensuring that you can leverage the data and tools for ongoing planning and management.</li>
-            <li><strong>Ongoing Technical Support:</strong> We provide continuous technical support to address
-             any challenges that may arise during implementation. Our dedicated support team is available to
-              assist with troubleshooting, updates, and enhancements to ensure that your GIS systems remain
-               effective and up-to-date.</li>
-            <li><strong>Monitoring and Evaluation:</strong> We assist in establishing frameworks for monitoring
-             and evaluating the impacts of implemented strategies. By tracking performance metrics and outcomes we
-              help you assess the effectiveness of decisions and make necessary adjustments for continuous 
-              improvement.</li>
-          </ul>
-          <p>Through our implementation support services we ensure that decision-makers are 
-            equipped with the tools and knowledge necessary to translate insights into effective actions 
-            ultimately fostering sustainable development and resilient communities.</p>
-        </div>
-      </section>
-
-    
-<section className="gis-applications">
-  <h2>🚀 GIS in Action: Smart City Innovations</h2>
-  <p className="section-subtitle">
-    Powering Urban Transformation Through Spatial Intelligence. 
-    Geographic Information Systems (GIS) are among the most powerful tools
-     in town and urban planning. With the ability to analyze and visualize complex spatial data GIS op
-      solutions are vast and continuously evolving, enabling cities to address challenges and improve 
-      quality of life. Below is a small compilation of GIS applications that illustrate its potential in 
-      driving innovative urban solutions.
-</p>
-
-  <div className="application-grid">
-
-    <div className="application-card">
-      <div className="card-header">
-        <span className="emoji">🗺️⚡</span>
-        <img 
-          src="https://images.unsplash.com/photo-1575285272212-d52e915d01c7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-          alt="Smart city dashboard" 
-          className="application-image"
-        />
-      </div>
-      <h3>Urban IoT Integration <span className="emoji">🌐📡</span></h3>
-<ul>
-    <li> <strong>Real-time Traffic Monitoring:</strong> GIS enables continuous tracking of traffic flow using GPS
-    sensors to optimize routes and reduce congestion.</li>
-    <li> <strong>Smart Street Lighting Optimization:</strong>  Supports adaptive street lighting that
-     adjusts brightness based on real-time pedestrian and vehicle data.</li>
-    <li> <strong>Waste Management Route Planning:</strong> Aids in monitoring bin levels and 
-    optimizing collection routes for efficient waste management.</li>
-    <li> <strong>Flood Prediction Systems:</strong>  Facilitates the integration of weather data
-     and models to predict flooding events and enhance urban resilience.</li>
-</ul>
-    </div>
-
-    <div className="application-card">
-      <div className="card-header">
-        <span className="emoji">🏙️🌳</span>
-        <img 
-          src="https://images.unsplash.com/photo-1570200020951-e21a58c2ef87?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Green city planning" 
-          className="application-image"
-        />
-      </div>
-      <h3>Sustainable City Planning <span className="emoji">♻️🌱</span></h3>
-<ul>
-    <li> <strong>Carbon Footprint Mapping:</strong> GIS enables detailed visualization of carbon emissions 
-    across the city.</li>
-    <li> <strong>3D City Modeling:</strong> Supports modeling to assess solar potential for renewable energy 
-    integration.</li>
-    <li> <strong>Bike Lane Network Optimization:</strong> Helps design efficient bike lane networks to
-     promote sustainable transportation.</li>
-    <li> <strong>Urban Green Space Analysis:</strong>  Facilitates the assessment and planning of green
-     spaces to enhance urban ecology.</li>
-</ul>
-    </div>
-
-    <div className="application-card">
-      <div className="card-header">
-        <span className="emoji">🏥🚑</span>
-        <img 
-          src="https://images.unsplash.com/photo-1689091271342-b4082fc8345e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Emergency response system" 
-          className="application-image"
-        />
-      </div>
-      <h3>Smart Emergency Response <span className="emoji">🚨⏱️</span></h3>
-<ul>
-    <li> <strong>Hospital Accessibility Mapping:</strong> GIS identifies and visualizes hospital locations to
-    optimize access during emergencies.</li>
-    <li> <strong>Fire Risk Zone Identification:</strong> Analysis of environmental data to pinpoint areas at 
-    high risk for wildfires.</li>
-    <li> <strong>Disaster Evacuation Planning:</strong>  Aids in designing effective evacuation routes to enhance 
-    public safety.</li>
-    <li> <strong>Real-time Emergency Routing:</strong>  Supports dynamic routing for emergency responders based 
-    on current conditions.</li>
-</ul>
-    </div>
-
-    <div className="application-card">
-      <div className="card-header">
-        <span className="emoji">🏗️📈</span>
-        <img 
-          src="https://images.unsplash.com/photo-1617105990241-454f3d104824?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-          alt="Urban development" 
-          className="application-image"
-        />
-      </div>
-      <h3>Digital Twin Cities <span className="emoji">🖥️🌇</span></h3>
-<ul>
-    <li><strong>Infrastructure Lifecycle Management:</strong> GIS enables monitoring and management of
-     infrastructure from planning to maintenance.</li>
-    <li> <strong>5G Network Optimization Mapping:</strong> Assists in mapping and optimizing 5G 
-    network coverage for better connectivity.</li>
-    <li> <strong>Water System Simulation Models:</strong>  Supports the creation of models 
-    to simulate and manage water distribution systems.</li>
-    <li><strong>Underground Utility Mapping:</strong>  Provides detailed mapping of underground 
-    utilities to prevent service disruptions.</li>
-</ul>
-    </div>
-
-<div className="application-card">
-  <div className="card-header">
-    <span className="emoji">🗳️📱</span>
-    <img 
-      src="https://images.unsplash.com/photo-1553724625-6f84f9074bb4?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-      alt="Citizen engagement" 
-      className="application-image"
-    />
-  </div>
-  <h3>Citizen Engagement <span className="emoji">👥💬</span></h3>
-<ul>
-    <li> <strong>Participatory Planning Platforms:</strong> Tools that facilitate community involvement in urban planning decisions.</li>
-    <li> <strong>Crowdsourced Issue Reporting:</strong> Platforms for residents to report local issues and concerns in real time.</li>
-    <li> <strong>Public Feedback Visualization:</strong> Visual tools that present community feedback to inform decision-making.</li>
-    <li> <strong>Community Resource Mapping:</strong> Mapping of local resources to enhance accessibility and support for residents.</li>
-</ul>
-</div>
-
-<div className="application-card">
-  <div className="card-header">
-    <span className="emoji">💧⚡</span>
-    <img 
-      src="https://images.unsplash.com/photo-1630770147528-3c38bc9e05a6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="Utility management" 
-      className="application-image"
-    />
-  </div>
-  <h3>Smart Utilities <span className="emoji">🔧📊</span></h3>
-<ul>
-    <li> <strong>Water Network Monitoring:</strong> Continuous tracking of water distribution systems for efficiency and reliability.</li>
-    <li> <strong>Energy Grid Optimization:</strong> Strategies to enhance the performance and reliability of energy distribution networks.</li>
-    <li> <strong>Leak Detection Systems:</strong> Technologies for identifying and addressing leaks in utility lines promptly.</li>
-    <li> <strong>Renewable Energy Planning:</strong> Development of strategies to integrate renewable energy sources into the grid.</li>
-</ul>
-</div>
-
-  </div>
-  
-  <div className="tech-badge">
-          <div className="tech-pill">
-            <img src={GIS} className="tech-icon" alt="GIS Technology" width="24" height="24" loading="lazy" />
-            <span>GIS Research</span>
-          </div>
-          <div className="tech-pill">
-            <img src={AI} className="tech-icon" alt="AI Analytics" width="24" height="24" loading="lazy" />
-            <span>AI Analytics</span> 
-          </div>
-          <div className="tech-pill">
-            <img src={Opendata} className="tech-icon" alt="Open Data" width="24" height="24" loading="lazy" />
-            <span>Open Data</span>
-          </div>
-        </div>
-</section>
-
-<section className="gis-content-section">
-  <div className="section-container">
-    <h2>GIS-Driven Urban Planning: Building Zimbabwe's Future Cities</h2>
-    
-    <div className="content-block">
-      <h3>The Synergy of Spatial Analysis & City Development</h3>
-      <p>
-        Urban planning forms the backbone of sustainable city growth
-         particularly crucial for Zimbabwe where <strong>urban populations are growing at 4.3% annually
-          </strong> (Spstial Force 2023). When integrated with Geographic Information Systems (GIS)
-           this discipline transforms into a precision tool for managing Bulawayo's infrastructure needs,
-            Harare's expansion challenges and nationwide climate adaptation strategies.
-            Our <strong>GIS solutions in Zimbabwe</strong> combine satellite imagery, IoT sensor data
-             and machine learning to create dynamic models of urban ecosystems - from analyzing traffic
-             patterns in Mbare to optimizing water distribution in drought-prone Matabeleland.
-      </p>
-    </div>
-
-    <div className="content-block">
-      <h3>How GIS Revolutionizes Urban Management</h3>
-      <p>
-        The SpatialForce methodology leverages <strong>geospatial technology
-          </strong> through a three-phase approach: 
-      </p>
-      <ol className="process-list">
-        <li><strong>Data Fusion:</strong> Integrating municipal records, OpenStreetMap layers
-         and drone surveys to create accurate basemaps of Bulawayo's townships and Harare's CBD</li>
-        <li><strong>Spatial Intelligence:</strong> Applying heatmap analysis for crime prevention
-         in Highfield and network analysis for Harare's public transport routes</li>
-        <li><strong>Scenario Modeling:</strong> Simulating flood impacts on Beitbridge's border 
-        infrastructure and renewable energy potential in Hwange</li>
-      </ol>
-    </div>
-
-    <div className="content-block">
-      <h3>Transforming Zimbabwe's Urban Landscape</h3>
-      <p>
-        For cities like Gweru and Mutare facing rapid urbanization, our <strong>GIS urban planning services</strong> deliver measurable impacts:
-      </p>
-      <ul className="impact-list">
-        <li><strong>Climate Resilience:</strong> Mapping flood zones along Mazowe River to protect 50,000+ residents
-         in Mashonaland communities</li>
-        <li><strong>Economic Growth:</strong> Identifying optimal locations for industrial hubs 
-        along the Harare-Beitbridge corridor</li>
-        <li><strong>Social Equity:</strong> Using accessibility analysis to prioritize clinic 
-        construction in underserved areas of Epworth</li>
-      </ul>
-      <p>
-        The <strong>Zimbabwe National Spatial Development Strategy 2023-2030</strong> identifies GIS as critical
-         for achieving SDG 11 (Sustainable Cities). Our work with Bulawayo City Council demonstrates this through
-          slum upgrading projects in Magwegwe that reduced cholera outbreaks by 60% through improved water mapping.
-      </p>
-    </div>
-
-    <div className="seo-optimized">
-      <p>
-        As <strong>Zimbabwe's premier GIS consultants</strong>, SpatialForce specializes in <strong>smart city solutions for African urban challenges</strong>. Our localized expertise in <strong>Bulawayo urban planning</strong> and <strong>Harare infrastructure mapping</strong> helps municipalities:
-      </p>
-      <ul className="seo-list">
-        <li>Reduce service delivery costs by 45% through route optimization</li>
-        <li>Attract foreign investment with interactive land parcel portals</li>
-        <li>Combat climate change with carbon footprint visualizations</li>
-      </ul>
-      <p>
-        Partner with us to implement <strong>World Bank-approved urban GIS strategies</strong> tailored for Zimbabwe's unique developmental needs - from Victoria Falls' tourism infrastructure to Chitungwiza's informal settlement upgrades.
-      </p>
-    </div>
-  </div>
-</section>
-<section className="partnership-section">
-  <div className="partnership-content">
-    <h2 className="section-heading">
-      <FontAwesomeIcon icon={faHandshake} className="section-icon" />
-      Trusted Partners in Smart Urban Development
-    </h2>
-
-    <div className="commitment-block">
-      <div className="commitment-card">
-        <FontAwesomeIcon icon={faLock} className="commitment-icon" />
-        <h3>Data Security First</h3>
-        <p>We maintain complaint protocols for all spatial data handling ensuring your sensitive urban
-           data remains protected throughout our collaboration.</p>
-      </div>
-
-      <div className="commitment-card">
-        <FontAwesomeIcon icon={faGlobeAfrica} className="commitment-icon" />
-        <h3>Nationwide Implementation</h3>
-        <p>From Bulawayo's township regeneration to Harare's metro planning, we team deliver 
-          customized GIS solutions across Zimbabwe's diverse urban landscapes.</p>
-      </div>
-
-      <div className="commitment-card">
-        <FontAwesomeIcon icon={faSyncAlt} className="commitment-icon" />
-        <h3>Continuous Support</h3>
-        <p>Our partnership extends beyond project delivery with quarterly system audits software updates
-           and dedicated account management for all municipal clients.</p>
-      </div>
-    </div>
-
-    <div className="expertise-grid">
-      <div className="expertise-item">
-        <FontAwesomeIcon icon={faCity} className="expertise-icon" />
-        <h4>Urban Infrastructure</h4>
-        <p>Water systems ∙ Transport networks ∙ Energy grids</p>
-      </div>
-      
-      <div className="expertise-item">
-        <FontAwesomeIcon icon={faTree} className="expertise-icon" />
-        <h4>Environmental Planning</h4>
-        <p>Green spaces ∙ Pollution control ∙ Climate resilience</p>
-      </div>
-
-      <div className="expertise-item">
-        <FontAwesomeIcon icon={faHome} className="expertise-icon" />
-        <h4>Community Development</h4>
-        <p>Housing projects ∙ Public facilities ∙ Informal settlements</p>
-      </div>
-    </div>
-
-    
-  </div>
-</section>
-
-<section className="closing-section">
-  <div className="closing-container">
-    <div className="closing-content">
-      <h2 className="closing-heading">
-        <span className="gradient-text">Pioneering Africa's Smart City Revolution</span> 
-        <br/>
-        From Bulawayo to Harare - Built on Spatial Intelligence
-      </h2>
-      
-      <div className="value-propositions">
-    <div className="value-column">
-        <FontAwesomeIcon icon={faCity} className="value-icon"/>
-        <h3>Urban Innovation Hub</h3>
-        <p>Empowering communities with cutting-edge GIS solutions for smarter city planning.</p>
-        <ul className="achievement-list">
-            <li>Collaborated with local governments to enhance urban infrastructure</li>
-            <li>Facilitated workshops on sustainable urban development</li>
-            <li>Engaged in community mapping projects to identify local needs</li>
-        </ul>
-    </div>
-
-    <div className="value-column">
-        <FontAwesomeIcon icon={faTree} className="value-icon"/>
-        <h3>Green Urban Solutions</h3>
-        <p>Promoting environmentally friendly practices in urban development.</p>
-        <ul className="achievement-list">
-            <li>Initiated projects for urban reforestation and green spaces</li>
-            <li>Developed strategies for waste reduction and recycling</li>
-            <li>Advocated for renewable energy integration in city planning</li>
-        </ul>
-    </div>
-</div>
-
-
-<div className="strategic-cta">
-    <div className="cta-content">
-        <h4>Collaborate with Zimbabwe's Urban Innovation Experts</h4>
-        <p className="cta-subtext">
-            <FontAwesomeIcon icon={faArrowRight} className="pulse-icon"/>
-            Offering innovative solutions for urban development including:
-        </p>
-        <div className="usp-grid">
-            <div className="usp-item">AI-Powered Traffic Analysis</div>
-            <div className="usp-item">Community Development Initiatives</div>
-            <div className="usp-item">Emergency Mapping Solutions</div>
-            <div className="usp-item">Cultural Heritage Awareness</div>
-        </div>
-        <div className="cta-group">
-         
-            <div className="contact-channel">
-                <p>Contact Our Team:</p>
-                <a href="tel:+263779135076" className="contact-link">
-                    <FontAwesomeIcon icon={faPhone}/> +263 779 135 5076
-                </a>
-                <a href="mailto:gis@spatialforce.co.zw" className="contact-link">
-                    <FontAwesomeIcon icon={faEnvelope}/> gis@spatialforce.co.zw
-                </a>
+      <main className="sc-main">
+        {/* HERO */}
+        <section className="sc-hero">
+          <div className="sc-hero-inner">
+            <div className="sc-hero-bg-pattern" />
+            <div className="sc-hero-content">
+              <span className="sc-pill">
+                <span className="sc-pill-dot" />
+                Smart Urban GIS · Zimbabwe
+              </span>
+              <h1>
+                Next-Generation Urban Management
+                <span className="sc-hero-subtitle">
+                  Developing Smart GIS Strategies for Zimbabwean Cities
+                </span>
+              </h1>
+              <p className="sc-hero-lead">
+                Advanced spatial analysis for sustainable city development from climate risk
+                mapping in to infrastructure optimisation.
+              </p>
+              <div className="sc-hero-actions">
+                <Link to="/bookings" className="sc-btn-primary">
+                  Book strategy session
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+                <p className="sc-hero-caption">
+                  Supporting local authorities, universities and development partners with
+                  decision-ready GIS insights.
+                </p>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
-    </div>
-    <section className="mobile-optimized-partnership">
-  <div className="mobile-partnership-container">
-    <div className="mobile-section-header">
-      <FontAwesomeIcon icon={faHandshake} className="mobile-section-icon" />
-      <h2 className="mobile-section-heading">Trusted Partners in Smart Urban Development</h2>
-    </div>
-    
-    <div className="mobile-commitments">
-      <div className="mobile-commitment">
-        <FontAwesomeIcon icon={faLock} className="mobile-commitment-icon" />
-        <h3 className="mobile-commitment-title">Data Security First</h3>
-        <p className="mobile-commitment-text">Compliant protocols ensure sensitive spatial data 
-        remains protected throughout our collaboration.</p>
-      </div>
-      
-      <div className="mobile-commitment">
-        <FontAwesomeIcon icon={faGlobeAfrica} className="mobile-commitment-icon" />
-        <h3 className="mobile-commitment-title">Nationwide Implementation</h3>
-        <p className="mobile-commitment-text">Custom GIS solutions across Zimbabwe's diverse urban landscapes.</p>
-      </div>
-      
-      <div className="mobile-commitment">
-        <FontAwesomeIcon icon={faSyncAlt} className="mobile-commitment-icon" />
-        <h3 className="mobile-commitment-title">Continuous Support</h3>
-        <p className="mobile-commitment-text">Quarterly system audits and dedicated account management.</p>
-      </div>
-    </div>
-    
-    <div className="mobile-expertise">
-      <div className="mobile-expertise-card">
-        <FontAwesomeIcon icon={faCity} className="mobile-expertise-icon" />
-        <h4 className="mobile-expertise-title">Urban Infrastructure</h4>
-        <p className="mobile-expertise-desc">Water systems ∙ Transport networks</p>
-      </div>
-      
-      <div className="mobile-expertise-card">
-        <FontAwesomeIcon icon={faTree} className="mobile-expertise-icon" />
-        <h4 className="mobile-expertise-title">Environmental Planning</h4>
-        <p className="mobile-expertise-desc">Green spaces ∙ Climate resilience</p>
-      </div>
-      
-      <div className="mobile-expertise-card">
-        <FontAwesomeIcon icon={faHome} className="mobile-expertise-icon" />
-        <h4 className="mobile-expertise-title">Community Development</h4>
-        <p className="mobile-expertise-desc">Housing projects ∙ Public facilities</p>
-      </div>
-    </div>
-  </div>
-</section>
+            <div className="sc-hero-panel">
+              <div className="sc-hero-card">
+                <h3>Urban GIS Snapshot</h3>
+                <ul>
+                  <li>
+                    <span className="sc-metric-label">Climate study coverage</span>
+                    <span className="sc-metric-value">Bulawayo metro</span>
+                  </li>
+                  <li>
+                    <span className="sc-metric-label">Health facilities mapped</span>
+                    <span className="sc-metric-value">50+ locations</span>
+                  </li>
+                  <li>
+                    <span className="sc-metric-label">Focus corridors</span>
+                    <span className="sc-metric-value">Magwegwe · Njube · Luveve</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
-<section className="mobile-closing-section">
-  <div className="mobile-closing-container">
-    <div className="mobile-closing-header">
-      <h2 className="mobile-closing-heading">
-        Pioneering Africa's Smart City Revolution
-      </h2>
-      <p className="mobile-closing-subheading">From Bulawayo to Harare - Built on Spatial Intelligence</p>
-    </div>
-    
-    <div className="mobile-value-columns">
-      <div className="mobile-value-card">
-        <FontAwesomeIcon icon={faCity} className="mobile-value-icon" />
-        <h3 className="mobile-value-title">Urban Innovation Hub</h3>
-        <p className="mobile-value-text">Empowering communities with cutting-edge GIS solutions.</p>
-        <ul className="mobile-value-list">
-          <li>Collaborated with local governments</li>
-          <li>Facilitated sustainable workshops</li>
-          <li>Community mapping projects</li>
-        </ul>
-      </div>
-      
-      <div className="mobile-value-card">
-        <FontAwesomeIcon icon={faTree} className="mobile-value-icon" />
-        <h3 className="mobile-value-title">Green Urban Solutions</h3>
-        <p className="mobile-value-text">Promoting environmentally friendly practices.</p>
-        <ul className="mobile-value-list">
-          <li>Urban reforestation projects</li>
-          <li>Waste reduction strategies</li>
-          <li>Renewable energy integration</li>
-        </ul>
-      </div>
-    </div>
-    
-    <div className="mobile-cta-container">
-      <h4 className="mobile-cta-heading">Collaborate with Zimbabwe's Urban Experts</h4>
-      
-      <div className="mobile-usp-grid">
-        <div className="mobile-usp-item">AI-Powered Traffic Analysis</div>
-        <div className="mobile-usp-item">Community Development</div>
-        <div className="mobile-usp-item">Emergency Mapping</div>
-        <div className="mobile-usp-item">Cultural Heritage</div>
-      </div>
-      
-   
-      
-      <div className="mobile-contact-info">
-        <a href="tel:+263717428085" className="mobile-contact-link">
-          <FontAwesomeIcon icon={faPhone} /> +263 77 913 5076
-        </a>
-        <a href="mailto:no-reply@spatialforce.co.zw" className="mobile-contact-link">
-          <FontAwesomeIcon icon={faEnvelope} /> gis@spatialforce.co.zw
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+        {/* CORE SERVICES */}
+        <section className="sc-section sc-core">
+          <header className="sc-section-header">
+            <h2>Core Urban Planning Services</h2>
+            <p>
+              We combine GIS, climate science and local knowledge to help municipalities plan
+              infrastructure, manage growth and improve service delivery.
+            </p>
+          </header>
 
-    <div className="national-presence">
-      <h5 className="presence-heading">
-        <FontAwesomeIcon icon={faGlobeAfrica} className="globe-icon"/>
-        On-Ground Expertise Across 9 Provinces
-      </h5>
-      <div className="city-network">
-        <div className="region-group">
-          <h6>Matabeleland Leadership</h6>
-          <p>Bulawayo • Victoria Falls • Hwange • Beitbridge</p>
-        </div>
-        <div className="region-group">
-          <h6>Mashonaland Innovations</h6>
-          <p>Harare • Chitungwiza • Marondera • Bindura</p>
-        </div>
-        <div className="region-group">
-          <h6>Manicaland Progress</h6>
-          <p>Mutare • Chipinge • Nyanga • Rusape</p>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div className="sc-two-column">
+            <article className="sc-card sc-card-text">
+              <h3>Infrastructure Mapping & Analysis</h3>
+              <p>
+                Our comprehensive spatial analysis services empower municipalities to visualize,
+                assess and optimize critical infrastructure components. By leveraging advanced GIS
+                technologies and data analysis we facilitate efficient urban planning and enhance
+                service delivery across various sectors, ensuring that cities can meet the evolving
+                needs of their populations:
+              </p>
+              <ul>
+                <li>
+                  <strong>Water Distribution Networks:</strong> Mapping flow patterns, pressure
+                  zones and service areas to locate leaks and underperforming segments, guiding
+                  targeted maintenance and upgrades.
+                </li>
+                <li>
+                  <strong>Transportation Systems:</strong> Mapping road networks, transit routes and
+                  pedestrian pathways to understand congestion and design sustainable mobility
+                  solutions.
+                </li>
+                <li>
+                  <strong>Public Facility Locations:</strong> Locating schools, healthcare centres
+                  and recreational areas using demographics and accessibility analysis to promote
+                  equity.
+                </li>
+                <li>
+                  <strong>Emergency Service Coverage:</strong> Analysing fire, health and police
+                  response times to position resources for faster, more effective incident response.
+                </li>
+              </ul>
+            </article>
 
-  <footer className="strategic-footer">
-    <div className="footer-mission">
-      <p>© {new Date().getFullYear()} SpatialForce GIS Solutions</p>
-      <p>Driving SDG 11 Implementation Through Spatial Innovation</p>
-    </div>
-    <div className="legal-commitments">
-      <a href="/privacy" className="legal-link">Data Protection Policy</a>
-      <span className="divider">|</span>
-      <a href="/terms" className="legal-link">Service Agreements</a>
+            <article className="sc-card sc-card-text">
+              <h3>Land Use Planning & Zoning</h3>
+              <p>
+                We deliver data-driven insights that support land use planning and zoning decisions,
+                aligning development with community needs, sustainability goals and regulations:
+              </p>
+              <ul>
+                <li>
+                  <strong>Urban Expansion Management:</strong> Analysing growth patterns and land
+                  suitability to define strategic expansion areas and limit sprawl.
+                </li>
+                <li>
+                  <strong>Informal Settlement Analysis:</strong> Mapping settlement patterns and
+                  socio-economic conditions to guide upgrading and service provision.
+                </li>
+                <li>
+                  <strong>Green Space Allocation:</strong> Prioritising parks and natural areas in
+                  dense neighbourhoods to support health, ecology and recreation.
+                </li>
+                <li>
+                  <strong>Commercial/Residential Zoning:</strong> Balancing mixed-use development,
+                  mobility and neighbourhood character through zoning strategies.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
 
-     
+        {/* PROJECTS */}
+        <section className="sc-section sc-projects">
+          <header className="sc-section-header">
+            <h2>Recent Projects & Case Studies</h2>
+          </header>
+
+          <div className="sc-grid sc-grid-2">
+            <article className="sc-card sc-project-card">
+              <h3>Localized Climate Change Study in Bulawayo (2024)</h3>
+              <p>
+                In 2024, we were awarded a microgrant from Bloomberg Philanthropies in collaboration
+                with Bulawayo City Council to conduct a localized climate change study focused on the
+                city of Bulawayo. The project assessed carbon emissions, specifically nitrogen dioxide
+                (NO₂), carbon monoxide (CO) and sulphur dioxide (SO₂) across neighbourhoods.
+              </p>
+              <p>
+                Mapping revealed elevated SO₂ levels in Magwegwe, Mpopoma, Luveve and Njube,
+                associated with a sewer river traversing these communities. This highlighted both
+                environmental degradation and health risks.
+              </p>
+              <p>
+                Household surveys in affected areas showed heavy reliance on fossil fuels, underscoring
+                the need for cleaner energy options. The work informs targeted interventions and
+                climate-resilient planning.
+              </p>
+              <p>
+                We thank NUST, Bulawayo City Council and Bloomberg Philanthropies for their support.
+                For more details on results and outcomes, please{' '}
+                <Link to="/contact">contact us</Link>.
+              </p>
+              <div className="sc-project-partners">
+                <h4>Partner Links</h4>
+                <div className="sc-partner-links">
+                  <a href="http://www.nust.ac.zw" target="_blank" rel="noopener noreferrer">
+                    National University of Science and Technology (NUST)
+                  </a>
+                  <a href="https://www.citybyo.co.zw/" target="_blank" rel="noopener noreferrer">
+                    Bulawayo City Council (BCC)
+                  </a>
+                  <a href="https://www.bloomberg.org" target="_blank" rel="noopener noreferrer">
+                    Bloomberg Philanthropies
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article className="sc-card sc-project-card">
+              <h3>Mapping Bulawayo Health Facilities</h3>
+              <p>
+                We developed an interactive web map to visualise health facilities across Bulawayo,
+                enabling residents to locate nearby services and get directions from their current
+                location.
+              </p>
+              <p>
+                The map displays clinics, hospitals and specialised centres, improving awareness of
+                available care. Users can navigate intuitively and choose facilities based on
+                proximity and service type.
+              </p>
+              <p>
+                This initiative strengthens access to healthcare and supports planning for future
+                facility investments in underserved wards.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        {/* METHODOLOGY */}
+        <section className="sc-section sc-methodology">
+          <header className="sc-section-header">
+            <h2>Technical Methodology</h2>
+          </header>
+
+          <div className="sc-grid sc-grid-3">
+            <article className="sc-card sc-card-text">
+              <h3>Data Collection</h3>
+              <p>
+                We blend field surveys, satellite imagery and open data to build precise basemaps and
+                decision layers:
+              </p>
+              <ul>
+                <li>
+                  <strong>Field Surveys:</strong> Ground-truthing land use, infrastructure and
+                  environmental conditions, while engaging communities for local insights.
+                </li>
+                <li>
+                  <strong>Satellite Imagery:</strong> Tracking land use change, vegetation cover and
+                  urban expansion over time.
+                </li>
+                <li>
+                  <strong>Open Data Sources:</strong> Integrating government datasets, demographic
+                  statistics and environmental reports to add context.
+                </li>
+                <li>
+                  <strong>Data Integration:</strong> Aligning all sources into coherent basemaps ready
+                  for analysis and planning.
+                </li>
+              </ul>
+            </article>
+
+            <article className="sc-card sc-card-text">
+              <h3>Spatial Analysis</h3>
+              <p>We apply advanced GIS techniques to drive evidence-based decisions:</p>
+              <ul>
+                <li>
+                  <strong>Network Analysis:</strong> Optimising routes and service delivery for
+                  transport and utilities.
+                </li>
+                <li>
+                  <strong>Density Mapping:</strong> Visualising populations, resources and land use
+                  hotspots.
+                </li>
+                <li>
+                  <strong>3D Modelling:</strong> Representing urban form and proposed developments in
+                  realistic 3D.
+                </li>
+                <li>
+                  <strong>Spatial Interpolation & Geostatistics:</strong> Estimating and analysing
+                  environmental indicators across space.
+                </li>
+              </ul>
+            </article>
+
+            <article className="sc-card sc-card-text">
+              <h3>Implementation Support</h3>
+              <p>We ensure insights move from reports into real change on the ground:</p>
+              <ul>
+                <li>
+                  <strong>Practical Recommendations:</strong> Actionable strategies aligned with local
+                  budgets and capacity.
+                </li>
+                <li>
+                  <strong>Interactive Web Maps:</strong> Easy-to-use tools for planners and decision
+                  makers.
+                </li>
+                <li>
+                  <strong>Training & Workshops:</strong> Building in-house GIS skills within
+                  municipalities.
+                </li>
+                <li>
+                  <strong>Ongoing Support & M&E:</strong> Technical assistance plus monitoring
+                  frameworks to track impact.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        {/* GIS APPLICATIONS CARDS */}
+        <section className="sc-section sc-applications">
+          <header className="sc-section-header">
+            <h2>GIS in Action: Smart City Innovations</h2>
+            <p>
+              A snapshot of how spatial intelligence powers modern African cities – from IoT-enabled
+              monitoring to digital twins.
+            </p>
+          </header>
+
+          <p className="sc-section-subtitle">
+            GIS is one of the most powerful tools in town and urban planning. It helps cities respond
+            to climate, mobility and service delivery challenges while improving quality of life.
+          </p>
+
+          <div className="sc-grid sc-grid-3 sc-app-grid">
+            {/* Urban IoT */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">🗺️⚡</span>
+                <img
+                  src="https://images.unsplash.com/photo-1575285272212-d52e915d01c7?fm=jpg&q=60&w=1600"
+                  alt="Smart city dashboard"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Urban IoT Integration <span className="sc-emoji">🌐📡</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Real-time Traffic Monitoring:</strong> GPS sensors feeding GIS dashboards to
+                  optimise routes and reduce congestion.
+                </li>
+                <li>
+                  <strong>Smart Street Lighting:</strong> Adaptive lighting based on pedestrian and
+                  vehicle activity.
+                </li>
+                <li>
+                  <strong>Waste Route Optimisation:</strong> Monitoring bin levels and optimising
+                  collection routes.
+                </li>
+                <li>
+                  <strong>Flood Prediction Systems:</strong> Integrating rainfall and terrain data to
+                  predict urban flooding.
+                </li>
+              </ul>
+            </article>
+
+            {/* Sustainable City Planning */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">🏙️🌳</span>
+                <img
+                  src="https://images.unsplash.com/photo-1570200020951-e21a58c2ef87?fm=jpg&q=60&w=1600"
+                  alt="Green city planning"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Sustainable City Planning <span className="sc-emoji">♻️🌱</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Carbon Footprint Mapping:</strong> Visualising emissions across wards and
+                  suburbs.
+                </li>
+                <li>
+                  <strong>3D Solar Potential Modelling:</strong> Assessing rooftop solar opportunities.
+                </li>
+                <li>
+                  <strong>Bike Lane Network Design:</strong> Planning safe, connected cycling routes.
+                </li>
+                <li>
+                  <strong>Urban Green Space Analysis:</strong> Targeting new parks where they are
+                  needed most.
+                </li>
+              </ul>
+            </article>
+
+            {/* Emergency Response */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">🏥🚑</span>
+                <img
+                  src="https://images.unsplash.com/photo-1689091271342-b4082fc8345e?fm=jpg&q=60&w=1600"
+                  alt="Emergency response system"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Smart Emergency Response <span className="sc-emoji">🚨⏱️</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Hospital Accessibility Mapping:</strong> Identifying travel times to key
+                  facilities.
+                </li>
+                <li>
+                  <strong>Fire Risk Zoning:</strong> Combining vegetation, housing and climate data.
+                </li>
+                <li>
+                  <strong>Evacuation Planning:</strong> Designing routes and safe zones for disasters.
+                </li>
+                <li>
+                  <strong>Real-time Routing:</strong> Guiding responders using live traffic data.
+                </li>
+              </ul>
+            </article>
+
+            {/* Digital Twin */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">🏗️📈</span>
+                <img
+                  src="https://images.unsplash.com/photo-1617105990241-454f3d104824?fm=jpg&q=60&w=1600"
+                  alt="Urban development"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Digital Twin Cities <span className="sc-emoji">🖥️🌇</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Infrastructure Lifecycle Management:</strong> Tracking assets from
+                  construction to maintenance.
+                </li>
+                <li>
+                  <strong>5G Network Planning:</strong> Optimising coverage and capacity.
+                </li>
+                <li>
+                  <strong>Water System Simulation:</strong> Modelling water networks for reliability.
+                </li>
+                <li>
+                  <strong>Underground Utility Mapping:</strong> Preventing service disruptions.
+                </li>
+              </ul>
+            </article>
+
+            {/* Citizen Engagement */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">🗳️📱</span>
+                <img
+                  src="https://images.unsplash.com/photo-1553724625-6f84f9074bb4?fm=jpg&q=60&w=1600"
+                  alt="Citizen engagement"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Citizen Engagement <span className="sc-emoji">👥💬</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Participatory Planning:</strong> Platforms for residents to co-design
+                  projects.
+                </li>
+                <li>
+                  <strong>Crowdsourced Reporting:</strong> Mapping issues such as blocked drains or
+                  broken streetlights.
+                </li>
+                <li>
+                  <strong>Feedback Dashboards:</strong> Visualising community input for decision
+                  makers.
+                </li>
+                <li>
+                  <strong>Community Resource Maps:</strong> Highlighting local assets and services.
+                </li>
+              </ul>
+            </article>
+
+            {/* Smart Utilities */}
+            <article className="sc-card sc-app-card">
+              <div className="sc-app-header">
+                <span className="sc-emoji">💧⚡</span>
+                <img
+                  src="https://images.unsplash.com/photo-1630770147528-3c38bc9e05a6?fm=jpg&q=60&w=1600"
+                  alt="Utility management"
+                  className="sc-app-image"
+                  loading="lazy"
+                />
+              </div>
+              <h3>
+                Smart Utilities <span className="sc-emoji">🔧📊</span>
+              </h3>
+              <ul>
+                <li>
+                  <strong>Water Network Monitoring:</strong> Tracking pressure and losses in
+                  distribution systems.
+                </li>
+                <li>
+                  <strong>Energy Grid Optimisation:</strong> Improving reliability and efficiency.
+                </li>
+                <li>
+                  <strong>Leak Detection:</strong> Spatial tools for spotting and prioritising leaks.
+                </li>
+                <li>
+                  <strong>Renewable Energy Planning:</strong> Siting solar and wind assets.
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <div className="sc-tech-badge">
+            <div className="sc-tech-pill">
+              <img
+                src={GIS}
+                className="sc-tech-icon"
+                alt="GIS Technology"
+                width={24}
+                height={24}
+                loading="lazy"
+              />
+              <span>GIS Research</span>
+            </div>
+            <div className="sc-tech-pill">
+              <img
+                src={AI}
+                className="sc-tech-icon"
+                alt="AI Analytics"
+                width={24}
+                height={24}
+                loading="lazy"
+              />
+              <span>AI Analytics</span>
+            </div>
+            <div className="sc-tech-pill">
+              <img
+                src={Opendata}
+                className="sc-tech-icon"
+                alt="Open Data"
+                width={24}
+                height={24}
+                loading="lazy"
+              />
+              <span>Open Data</span>
+            </div>
+          </div>
+        </section>
+
+        {/* SEO / CONTENT BLOCK */}
+        <section className="sc-section sc-gis-content">
+          <div className="sc-content-inner">
+            <h2>GIS-Driven Urban Planning: Building Zimbabwe&apos;s Future Cities</h2>
+
+            <div className="sc-grid sc-grid-2">
+              <article className="sc-card sc-card-text">
+                <h3>The Synergy of Spatial Analysis & City Development</h3>
+                <p>
+                  Urban planning forms the backbone of sustainable city growth – particularly crucial
+                  for Zimbabwe where <strong>urban populations are growing at 4.3% annually</strong>{' '}
+                  (SpatialForce 2023). When integrated with GIS, planning becomes a precision tool for
+                  managing Bulawayo&apos;s infrastructure needs, Harare&apos;s expansion challenges
+                  and national climate adaptation strategies.
+                </p>
+                <p>
+                  Our <strong>GIS solutions in Zimbabwe</strong> combine satellite imagery, IoT
+                  sensor data and machine learning to create dynamic models of urban ecosystems – from
+                  analysing traffic in Mbare to optimising water distribution in drought-prone
+                  Matabeleland.
+                </p>
+              </article>
+
+              <article className="sc-card sc-card-text">
+                <h3>How GIS Revolutionizes Urban Management</h3>
+                <p>The SpatialForce methodology leverages geospatial technology in three phases:</p>
+                <ol className="sc-process-list">
+                  <li>
+                    <strong>Data Fusion:</strong> Integrating municipal records, OpenStreetMap and
+                    drone surveys to map Bulawayo townships and Harare&apos;s CBD.
+                  </li>
+                  <li>
+                    <strong>Spatial Intelligence:</strong> Using heatmaps for crime prevention in
+                    Highfield and network analysis for Harare public transport.
+                  </li>
+                  <li>
+                    <strong>Scenario Modelling:</strong> Simulating flood impacts on Beitbridge
+                    infrastructure and renewable energy potential in Hwange.
+                  </li>
+                </ol>
+              </article>
+            </div>
+
+            <article className="sc-card sc-card-text sc-card-wide">
+              <h3>Transforming Zimbabwe&apos;s Urban Landscape</h3>
+              <p>
+                For cities like Gweru and Mutare, our <strong>GIS urban planning services</strong>{' '}
+                support:
+              </p>
+              <ul className="sc-impact-list">
+                <li>
+                  <strong>Climate Resilience:</strong> Mapping Mazowe River flood zones to protect
+                  over 50,000 residents.
+                </li>
+                <li>
+                  <strong>Economic Growth:</strong> Identifying optimal industrial hubs along the
+                  Harare–Beitbridge corridor.
+                </li>
+                <li>
+                  <strong>Social Equity:</strong> Prioritising clinic locations in underserved areas
+                  of Epworth via accessibility analysis.
+                </li>
+              </ul>
+              <p>
+                The <strong>Zimbabwe National Spatial Development Strategy 2023–2030</strong> places
+                GIS at the heart of SDG 11 (Sustainable Cities). Our collaborations with Bulawayo
+                City Council show this in practice – slum upgrading projects in Magwegwe reduced
+                cholera outbreaks by 60% through improved water mapping.
+              </p>
+              <div className="sc-seo-extra">
+                <p>
+                  As <strong>Zimbabwe&apos;s premier GIS consultants</strong>, SpatialForce
+                  specialises in <strong>smart city solutions for African urban challenges</strong>.
+                  Our expertise in <strong>Bulawayo urban planning</strong> and{' '}
+                  <strong>Harare infrastructure mapping</strong> helps municipalities:
+                </p>
+                <ul className="sc-seo-list">
+                  <li>Cut service delivery costs by up to 45% via route optimisation</li>
+                  <li>Attract investment with interactive land parcel portals</li>
+                  <li>Respond to climate change using carbon footprint visualisations</li>
+                </ul>
+                <p>
+                  Partner with us to implement <strong>World Bank-aligned urban GIS strategies</strong>{' '}
+                  tailored to Zimbabwe – from Victoria Falls tourism infrastructure to Chitungwiza
+                  informal settlement upgrades.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* PARTNERSHIP / TRUST */}
+        <section className="sc-section sc-partnership">
+          <header className="sc-section-header">
+            <h2>
+              <FontAwesomeIcon icon={faHandshake} /> Trusted Partners in Smart Urban Development
+            </h2>
+          </header>
+
+          <div className="sc-grid sc-grid-3 sc-commitment-grid">
+            <article className="sc-card sc-commitment-card">
+              <FontAwesomeIcon icon={faLock} className="sc-commitment-icon" />
+              <h3>Data Security First</h3>
+              <p>
+                Compliant protocols for spatial data handling ensure sensitive municipal datasets
+                remain protected throughout our collaboration.
+              </p>
+            </article>
+
+            <article className="sc-card sc-commitment-card">
+              <FontAwesomeIcon icon={faGlobeAfrica} className="sc-commitment-icon" />
+              <h3>Nationwide Implementation</h3>
+              <p>
+                From Bulawayo township regeneration to Harare metro planning, we deliver customised
+                GIS solutions across Zimbabwe&apos;s urban landscape.
+              </p>
+            </article>
+
+            <article className="sc-card sc-commitment-card">
+              <FontAwesomeIcon icon={faSyncAlt} className="sc-commitment-icon" />
+              <h3>Continuous Support</h3>
+              <p>
+                Partnerships that go beyond delivery – system audits, updates and dedicated account
+                management for municipal teams.
+              </p>
+            </article>
+          </div>
+
+          <div className="sc-expertise-row">
+            <div className="sc-expertise-item">
+              <FontAwesomeIcon icon={faCity} className="sc-expertise-icon" />
+              <h4>Urban Infrastructure</h4>
+              <p>Water systems · Transport networks · Energy grids</p>
+            </div>
+            <div className="sc-expertise-item">
+              <FontAwesomeIcon icon={faTree} className="sc-expertise-icon" />
+              <h4>Environmental Planning</h4>
+              <p>Green spaces · Pollution control · Climate resilience</p>
+            </div>
+            <div className="sc-expertise-item">
+              <FontAwesomeIcon icon={faHome} className="sc-expertise-icon" />
+              <h4>Community Development</h4>
+              <p>Housing projects · Public facilities · Informal settlements</p>
+            </div>
+          </div>
+        </section>
+
+        {/* CLOSING CTA */}
+        <section className="sc-section sc-closing">
+          <div className="sc-closing-inner">
+            <div className="sc-closing-main">
+              <h2>
+                <span className="sc-gradient-text">
+                  Pioneering Africa&apos;s Smart City Revolution
+                </span>
+                <br />
+                From Bulawayo to Harare – Built on Spatial Intelligence
+              </h2>
+
+              <div className="sc-value-columns">
+                <article className="sc-card sc-value-card">
+                  <FontAwesomeIcon icon={faCity} className="sc-value-icon" />
+                  <h3>Urban Innovation Hub</h3>
+                  <p>Empowering communities with practical GIS tools for better planning.</p>
+                  <ul className="sc-achievement-list">
+                    <li>Collaborated with local governments to enhance infrastructure</li>
+                    <li>Facilitated workshops on sustainable urban development</li>
+                    <li>Led community mapping projects to surface local priorities</li>
+                  </ul>
+                </article>
+
+                <article className="sc-card sc-value-card">
+                  <FontAwesomeIcon icon={faTree} className="sc-value-icon" />
+                  <h3>Green Urban Solutions</h3>
+                  <p>Promoting climate-aware and environmentally friendly urban growth.</p>
+                  <ul className="sc-achievement-list">
+                    <li>Urban reforestation and green space planning initiatives</li>
+                    <li>Waste reduction and recycling strategies</li>
+                    <li>Renewable energy integration in city development</li>
+                  </ul>
+                </article>
+              </div>
+
+              <div className="sc-cta-strip">
+                <div className="sc-cta-text">
+                  <h4>Collaborate with Zimbabwe&apos;s Urban Innovation Experts</h4>
+                  <p className="sc-cta-subtext">
+                    <FontAwesomeIcon icon={faArrowRight} className="sc-pulse-icon" />
+                    Offering end-to-end smart city solutions, including:
+                  </p>
+                  <div className="sc-usp-grid">
+                    <span className="sc-usp-item">AI-Powered Traffic Analysis</span>
+                    <span className="sc-usp-item">Community Development Initiatives</span>
+                    <span className="sc-usp-item">Emergency Mapping Solutions</span>
+                    <span className="sc-usp-item">Cultural Heritage Awareness</span>
+                  </div>
+                </div>
+                <div className="sc-contact-channel">
+                  <p>Contact us on:</p>
+                  <a href="tel:+263779135076" className="sc-contact-link">
+                    <FontAwesomeIcon icon={faPhone} /> +263 779 135 5076
+                  </a>
+                  <a href="mailto:gis@spatialforce.co.zw" className="sc-contact-link">
+                    <FontAwesomeIcon icon={faEnvelope} /> gis@spatialforce.co.zw
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* NATIONAL PRESENCE */}
+        <section className="sc-section sc-presence">
+          <div className="sc-presence-inner">
+            <h5 className="sc-presence-heading">
+              <FontAwesomeIcon icon={faGlobeAfrica} className="sc-globe-icon" />
+              Leaving no place behind
+            </h5>
+            <div className="sc-city-network">
+              <div className="sc-region-group">
+                <h6>Matabeleland Leadership</h6>
+                <p>Bulawayo · Victoria Falls · Hwange · Beitbridge</p>
+              </div>
+              <div className="sc-region-group">
+                <h6>Mashonaland Innovations</h6>
+                <p>Harare · Chitungwiza · Marondera · Bindura</p>
+              </div>
+              <div className="sc-region-group">
+                <h6>Manicaland Progress</h6>
+                <p>Mutare · Chipinge · Nyanga · Rusape</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="sc-footer">
+        <div className="sc-footer-mission">
+          <p>© {new Date().getFullYear()} SpatialForce GIS Solutions</p>
+          <p>Driving insights Implementation Through Spatial Innovation</p>
+        </div>
+        <div className="sc-footer-legal">
+          <Link to="/privacy" className="sc-legal-link">
+            Data Protection Policy
+          </Link>
+          <span className="sc-divider">|</span>
+          <Link to="/terms" className="sc-legal-link">
+            Service Agreements
+          </Link>
+        </div>
+      </footer>
     </div>
-  </footer>
-</section>
-</div>
   );
-
 };
 
 export default SmartCitySolutions;

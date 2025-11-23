@@ -25,6 +25,10 @@ const GisZimbabwe = () => {
         <meta property="og:description" content="Comprehensive guide to GIS implementation across Zimbabwean industries and organizations" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link
+          rel="canonical"
+          href="https://www.spatialforce.co.zw/articles-and-projects"
+        />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",

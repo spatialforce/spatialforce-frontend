@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import "./Geo-solutions.css";
-
+import { Helmet } from 'react-helmet-async';
 type FAQ = { q: string; a: string };
 
 const faqs: FAQ[] = [
@@ -52,6 +52,7 @@ const GeoSolutions: React.FC = () => {
   return (
     <main className="gs3-page" role="main">
       {/* SEO helpers, visually hidden */}
+      <Helmet>
       <section className="gs3-seo" aria-hidden="true">
         <link
           rel="canonical"
@@ -69,7 +70,9 @@ const GeoSolutions: React.FC = () => {
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#23574d" />
+       
       </section>
+      </Helmet>
 
       {/* HERO */}
       <header className="gs3-hero">
@@ -80,8 +83,9 @@ const GeoSolutions: React.FC = () => {
               Geo solutions explained in clear language.
             </h1>
             <p className="gs3-hero-lede">
-              This page outlines how maps, spatial data and satellite imagery
-              can support everyday work. The emphasis is on clear layouts,
+              We aim to provide any spatial data 
+              support services aiming to solve real world problems. We craft solutions based on the complexity and 
+              special needs for each challenge by making 
               simple flows and tools that stay light enough for normal
               connections.
             </p>
@@ -440,8 +444,7 @@ const GeoSolutions: React.FC = () => {
               <textarea id="msg" name="message" rows={5} />
             </div>
             <div className="gs3-form-note">
-              This form does not redirect to another page. It is only meant to
-              capture a short message while you are on this screen.
+
             </div>
             <button className="gs3-submit" type="submit">
               Send message
@@ -455,8 +458,8 @@ const GeoSolutions: React.FC = () => {
         <div className="gs3-container gs3-footer-inner">
           <div className="gs3-footer-brand">Spatial Force · Geo solutions</div>
           <div className="gs3-footer-copy">
-            © {year} Spatial Force. This page is for information only and does
-            not describe specific past projects.
+            © {year} Spatial Force.
+           
           </div>
         </div>
       </footer>

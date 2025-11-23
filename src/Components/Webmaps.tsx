@@ -5,14 +5,55 @@ import './Webmaps.css';
 const WebMaps = () => {
   return (
     <div className="sf-webmaps-page">
-      <Helmet>
-        <title>Interactive Web Mapping Solutions | Spatial Force Zimbabwe</title>
-        <meta name="description" content="Discover powerful web mapping applications designed for Zimbabwe. Our interactive GIS solutions help organizations make data-driven spatial decisions." />
-        <meta name="keywords" content="Zimbabwe web mapping, GIS applications, interactive maps, spatial data visualization, health facility mapping" />
-        <meta property="og:title" content="Interactive Web Mapping Solutions | SpatialForce Zimbabwe" />
-        <meta property="og:description" content="Transform your spatial data into actionable insights with our custom web mapping solutions." />
-        <link rel="canonical" href="https://www.spatialforce.co.zw/web-applications" />
-      </Helmet>
+   <Helmet>
+  <title>Interactive Web Mapping Solutions | Spatial Force Zimbabwe</title>
+  <meta
+    name="description"
+    content="Discover powerful web mapping applications designed for Zimbabwe. Our interactive GIS solutions help organizations make data-driven spatial decisions."
+  />
+  <meta
+    name="keywords"
+    content="Zimbabwe web mapping, GIS applications, interactive maps, spatial data visualization, health facility mapping"
+  />
+
+  {/* Open Graph */}
+  <meta
+    property="og:title"
+    content="Interactive Web Mapping Solutions | Spatial Force Zimbabwe"
+  />
+  <meta
+    property="og:description"
+    content="Transform your spatial data into actionable insights with our custom web mapping solutions."
+  />
+  <meta
+    property="og:type"
+    content="website"
+  />
+  <meta
+    property="og:url"
+    content="https://spatialforce.co.zw/web-applications"
+  />
+ 
+
+  {/* Canonical */}
+  <link
+    rel="canonical"
+    href="https://spatialforce.co.zw/web-applications"
+  />
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="Interactive Web Mapping Solutions | Spatial Force Zimbabwe"
+  />
+  <meta
+    name="twitter:description"
+    content="Transform your spatial data into actionable insights with our custom web mapping solutions."
+  />
+  
+</Helmet>
+
 
       {/* Hero Section */}
       <section className="sf-webmaps-hero">

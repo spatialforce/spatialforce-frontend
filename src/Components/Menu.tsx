@@ -120,6 +120,10 @@ function Menu() {
           name="description"
           content="Spatial Force offers advanced geospatial solutions including satellite imagery analysis, GIS data processing and climate resilience planning. Explore our services today."
         />
+         <link
+          rel="canonical"
+          href="https://www.spatialforce.co.zw/menu"
+        />
         <meta
           name="keywords"
           content="geospatial intelligence, GIS solutions, satellite imagery, climate resilience, urban planning, agricultural optimization"

@@ -75,66 +75,83 @@ transporter.verify()
 
 
 
-const app = express();
-const PORT = process.env.PORT || 5001;
-const allowedOrigins = [
-  'https://www.spatialforce.co.zw',
-  'https://spatialforce.co.zw'
+  const app = express();
+  const PORT = process.env.PORT || 5001;
+  
+  // ✅ 1. CORS FIRST
+  const allowedOrigins = [
+    'https://www.spatialforce.co.zw',
+    'https://spatialforce.co.zw',
+    'http://localhost:5173',
   ];
-
-app.use(cors({
-  origin:function (origin,callback) {
-  if (!origin) return callback(null,true);
-
-   if (allowedOrigins.indexOf(origin) ===-1) {
-     const msg ='The CORS policy for this site does not allow access from the specified Origin.';
-    return callback(new Error(msg), false);
-     }
-     return callback(null, true);
-
+  
+  const corsConfig = {
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);        // server-to-server or same-origin
+  
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+  
+      console.warn('❌ Blocked CORS origin:', origin);
+      // Better: don’t throw an error, just deny CORS
+      return callback(null, false);
     },
     credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'X-Requested-With',
-    'X-CSRF-Token'
-  ],
-  optionsSuccessStatus: 200,
-  maxAge: 86400
-}));
-
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        connectSrc: ["'self'", "https://spatialforce.co.zw", "https://www.spatialforce.co.zw", "https://spatialforce-backend.vercel.app"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://accounts.google.com",
-          "https://www.google.com",
-          "https://www.gstatic.com"
-        ],
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://*.googleusercontent.com",
-          "https://www.google.com"
-        ],
-        frameSrc: [
-          "'self'",
-          "https://accounts.google.com",
-          "https://www.google.com"
-        ],
-        
-        objectSrc: ["'none'"]
-      }
-    },
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'X-CSRF-Token'
+    ],
+    optionsSuccessStatus: 204,
+    maxAge: 86400
+  };
+  
+  app.use((req, res, next) => {
+    console.log('Incoming Origin:', req.headers.origin);
+    next();
+  });
+  
+  app.use(cors(corsConfig));
+  app.options('*', cors(corsConfig));
+  
+  // ✅ 2. THEN helmet etc.
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+          connectSrc: [
+            "'self'",
+            "https://spatialforce.co.zw",
+            "https://www.spatialforce.co.zw",
+            "https://spatialforce-backend.vercel.app"
+          ],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://accounts.google.com",
+            "https://www.google.com",
+            "https://www.gstatic.com"
+          ],
+          imgSrc: [
+            "'self'",
+            "data:",
+            "https://*.googleusercontent.com",
+            "https://www.google.com"
+          ],
+          frameSrc: [
+            "'self'",
+            "https://accounts.google.com",
+            "https://www.google.com"
+          ],
+          objectSrc: ["'none'"]
+        }
+      },
     hsts: {
       maxAge: 63072000, // 2 years in seconds
       includeSubDomains: true,
@@ -186,6 +203,8 @@ app.use(session({
   proxy: true
 
 }));
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -2521,17 +2540,6 @@ app.post('/api/inquiries', validateInquiry, async (req, res) => {
 });
 
 // Add this middleware to validate Google sessions
-app.use((req, res, next) => {
-  if (req.path === '/api/auth/session' && req.user?.authProvider === 'google') {
-    jwt.verify(req.user.token, process.env.JWT_SECRET, (err) => {
-      if (!err) return next();
-      res.clearCookie('auth_token');
-      res.status(401).json({ authenticated: false });
-    });
-  } else {
-    next();
-  }
-});
 
 app.get('/api/test-email', async (req, res) => {
   try {

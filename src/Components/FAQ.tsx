@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import './FAQ.css';
-
+import { Helmet } from 'react-helmet-async';
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -40,6 +40,7 @@ const FAQ = () => {
 
 
   return (
+
     <section className="faq-container">
       <h2 className="faq-heading">Frequently Asked Questions</h2>
       
@@ -72,6 +73,7 @@ const FAQ = () => {
         ))}
       </div>
     </section>
+
   );
 };
 

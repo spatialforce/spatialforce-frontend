@@ -4,6 +4,7 @@ import { AiOutlineArrowDown, AiFillEdit, AiFillDelete, AiOutlineLoading, AiFillH
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from './config';
+import { Helmet } from 'react-helmet-async';
 import './ReviewSystem.css';
 
 interface TestimonialsProps {
@@ -55,89 +56,125 @@ const ReviewSystem: React.FC<TestimonialsProps> = ({ onLoginClick }) => {
     );
   };
 
-// Update fetchReviews to include authentication header
-const fetchReviews = async (signal?: AbortSignal) => {
-  setIsLoading(true);
-  setError('');
-  try {
-    const response = await fetch(`${API_BASE_URL}/reviews`, {
-      signal,
-      credentials: 'include', // optional but safe
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
+  // SEO: compute average rating + schema from existing reviews
+  const averageRating =
+    submittedReviews.length > 0
+      ? (
+          submittedReviews.reduce((sum, r) => sum + r.rating, 0) /
+          submittedReviews.length
+        ).toFixed(1)
+      : undefined;
+
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SpatialForce GIS Solutions",
+    "url": "https://spatialforce.co.zw",
+    ...(averageRating && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": averageRating,
+        "reviewCount": submittedReviews.length
       }
-    });
-    
-    if (!response.ok) throw new Error(`Failed to load reviews (${response.status})`);
+    }),
+    "review": submittedReviews.slice(0, 20).map((r) => ({
+      "@type": "Review",
+      "author": `${r.firstName} ${r.lastName}`.trim() || "Anonymous",
+      "datePublished": r.date,
+      "reviewBody": r.comment,
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": r.rating,
+        "bestRating": 5,
+        "worstRating": 1
+      }
+    }))
+  };
 
-    const data = await response.json();
-    
-    if (!data?.reviews) throw new Error('Invalid response format');
-
-    const reviews = data.reviews
-      .filter((r: any) => !!r)
-      .map((r: any) => ({
-        id: Number(r.id || 0),
-        user_id: Number(r.user_id || 0),
-        firstName: r.firstName?.trim() || 'Anonymous',
-        lastName: r.lastName?.trim() || '',
-        rating: Number(r.rating || 0),
-        comment: r.comment?.trim() || '',
-        date: r.date || new Date().toISOString(),
-        likes: Number(r.likes || 0),
-        hasLiked: Boolean(r.hasLiked)
-      }));
-
-    setSubmittedReviews(reviews);
-    setLoadingTimeout(false);
-  } catch (err) {
-    if (err.name !== 'AbortError') {
-      setError(err instanceof Error ? err.message : 'Failed to load reviews');
-      setSubmittedReviews([]);
+  // Update fetchReviews to include authentication header
+  const fetchReviews = async (signal?: AbortSignal) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews`, {
+        signal,
+        credentials: 'include', // optional but safe
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      
+      if (!response.ok) throw new Error(`Failed to load reviews (${response.status})`);
+  
+      const data = await response.json();
+      
+      if (!data?.reviews) throw new Error('Invalid response format');
+  
+      const reviews = data.reviews
+        .filter((r: any) => !!r)
+        .map((r: any) => ({
+          id: Number(r.id || 0),
+          user_id: Number(r.user_id || 0),
+          firstName: r.firstName?.trim() || 'Anonymous',
+          lastName: r.lastName?.trim() || '',
+          rating: Number(r.rating || 0),
+          comment: r.comment?.trim() || '',
+          date: r.date || new Date().toISOString(),
+          likes: Number(r.likes || 0),
+          hasLiked: Boolean(r.hasLiked)
+        }));
+  
+      setSubmittedReviews(reviews);
+      setLoadingTimeout(false);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        setError(err instanceof Error ? err.message : 'Failed to load reviews');
+        setSubmittedReviews([]);
+      }
+    } finally {
+      setIsLoading(false);
     }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
+  
+  // Update toggleLike to handle both operations
+  const toggleLike = async (reviewId: number) => {
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      return;
+    }
+  
+    try {
+      const review = submittedReviews.find(r => r.id === reviewId);
+      if (!review) return;
+  
+      const endpoint = `${API_BASE_URL}/reviews/${reviewId}/like`;
+      const method = review.hasLiked ? 'DELETE' : 'POST';
+  
+      const response = await fetch(endpoint, {
+        method,
+        credentials: 'include'
+      });
+      
+      if (!response.ok) throw new Error('Failed to update like');
+  
+      const updatedData = await response.json();
+  
+      setSubmittedReviews(prev => prev.map(r => 
+        r.id === reviewId ? {
+          ...r,
+          likes: updatedData.likes,
+          hasLiked: updatedData.hasLiked
+        } : r
+      ));
+    } catch (err) {
+      console.error('Like error:', err);
+    }
+  };
 
-// Update toggleLike to handle both operations
-const toggleLike = async (reviewId: number) => {
-  if (!isAuthenticated) {
-    setShowLoginPrompt(true);
-    return;
-  }
-
-  try {
-    const review = submittedReviews.find(r => r.id === reviewId);
-    if (!review) return;
-
-    const endpoint = `${API_BASE_URL}/reviews/${reviewId}/like`;
-    const method = review.hasLiked ? 'DELETE' : 'POST';
-
-    const response = await fetch(endpoint, {
-      method,
-      credentials: 'include'
-    });
-    
-    if (!response.ok) throw new Error('Failed to update like');
-
-    const updatedData = await response.json();
-
-    setSubmittedReviews(prev => prev.map(r => 
-      r.id === reviewId ? {
-        ...r,
-        likes: updatedData.likes,
-        hasLiked: updatedData.hasLiked
-      } : r
-    ));
-  } catch (err) {
-    console.error('Like error:', err);
-  }
-};
   useEffect(() => {
     const abortController = new AbortController();
     let timeout: NodeJS.Timeout;
-
+  
     const loadData = async () => {
       try {
         await fetchReviews(abortController.signal);
@@ -145,10 +182,10 @@ const toggleLike = async (reviewId: number) => {
         if (!abortController.signal.aborted) console.error('Error loading reviews:', err);
       }
     };
-
+  
     loadData();
     timeout = setTimeout(() => isLoading && setLoadingTimeout(true), 10000);
-
+  
     return () => {
       abortController.abort();
       clearTimeout(timeout);
@@ -165,23 +202,22 @@ const toggleLike = async (reviewId: number) => {
   
     try {
       const token = document.cookie
-  .split('; ')
-  .find(row => row.startsWith('auth_token='))
-  ?.split('=')[1];
-  const response = await fetch(`${API_BASE_URL}/reviews`, {
-    method: 'POST',
-    credentials: 'include', // send HttpOnly cookie
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    },
-    body: JSON.stringify({
-      rating: userRating,
-      comment: userComment.trim()
-    })
-  });
-  
-  
+        .split('; ')
+        .find(row => row.startsWith('auth_token='))
+        ?.split('=')[1];
+      const response = await fetch(`${API_BASE_URL}/reviews`, {
+        method: 'POST',
+        credentials: 'include', // send HttpOnly cookie
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          rating: userRating,
+          comment: userComment.trim()
+        })
+      });
+      
       if (!response.ok) {
         const errorData = await response.json();
         if (errorData.code === 'TOKEN_EXPIRED') {
@@ -309,6 +345,46 @@ const toggleLike = async (reviewId: number) => {
   return (
     <section className="testimonials-container">
       <div className="testimonials-content">
+
+        {/* SEO + rich snippet */}
+        <Helmet>
+          <title>Client Reviews | Spatial Force GIS Solutions</title>
+          <meta
+            name="description"
+            content="Read real client reviews of Spatial Force GIS Solutions. See how organizations use our GIS, mapping and spatial analysis services to solve real-world problems."
+          />
+          <link rel="canonical" href="https://spatialforce.co.zw/reviews" />
+
+          {/* Open Graph */}
+          <meta property="og:title" content="Client Reviews | Spatial Force" />
+          <meta
+            property="og:description"
+            content="Explore verified reviews and feedback from clients who use Spatial Force for geospatial intelligence and GIS solutions."
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://spatialforce.co.zw/reviews" />
+          <meta
+            property="og:image"
+            content="https://spatialforce.co.zw/images/reviews-cover.png"
+          />
+
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Client Reviews | Spatial Force" />
+          <meta
+            name="twitter:description"
+            content="See what clients say about Spatial Force GIS Solutions and our mapping, analysis and web GIS services."
+          />
+          <meta
+            name="twitter:image"
+            content="https://spatialforce.co.zw/images/reviews-cover.png"
+          />
+
+          {/* Schema.org reviews */}
+          <script type="application/ld+json">
+            {JSON.stringify(reviewSchema)}
+          </script>
+        </Helmet>
       
         {error && (
           <div className="error-message">

@@ -1,480 +1,812 @@
-/* =========================================================================
-   SmartCitySolutions.css  —  FULL FILE (image-free, no overlaps)
-   Everything is scoped to .smart-city-container to avoid global collisions.
-   ========================================================================= */
+/* =======================================
+   Smart City Solutions – Page Shell
+   ======================================= */
 
-/* ---------- Root / Theme Tokens ---------- */
-.smart-city-container {
-  --scs-bg: #0f1c19;
-  --scs-surface: #12231f;
-  --scs-surface-2: #0c1614;
-  --scs-accent: #2A6559;
-  --scs-accent-2: #3a8375;
-  --scs-text: #e8f4f1;
-  --scs-text-dim: #c9e2dc;
-  --scs-line: rgba(255,255,255,0.10);
-  --scs-line-soft: rgba(255,255,255,0.06);
-  --scs-radius-lg: 18px;
-  --scs-radius-md: 14px;
-  --scs-radius-sm: 10px;
-  --scs-shadow: 0 10px 30px rgba(0,0,0,0.35);
-
-  background: var(--scs-bg) !important;
-  color: var(--scs-text) !important;
-  position: relative !important;
-  isolation: isolate !important;
-  width: 100%;
-}
-
-/* Kill all images on this page (per request) */
-.smart-city-container img {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-}
-
-/* Basic element hygiene inside namespace */
-.smart-city-container * {
-  box-sizing: border-box;
-}
-.smart-city-container a {
-  color: var(--scs-text);
-  text-decoration: none;
-}
-.smart-city-container a:hover {
-  text-decoration: underline;
-}
-.smart-city-container ul,
-.smart-city-container ol {
-  padding-left: 1.1rem;
-}
-.smart-city-container li {
-  margin: .55rem 0;
-}
-
-/* ---------- Section Shells / Spacing ---------- */
-.smart-city-container section,
-.smart-city-container .content-section,
-.smart-city-container .projects-section,
-.smart-city-container .methodology-section,
-.smart-city-container .gis-applications,
-.smart-city-container .gis-content-section,
-.smart-city-container .partnership-section,
-.smart-city-container .closing-section,
-.smart-city-container .national-presence,
-.smart-city-container .strategic-footer {
-  position: relative !important;
-  z-index: 1 !important;
-  max-width: 1200px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding: 84px 20px !important; /* roomy */
-  display: flow-root !important; /* BFC to avoid overlaps */
-  clear: both !important;
-}
-
-/* Extra pushes for the two problem areas */
-.smart-city-container .partnership-section { 
-  margin-top: 160px !important; 
-}
-.smart-city-container .closing-section { 
-  margin-top: 200px !important; 
-}
-
-/* ---------- Typography ---------- */
-.smart-city-container h1,
-.smart-city-container h2,
-.smart-city-container h3,
-.smart-city-container h4,
-.smart-city-container h5,
-.smart-city-container h6,
-.smart-city-container p {
-  margin: 0 0 14px;
-}
-.smart-city-container h1 { font-size: clamp(1.9rem, 3.2vw, 3rem); line-height: 1.14; }
-.smart-city-container h2 { font-size: clamp(1.5rem, 2.4vw, 2.05rem); line-height: 1.2; }
-.smart-city-container h3 { font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.28; }
-.smart-city-container p  { color: var(--scs-text); opacity: .98; }
-
-/* ---------- Hero ---------- */
-.smart-city-container .hero-section2 {
-  padding: 128px 20px 96px !important;
-}
-.smart-city-container .hero-section2 .geometric-pattern {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(45deg,  rgba(255,255,255,.05) 1px, transparent 1px);
-  background-size: 26px 26px;
-  opacity: .35; pointer-events: none;
-}
-.smart-city-container .hero-section2 .hero-content {
-  position: relative; z-index: 1; text-align: center;
-}
-.smart-city-container .highlighted-text {
-  display: inline-block;
-  color: var(--scs-text-dim);
-  background: rgba(42,101,89,0.22);
-  border: 1px solid var(--scs-line);
-  border-radius: var(--scs-radius-md);
-  padding: .6rem 1rem;
-}
-
-/* ---------- Generic Card ---------- */
-.smart-city-container .scs-card,
-.smart-city-container .content-section .service-block,
-.smart-city-container .projects-section .project-card,
-.smart-city-container .methodology-section .methodology-block,
-.smart-city-container .closing-container,
-.smart-city-container .gis-content-section .section-container {
-  background: linear-gradient(180deg, var(--scs-surface), rgba(18,35,31,0.92));
-  border: 1px solid var(--scs-line);
-  border-radius: var(--scs-radius-lg);
-  box-shadow: var(--scs-shadow);
-  padding: 28px;
-  margin-top: 28px;
-}
-
-/* ---------- Content Section (Services) ---------- */
-.smart-city-container .content-section > h2 {
-  margin-bottom: 8px;
-}
-.smart-city-container .content-section .service-block + .service-block {
-  margin-top: 26px;
-}
-
-/* ---------- Projects ---------- */
-.smart-city-container .projects-section > h2 { margin-bottom: 6px; }
-.smart-city-container .projects-section .project-card + .project-card {
-  margin-top: 24px;
-}
-.smart-city-container .project-partners {
-  margin-top: 14px;
-  display: grid; gap: 8px;
-}
-.smart-city-container .project-partners a { color: var(--scs-text-dim); }
-
-/* ---------- Methodology ---------- */
-.smart-city-container .methodology-section > h2 { margin-bottom: 8px; }
-.smart-city-container .methodology-block + .methodology-block { margin-top: 24px; }
-
-/* ---------- GIS Applications (no images) ---------- */
-.smart-city-container .gis-applications > h2 { margin-bottom: 8px; }
-.smart-city-container .section-subtitle { color: var(--scs-text-dim); margin-bottom: 16px; }
-
-.smart-city-container .application-grid {
-  display: grid; gap: 24px; grid-template-columns: 1fr;
-  margin-top: 20px;
-}
-@media (min-width: 760px) {
-  .smart-city-container .application-grid { grid-template-columns: repeat(2,1fr); }
-}
-@media (min-width: 1100px) {
-  .smart-city-container .application-grid { grid-template-columns: repeat(3,1fr); }
-}
-
-/* Hide any header/image elements */
-.smart-city-container .application-card .card-header,
-.smart-city-container .application-card .application-image,
-.smart-city-container .application-card .emoji {
-  display: none !important;
-}
-.smart-city-container .application-card {
-  background: linear-gradient(180deg, rgba(18,35,31,0.96), rgba(18,35,31,0.9));
-  border: 1px solid var(--scs-line);
-  border-radius: var(--scs-radius-lg);
-  box-shadow: var(--scs-shadow);
-  padding: 18px;
-}
-.smart-city-container .application-card h3 { margin: 6px 4px 10px; }
-
-/* ---------- Tech Badges ---------- */
-.smart-city-container .tech-badge { 
-  display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 18px;
-}
-.smart-city-container .tech-pill {
-  display: inline-flex; align-items: center; gap: .55rem;
-  background: rgba(42,101,89,0.18);
-  border: 1px solid var(--scs-line);
-  border-radius: 999px;
-  padding: .52rem 1rem;
-  font-size: .93rem;
-}
-.smart-city-container .tech-icon { display: none; } /* images disabled */
-
-/* ---------- Longform GIS Content (the big “GIS-Driven…” card) ---------- */
-.smart-city-container .gis-content-section { margin-top: 80px; }
-.smart-city-container .gis-content-section .section-container { padding: 32px; }
-.smart-city-container .gis-content-section .content-block + .content-block { margin-top: 24px; }
-.smart-city-container .process-list li,
-.smart-city-container .impact-list li { margin: .68rem 0; }
-.smart-city-container .seo-optimized { margin-top: 12px; }
-.smart-city-container .seo-list li { margin: .62rem 0; }
-
-/* ---------- Partnership / Trusted Partners ---------- */
-.smart-city-container .partnership-section .section-heading {
-  display: flex; align-items: center; gap: .65rem; margin-bottom: 14px;
-}
-.smart-city-container .section-icon { opacity: .9; }
-
-.smart-city-container .commitment-block {
-  display: grid; gap: 26px; grid-template-columns: 1fr;
-  position: relative; isolation: isolate;
-  margin-top: 10px;
-}
-@media (min-width: 880px) {
-  .smart-city-container .commitment-block { grid-template-columns: repeat(3,1fr); }
-}
-.smart-city-container .commitment-card {
-  background: var(--scs-surface);
-  border: 1px solid var(--scs-line);
-  border-radius: var(--scs-radius-md);
-  padding: 20px;
-}
-.smart-city-container .commitment-icon { color: var(--scs-accent-2); margin-bottom: 6px; }
-
-/* Extra margin below the grid to prevent any stacking with next section */
-.smart-city-container .expertise-grid {
-  display: grid; gap: 20px; grid-template-columns: 1fr;
-  margin-top: 22px;
-}
-@media (min-width: 860px) {
-  .smart-city-container .expertise-grid { grid-template-columns: repeat(3,1fr); }
-}
-.smart-city-container .expertise-item {
-  background: var(--scs-surface-2);
-  border: 1px dashed var(--scs-line-soft);
-  border-radius: var(--scs-radius-md);
-  padding: 18px;
-}
-.smart-city-container .expertise-icon { color: var(--scs-accent); margin-right: 6px; }
-
-/* ---------- Closing / CTA (the block that overlapped) ---------- */
-.smart-city-container .closing-container { 
-  padding: 36px; 
-  position: relative; 
-  transform: translateZ(0); /* own compositor layer */
-}
-.smart-city-container .closing-heading { margin-bottom: 22px; }
-.smart-city-container .gradient-text {
-  background: linear-gradient(90deg, #d6fff4, #9fe0d1);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-
-/* Value columns */
-.smart-city-container .value-propositions {
-  display: grid; gap: 26px; grid-template-columns: 1fr; margin-top: 16px;
-}
-@media (min-width: 900px) {
-  .smart-city-container .value-propositions { grid-template-columns: repeat(2,1fr); }
-}
-.smart-city-container .value-column {
-  background: rgba(18,35,31,0.78);
-  border: 1px solid var(--scs-line);
-  border-radius: var(--scs-radius-md);
-  padding: 20px;
-}
-.smart-city-container .value-icon { color: var(--scs-accent-2); margin-bottom: 8px; }
-.smart-city-container .achievement-list li { margin: .5rem 0; }
-
-/* >>> The CTA island — cannot overlap anything <<< */
-.smart-city-container .strategic-cta {
-  margin-top: 56px;                 /* space above CTA container */
-  border-top: 1px dashed var(--scs-line);
-  padding-top: 36px;                /* extra inner spacing */
-  position: relative;
-  transform: translateZ(0);         /* new layer */
-  z-index: 2;
-  clear: both;
-}
-.smart-city-container .strategic-cta .cta-content {
-  display: block;
-  background: rgba(10,18,16,0.35);
-  border: 1px solid var(--scs-line);
-  border-radius: 16px;
-  padding: 28px;
-  margin: 0 auto;
-  max-width: 100%;
-  transform: translateZ(0);
-}
-.smart-city-container .cta-subtext { color: var(--scs-text-dim); }
-.smart-city-container .pulse-icon { opacity: .9; }
-
-/* USP chips */
-.smart-city-container .usp-grid {
-  display: grid; gap: 14px; grid-template-columns: 1fr;
-  margin-top: 30px;     /* large gaps so nothing crowds */
-  margin-bottom: 30px;
-}
-@media (min-width: 720px) {
-  .smart-city-container .usp-grid { grid-template-columns: repeat(2,1fr); }
-}
-.smart-city-container .usp-item {
-  background: rgba(42,101,89,0.18);
-  border: 1px solid var(--scs-line);
-  border-radius: 999px;
-  padding: .7rem 1.05rem;
-  text-align: center;
-}
-
-/* CTA buttons + contact */
-.smart-city-container .cta-group {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: 1.2rem 1.4rem;
-  margin-top: 10px;
-}
-.smart-city-container .primary-cta {
-  display: inline-flex; align-items: center; gap: .6rem;
-  background: linear-gradient(90deg, var(--scs-accent), var(--scs-accent-2));
-  color: #081412;
-  border-radius: 999px;
-  padding: .85rem 1.25rem;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 6px 18px rgba(42,101,89,0.35);
-}
-.smart-city-container .primary-cta:hover { filter: brightness(1.05); text-decoration: none; }
-.smart-city-container .cta-icon { opacity: .95; }
-
-.smart-city-container .contact-channel {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-}
-.smart-city-container .contact-link { color: var(--scs-text-dim); }
-
-/* ---------- Mobile “Partnership” variant (classes exist in JSX) ---------- */
-.smart-city-container .mobile-optimized-partnership,
-.smart-city-container .mobile-closing-section {
-  display: none; /* desktop default */
-}
-
-/* ---------- National Presence ---------- */
-.smart-city-container .national-presence {
-  text-align: left;
-}
-.smart-city-container .presence-heading {
-  display: flex; align-items: center; gap: .6rem; margin-bottom: 10px;
-}
-.smart-city-container .globe-icon { color: var(--scs-accent); }
-.smart-city-container .city-network {
-  display: grid; gap: 20px; grid-template-columns: 1fr;
-}
-@media (min-width: 760px) {
-  .smart-city-container .city-network { grid-template-columns: repeat(3,1fr); }
-}
-.smart-city-container .region-group {
-  background: rgba(18,35,31,0.75);
-  border: 1px dashed var(--scs-line);
-  border-radius: var(--scs-radius-md);
-  padding: 16px 18px;
-}
-
-/* ---------- Footer ---------- */
-.smart-city-container .strategic-footer {
-  background: linear-gradient(180deg, rgba(18,35,31,0.6), rgba(18,35,31,0.85));
-  border-top: 1px solid var(--scs-line);
-  text-align: center;
-}
-.smart-city-container .footer-mission p { margin: 6px 0; }
-.smart-city-container .legal-commitments {
-  display: inline-flex; align-items: center; gap: 10px; margin-top: 8px;
-}
-.smart-city-container .legal-link { color: var(--scs-text-dim); }
-.smart-city-container .divider { opacity: .5; }
-
-/* ---------- Responsive / Mobile Tweaks ---------- */
-@media (max-width: 900px) {
-  .smart-city-container section,
-  .smart-city-container .strategic-footer {
-    padding: 68px 16px !important;
+   .sc-page {
+    --sc-bg: #f4f7fb;
+    --sc-surface: #ffffff;
+    --sc-surface-soft: #edf2f7;
+    --sc-border-soft: rgba(148, 163, 184, 0.35);
+    --sc-text-main: #1f2933;
+    --sc-text-soft: #6b7280;
+    --sc-accent: #4a9c91;
+    --sc-accent-soft: #d9ebe8;
+    --sc-accent-strong: #2f685f;
+    --sc-radius-lg: 20px;
+    --sc-radius-md: 12px;
+    --sc-radius-pill: 999px;
+    --sc-shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.06);
+  
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    background: var(--sc-bg);
+    color: var(--sc-text-main);
+    padding-top: 96px; /* leave room for fixed navbar */
   }
-  .smart-city-container .partnership-section { margin-top: 180px !important; }
-  .smart-city-container .closing-section { margin-top: 220px !important; }
-  .smart-city-container .strategic-cta { margin-top: 62px !important; padding-top: 38px !important; }
-  .smart-city-container .usp-grid { margin-top: 32px !important; margin-bottom: 32px !important; }
-
-  /* Enable the mobile-only sections if you want them visible on phones */
-  .smart-city-container .mobile-optimized-partnership,
-  .smart-city-container .mobile-closing-section {
+  
+  .sc-main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+  
+  .sc-section {
+    margin-bottom: 4rem;
+  }
+  
+  /* =======================================
+     HERO
+     ======================================= */
+  
+  .sc-hero {
+    margin-top: 0;
+    margin-bottom: 4rem;
+  }
+  
+  .sc-hero-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 2.8rem 2.4rem;
+    background: radial-gradient(circle at 10% 10%, #fdfefe, #e2edf3);
+    box-shadow: var(--sc-shadow-soft);
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+    gap: 2.5rem;
+  }
+  
+  .sc-hero-bg-pattern {
+    position: absolute;
+    inset: -40%;
+    background-image: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.15), transparent 55%),
+      radial-gradient(circle at 60% 20%, rgba(74, 156, 145, 0.16), transparent 60%);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+  
+  .sc-hero-content,
+  .sc-hero-panel {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* hero left */
+  
+  .sc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--sc-radius-pill);
+    background: rgba(74, 156, 145, 0.12);
+    color: var(--sc-accent-strong);
+    font-size: 0.78rem;
+    margin-bottom: 0.9rem;
+  }
+  
+  .sc-pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--sc-accent);
+  }
+  
+  .sc-hero-content h1 {
+    margin: 0 0 0.7rem;
+    font-size: 2.4rem;
+    line-height: 1.15;
+    color: var(--sc-text-main);
+  }
+  
+  .sc-hero-subtitle {
     display: block;
+    font-size: 1.02rem;
+    margin-top: 0.35rem;
+    color: var(--sc-text-soft);
   }
-
-  /* Mobile partnership cards */
-  .smart-city-container .mobile-partnership-container,
-  .smart-city-container .mobile-closing-container {
-    background: var(--scs-surface);
-    border: 1px solid var(--scs-line);
-    border-radius: var(--scs-radius-md);
-    padding: 20px;
-    margin-top: 14px;
+  
+  .sc-hero-lead {
+    margin: 0 0 1.3rem;
+    font-size: 0.98rem;
+    line-height: 1.8;
+    color: var(--sc-text-soft);
   }
-  .smart-city-container .mobile-section-header {
-    display: flex; align-items: center; gap: .55rem; margin-bottom: 10px;
+  
+  .sc-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: center;
   }
-  .smart-city-container .mobile-section-icon { color: var(--scs-accent-2); }
-  .smart-city-container .mobile-commitments {
-    display: grid; gap: 14px; grid-template-columns: 1fr;
-  }
-  .smart-city-container .mobile-commitment {
-    background: var(--scs-surface-2);
-    border: 1px dashed var(--scs-line-soft);
-    border-radius: var(--scs-radius-sm);
-    padding: 14px;
-  }
-  .smart-city-container .mobile-expertise {
-    display: grid; gap: 14px; grid-template-columns: 1fr;
-    margin-top: 14px;
-  }
-  .smart-city-container .mobile-expertise-card {
-    background: var(--scs-surface-2);
-    border: 1px dashed var(--scs-line-soft);
-    border-radius: var(--scs-radius-sm);
-    padding: 14px;
-  }
-
-  /* Mobile closing CTA */
-  .smart-city-container .mobile-cta-container {
-    margin-top: 16px;
-  }
-  .smart-city-container .mobile-usp-grid {
-    display: grid; gap: 10px; grid-template-columns: 1fr 1fr;
-    margin: 12px 0 16px;
-  }
-  .smart-city-container .mobile-usp-item {
-    background: rgba(42,101,89,0.18);
-    border: 1px solid var(--scs-line);
-    border-radius: 999px;
-    padding: .55rem .8rem;
-    text-align: center;
-    font-size: .92rem;
-  }
-  .smart-city-container .mobile-primary-cta {
-    display: inline-flex; align-items: center; gap: .5rem;
-    background: linear-gradient(90deg, var(--scs-accent), var(--scs-accent-2));
-    color: #081412;
-    border-radius: 999px;
-    padding: .75rem 1.05rem;
-    font-weight: 700;
+  
+  .sc-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.35rem;
+    border-radius: var(--sc-radius-pill);
+    background: var(--sc-accent);
+    color: #ffffff;
+    font-size: 0.94rem;
     text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 6px 18px rgba(42,101,89,0.35);
+    border: none;
   }
-  .smart-city-container .mobile-contact-info {
-    display: grid; gap: 8px; margin-top: 12px;
+  
+  .sc-btn-primary svg {
+    font-size: 0.95rem;
   }
-  .smart-city-container .mobile-contact-link { color: var(--scs-text-dim); }
-}
-
-/* ---------- Safety: enforce stacking/containment ---------- */
-.smart-city-container .gis-content-section,
-.smart-city-container .partnership-section,
-.smart-city-container .closing-section {
-  transform: translateZ(0); /* new stacking contexts */
-  will-change: transform;
-  z-index: 1;
-  overflow: visible;
-}
+  
+  .sc-hero-caption {
+    font-size: 0.86rem;
+    color: var(--sc-text-soft);
+  }
+  
+  /* hero right */
+  
+  .sc-hero-panel {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+  
+  .sc-hero-card {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid var(--sc-border-soft);
+    box-shadow: var(--sc-shadow-soft);
+    padding: 1.2rem 1.2rem 1.1rem;
+  }
+  
+  .sc-hero-card h3 {
+    margin: 0 0 0.8rem;
+    font-size: 1.02rem;
+  }
+  
+  .sc-hero-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sc-hero-card li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
+  }
+  
+  .sc-hero-card li:last-child {
+    border-bottom: none;
+  }
+  
+  .sc-metric-label {
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-metric-value {
+    font-weight: 600;
+    color: var(--sc-accent-strong);
+  }
+  
+  /* =======================================
+     Section Header
+     ======================================= */
+  
+  .sc-section-header {
+    margin-bottom: 1.8rem;
+  }
+  
+  .sc-section-header h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.9rem;
+    color: var(--sc-text-main);
+  }
+  
+  .sc-section-header h2 svg {
+    font-size: 1.2rem;
+    color: var(--sc-accent);
+    margin-right: 0.4rem;
+  }
+  
+  .sc-section-header p {
+    margin: 0;
+    font-size: 0.96rem;
+    color: var(--sc-text-soft);
+    max-width: 720px;
+  }
+  
+  /* =======================================
+     Layout Helpers
+     ======================================= */
+  
+  .sc-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.8rem;
+  }
+  
+  .sc-grid {
+    display: grid;
+    gap: 1.6rem;
+  }
+  
+  .sc-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .sc-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  /* =======================================
+     Card Base
+     ======================================= */
+  
+  .sc-card {
+    background: var(--sc-surface);
+    border-radius: var(--sc-radius-lg);
+    border: 1px solid var(--sc-border-soft);
+    box-shadow: var(--sc-shadow-soft);
+    padding: 1.4rem 1.3rem;
+  }
+  
+  .sc-card-text h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+  }
+  
+  .sc-card-text p {
+    margin: 0 0 0.7rem;
+    font-size: 0.94rem;
+    color: var(--sc-text-soft);
+    line-height: 1.7;
+  }
+  
+  .sc-card-text ul,
+  .sc-card-text ol {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.92rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-card-text li {
+    padding: 0.25rem 0;
+  }
+  
+  /* =======================================
+     Projects
+     ======================================= */
+  
+  .sc-project-card h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.08rem;
+  }
+  
+  .sc-project-card p {
+    margin: 0 0 0.7rem;
+    font-size: 0.94rem;
+    color: var(--sc-text-soft);
+    line-height: 1.7;
+  }
+  
+  .sc-project-partners {
+    margin-top: 0.8rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.35);
+    padding-top: 0.8rem;
+  }
+  
+  .sc-project-partners h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  .sc-partner-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .sc-partner-links a {
+    font-size: 0.88rem;
+    color: var(--sc-accent-strong);
+    text-decoration: none;
+  }
+  
+  .sc-partner-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* =======================================
+     GIS Applications
+     ======================================= */
+  
+  .sc-section-subtitle {
+    font-size: 0.94rem;
+    color: var(--sc-text-soft);
+    max-width: 840px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .sc-app-grid {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sc-app-card h3 {
+    margin: 0.6rem 0 0.4rem;
+    font-size: 1.02rem;
+  }
+  
+  .sc-app-card ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-app-card li {
+    padding: 0.2rem 0;
+  }
+  
+  .sc-app-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.7rem;
+  }
+  
+  .sc-emoji {
+    font-size: 1.4rem;
+  }
+  
+  .sc-app-image {
+    flex: 1;
+    border-radius: 14px;
+    height: 140px;
+    object-fit: cover;
+  }
+  
+  /* tech pills under apps */
+  
+  .sc-tech-badge {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 0.3rem;
+  }
+  
+  .sc-tech-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--sc-radius-pill);
+    background: var(--sc-surface-soft);
+    border: 1px solid var(--sc-border-soft);
+    font-size: 0.84rem;
+    color: var(--sc-text-main);
+  }
+  
+  .sc-tech-icon {
+    border-radius: 999px;
+  }
+  
+  /* =======================================
+     SEO Content / GIS Content
+     ======================================= */
+  
+  .sc-gis-content .sc-content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+  
+  .sc-gis-content h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.8rem;
+  }
+  
+  .sc-process-list {
+    margin-top: 0.4rem;
+  }
+  
+  .sc-impact-list,
+  .sc-seo-list {
+    margin-top: 0.4rem;
+  }
+  
+  .sc-card-wide {
+    margin-top: 0.3rem;
+  }
+  
+  .sc-seo-extra p {
+    margin: 0.6rem 0 0.4rem;
+    font-size: 0.92rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-seo-list {
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+  }
+  
+  /* =======================================
+     Partnership / Commitments
+     ======================================= */
+  
+  .sc-commitment-grid {
+    margin-bottom: 1.8rem;
+  }
+  
+  .sc-commitment-card {
+    text-align: left;
+  }
+  
+  .sc-commitment-icon {
+    font-size: 1.4rem;
+    color: var(--sc-accent);
+    margin-bottom: 0.4rem;
+  }
+  
+  .sc-commitment-card h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.02rem;
+  }
+  
+  .sc-commitment-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-expertise-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .sc-expertise-item {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.9rem 1rem;
+    border-radius: var(--sc-radius-md);
+    background: var(--sc-surface-soft);
+    border: 1px dashed var(--sc-border-soft);
+  }
+  
+  .sc-expertise-icon {
+    font-size: 1.2rem;
+    color: var(--sc-accent);
+    margin-bottom: 0.3rem;
+  }
+  
+  .sc-expertise-item h4 {
+    margin: 0 0 0.2rem;
+    font-size: 0.98rem;
+  }
+  
+  .sc-expertise-item p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--sc-text-soft);
+  }
+  
+  /* =======================================
+     Closing CTA
+     ======================================= */
+  
+  .sc-closing-inner {
+    border-radius: 24px;
+    padding: 1.9rem 1.5rem 1.4rem;
+    background: #f1f5f9;
+    border: 1px solid var(--sc-border-soft);
+    box-shadow: var(--sc-shadow-soft);
+  }
+  
+  .sc-closing-main h2 {
+    margin: 0 0 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .sc-gradient-text {
+    background: linear-gradient(110deg, #2f685f, #4a9c91);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .sc-value-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+  
+  .sc-value-card .sc-value-icon {
+    font-size: 1.4rem;
+    color: var(--sc-accent);
+    margin-bottom: 0.3rem;
+  }
+  
+  .sc-value-card h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.02rem;
+  }
+  
+  .sc-value-card p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-achievement-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+  }
+  
+  /* CTA strip */
+  
+  .sc-cta-strip {
+    margin-top: 0.6rem;
+    padding: 1rem 1rem 1rem;
+    border-radius: 18px;
+    background: #e5f1ee;
+    border: 1px solid var(--sc-border-soft);
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+    gap: 1.3rem;
+    align-items: flex-start;
+  }
+  
+  .sc-cta-text h4 {
+    margin: 0 0 0.4rem;
+    font-size: 1.02rem;
+  }
+  
+  .sc-cta-subtext {
+    margin: 0 0 0.7rem;
+    font-size: 0.9rem;
+    color: var(--sc-text-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .sc-pulse-icon {
+    color: var(--sc-accent);
+  }
+  
+  .sc-usp-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .sc-usp-item {
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--sc-radius-pill);
+    background: #ffffff;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    font-size: 0.84rem;
+  }
+  
+  /* contacts in CTA */
+  
+  .sc-contact-channel {
+    font-size: 0.9rem;
+  }
+  
+  .sc-contact-channel p {
+    margin: 0 0 0.4rem;
+    color: var(--sc-text-main);
+  }
+  
+  .sc-contact-link {
+    display: block;
+    color: var(--sc-text-main);
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+  }
+  
+  .sc-contact-link svg {
+    margin-right: 0.35rem;
+    color: var(--sc-accent);
+  }
+  
+  .sc-contact-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* =======================================
+     Presence / Regions
+     ======================================= */
+  
+  .sc-presence-inner {
+    border-radius: 18px;
+    padding: 1.2rem 1.1rem;
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-border-soft);
+    box-shadow: var(--sc-shadow-soft);
+  }
+  
+  .sc-presence-heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.7rem;
+    font-size: 0.98rem;
+    color: var(--sc-text-main);
+  }
+  
+  .sc-globe-icon {
+    color: var(--sc-accent);
+  }
+  
+  .sc-city-network {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    font-size: 0.9rem;
+  }
+  
+  .sc-region-group h6 {
+    margin: 0 0 0.15rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  
+  .sc-region-group p {
+    margin: 0;
+    color: var(--sc-text-soft);
+  }
+  
+  /* =======================================
+     Footer
+     ======================================= */
+  
+  .sc-footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.4);
+    padding: 1rem 1.5rem 1.6rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.86rem;
+    color: var(--sc-text-soft);
+  }
+  
+  .sc-footer-mission p {
+    margin: 0;
+  }
+  
+  .sc-footer-mission p + p {
+    margin-top: 0.2rem;
+  }
+  
+  .sc-footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .sc-legal-link {
+    color: var(--sc-text-soft);
+    text-decoration: none;
+  }
+  
+  .sc-legal-link:hover {
+    text-decoration: underline;
+  }
+  
+  .sc-divider {
+    color: rgba(148, 163, 184, 0.9);
+  }
+  
+  /* =======================================
+     Responsive
+     ======================================= */
+  
+  /* medium screens */
+  @media (max-width: 1024px) {
+    .sc-main {
+      padding: 0 1.25rem 3.5rem;
+    }
+  
+    .sc-hero-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+    }
+  
+    .sc-hero-panel {
+      justify-content: flex-start;
+    }
+  
+    .sc-two-column {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  
+    .sc-grid-3 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  
+    .sc-value-columns {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  
+    .sc-cta-strip {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  
+  /* phones / small tablets (~676px) */
+  @media (max-width: 676px) {
+    .sc-page {
+      padding-top: 88px;
+    }
+  
+    .sc-main {
+      padding: 0 1rem 3rem;
+    }
+  
+    .sc-section {
+      margin-bottom: 3rem;
+    }
+  
+    .sc-hero-inner {
+      padding: 2.1rem 1.6rem;
+    }
+  
+    .sc-hero-content h1 {
+      font-size: 2rem;
+    }
+  
+    .sc-section-header h2 {
+      font-size: 1.6rem;
+    }
+  
+    .sc-grid-2,
+    .sc-grid-3 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  
+    .sc-app-header {
+      flex-direction: column;
+    }
+  
+    .sc-cta-strip {
+      padding: 0.9rem 0.9rem 1rem;
+    }
+  
+    .sc-footer {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  
+  /* tiny phones */
+  @media (max-width: 420px) {
+    .sc-hero-content h1 {
+      font-size: 1.8rem;
+    }
+  
+    .sc-btn-primary {
+      width: 100%;
+      justify-content: center;
+    }
+  
+    .sc-hero-actions {
+      align-items: flex-start;
+    }
+  }
+  
