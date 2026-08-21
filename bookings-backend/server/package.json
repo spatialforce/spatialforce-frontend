@@ -30,7 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "libphonenumber-js": "^1.12.5",
     "morgan": "^1.10.0",
-    "node": "^22.16.0",
+    "node": "^24.19.0",
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
